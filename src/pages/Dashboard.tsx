@@ -8,11 +8,16 @@ import {
   AlertCircle,
   ArrowUpRight,
   MoreHorizontal,
-  CheckCircle2
+  CheckCircle2,
+  Plus,
+  FileText,
+  CreditCard,
+  Target
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { Link } from "react-router-dom";
 
 const Dashboard = () => {
   const stats = [
@@ -20,6 +25,13 @@ const Dashboard = () => {
     { title: "Active Clients", value: "8", change: "+2", icon: Users, color: "text-blue-600" },
     { title: "Pending Invoices", value: "$3,200", change: "4 total", icon: Clock, color: "text-amber-600" },
     { title: "Scope Changes", value: "3", change: "Awaiting approval", icon: AlertCircle, color: "text-rose-600" },
+  ];
+
+  const quickActions = [
+    { name: "New Project", icon: Target, href: "/project/new", color: "bg-indigo-50 text-indigo-600" },
+    { name: "Create Invoice", icon: CreditCard, href: "/invoice/new", color: "bg-emerald-50 text-emerald-600" },
+    { name: "Draft Proposal", icon: FileText, href: "/proposal/new", color: "bg-blue-50 text-blue-600" },
+    { name: "Add Client", icon: Users, href: "/clients", color: "bg-amber-50 text-amber-600" },
   ];
 
   const recentProjects = [
@@ -38,8 +50,26 @@ const Dashboard = () => {
           </div>
           <div className="flex gap-3">
             <Button variant="outline" className="border-slate-200">Download Report</Button>
-            <Button className="bg-indigo-600 hover:bg-indigo-700 text-white">Quick Invoice</Button>
+            <Link to="/invoice/new">
+              <Button className="bg-indigo-600 hover:bg-indigo-700 text-white">Quick Invoice</Button>
+            </Link>
           </div>
+        </div>
+
+        {/* Quick Actions */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {quickActions.map((action) => (
+            <Link key={action.name} to={action.href}>
+              <Card className="border-none shadow-sm hover:shadow-md transition-all group cursor-pointer">
+                <CardContent className="p-4 flex items-center gap-4">
+                  <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center shrink-0", action.color)}>
+                    <action.icon className="w-5 h-5" />
+                  </div>
+                  <span className="font-bold text-sm text-slate-700 group-hover:text-indigo-600 transition-colors">{action.name}</span>
+                </CardContent>
+              </Card>
+            </Link>
+          ))}
         </div>
 
         {/* Stats Grid */}
@@ -69,45 +99,49 @@ const Dashboard = () => {
           <Card className="lg:col-span-2 border-none shadow-sm">
             <CardHeader className="flex flex-row items-center justify-between">
               <CardTitle className="text-lg font-bold">Active Projects</CardTitle>
-              <Button variant="ghost" size="sm" className="text-indigo-600 hover:text-indigo-700">View All</Button>
+              <Link to="/projects">
+                <Button variant="ghost" size="sm" className="text-indigo-600 hover:text-indigo-700">View All</Button>
+              </Link>
             </CardHeader>
             <CardContent>
               <div className="space-y-6">
                 {recentProjects.map((project) => (
-                  <div key={project.id} className="flex items-center justify-between p-4 rounded-xl border border-slate-100 hover:border-indigo-100 transition-colors group">
-                    <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600 font-bold">
-                        {project.name.charAt(0)}
-                      </div>
-                      <div>
-                        <h4 className="font-bold text-slate-900">{project.name}</h4>
-                        <p className="text-sm text-slate-500">{project.client}</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-8">
-                      <div className="hidden md:block">
-                        <p className="text-xs font-medium text-slate-400 mb-1 uppercase tracking-wider">Health</p>
-                        <Badge className={cn(
-                          "border-none",
-                          project.health === "Healthy" ? "bg-emerald-50 text-emerald-700" : "bg-rose-50 text-rose-700"
-                        )}>
-                          {project.health}
-                        </Badge>
-                      </div>
-                      <div className="w-32 hidden sm:block">
-                        <p className="text-xs font-medium text-slate-400 mb-1 uppercase tracking-wider">Progress</p>
-                        <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
-                          <div 
-                            className="h-full bg-indigo-600 rounded-full" 
-                            style={{ width: `${project.progress}%` }}
-                          />
+                  <Link key={project.id} to={`/project/${project.id}`} className="block">
+                    <div className="flex items-center justify-between p-4 rounded-xl border border-slate-100 hover:border-indigo-100 transition-colors group">
+                      <div className="flex items-center gap-4">
+                        <div className="w-10 h-10 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600 font-bold">
+                          {project.name.charAt(0)}
+                        </div>
+                        <div>
+                          <h4 className="font-bold text-slate-900">{project.name}</h4>
+                          <p className="text-sm text-slate-500">{project.client}</p>
                         </div>
                       </div>
-                      <Button variant="ghost" size="icon" className="text-slate-400 group-hover:text-slate-600">
-                        <MoreHorizontal className="w-5 h-5" />
-                      </Button>
+                      <div className="flex items-center gap-8">
+                        <div className="hidden md:block">
+                          <p className="text-xs font-medium text-slate-400 mb-1 uppercase tracking-wider">Health</p>
+                          <Badge className={cn(
+                            "border-none",
+                            project.health === "Healthy" ? "bg-emerald-50 text-emerald-700" : "bg-rose-50 text-rose-700"
+                          )}>
+                            {project.health}
+                          </Badge>
+                        </div>
+                        <div className="w-32 hidden sm:block">
+                          <p className="text-xs font-medium text-slate-400 mb-1 uppercase tracking-wider">Progress</p>
+                          <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
+                            <div 
+                              className="h-full bg-indigo-600 rounded-full" 
+                              style={{ width: `${project.progress}%` }}
+                            />
+                          </div>
+                        </div>
+                        <Button variant="ghost" size="icon" className="text-slate-400 group-hover:text-slate-600">
+                          <MoreHorizontal className="w-5 h-5" />
+                        </Button>
+                      </div>
                     </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
             </CardContent>
