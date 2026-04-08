@@ -8,6 +8,9 @@ import Dashboard from "./pages/Dashboard";
 import ClientPortal from "./pages/ClientPortal";
 import Contracts from "./pages/Contracts";
 import Invoices from "./pages/Invoices";
+import Clients from "./pages/Clients";
+import TimeTracking from "./pages/TimeTracking";
+import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -24,6 +27,9 @@ const App = () => (
           <Route path="/portal/:clientId" element={<ClientPortal />} />
           <Route path="/contracts" element={<Contracts />} />
           <Route path="/invoices" element={<Invoices />} />
+          <Route path="/clients" element={<Clients />} />
+          <Route path="/time" element={<TimeTracking />} />
+          <Route path="/settings" element={<Settings />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
