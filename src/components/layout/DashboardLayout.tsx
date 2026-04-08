@@ -14,7 +14,8 @@ import {
   MessageSquare,
   HelpCircle,
   LogOut,
-  Target
+  Target,
+  FileSignature
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -35,6 +36,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
     { name: "Overview", href: "/dashboard", icon: LayoutDashboard },
     { name: "Clients", href: "/clients", icon: Users },
     { name: "Projects", href: "/projects", icon: Target },
+    { name: "Proposals", href: "/proposals", icon: FileSignature },
     { name: "Contracts", href: "/contracts", icon: FileText },
     { name: "Invoices", href: "/invoices", icon: CreditCard },
     { name: "Messages", href: "/messages", icon: MessageSquare },

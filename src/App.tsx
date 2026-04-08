@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import Dashboard from "./pages/Dashboard";
 import Projects from "./pages/Projects";
+import Proposals from "./pages/Proposals";
 import ClientPortal from "./pages/ClientPortal";
 import Contracts from "./pages/Contracts";
 import Invoices from "./pages/Invoices";
@@ -36,6 +37,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/projects" element={<Projects />} />
+          <Route path="/proposals" element={<Proposals />} />
           <Route path="/portal/:clientId" element={<ClientPortal />} />
           <Route path="/onboarding/:token" element={<ClientOnboarding />} />
           <Route path="/contracts" element={<Contracts />} />
