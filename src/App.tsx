@@ -8,6 +8,7 @@ import Dashboard from "./pages/Dashboard";
 import Projects from "./pages/Projects";
 import Proposals from "./pages/Proposals";
 import ProposalBuilder from "./pages/ProposalBuilder";
+import ProposalView from "./pages/ProposalView";
 import ChangeOrderBuilder from "./pages/ChangeOrderBuilder";
 import ClientPortal from "./pages/ClientPortal";
 import Contracts from "./pages/Contracts";
@@ -42,6 +43,7 @@ const App = () => (
           <Route path="/projects" element={<Projects />} />
           <Route path="/proposals" element={<Proposals />} />
           <Route path="/proposal/new" element={<ProposalBuilder />} />
+          <Route path="/proposal/view/:proposalId" element={<ProposalView />} />
           <Route path="/project/:projectId/change-order" element={<ChangeOrderBuilder />} />
           <Route path="/portal/:clientId" element={<ClientPortal />} />
           <Route path="/onboarding/:token" element={<ClientOnboarding />} />

@@ -13,10 +13,14 @@ import {
   Plus,
   FileText,
   CreditCard,
-  MessageSquare
+  MessageSquare,
+  UserPlus,
+  Sparkles
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { showSuccess } from "@/utils/toast";
+import { cn } from "@/lib/utils";
 
 const ClientDetails = () => {
   const { clientId } = useParams();
@@ -38,6 +42,10 @@ const ClientDetails = () => {
       { id: "INV-001", amount: "$1,500", status: "Paid", date: "Oct 12" },
       { id: "INV-005", amount: "$2,500", status: "Draft", date: "Oct 28" },
     ]
+  };
+
+  const handleSendOnboarding = () => {
+    showSuccess(`Onboarding link sent to ${client.email}!`);
   };
 
   return (
@@ -63,14 +71,22 @@ const ClientDetails = () => {
             </div>
           </div>
           <div className="ml-auto flex gap-3">
-            <Button variant="outline" className="border-slate-200 gap-2">
-              <ExternalLink className="w-4 h-4" />
-              View Portal
+            <Button variant="outline" className="border-slate-200 gap-2" onClick={handleSendOnboarding}>
+              <UserPlus className="w-4 h-4" />
+              Send Onboarding
             </Button>
-            <Button className="bg-indigo-600 hover:bg-indigo-700 text-white gap-2">
-              <Plus className="w-4 h-4" />
-              New Project
-            </Button>
+            <Link to={`/portal/${clientId}`}>
+              <Button variant="outline" className="border-slate-200 gap-2">
+                <ExternalLink className="w-4 h-4" />
+                View Portal
+              </Button>
+            </Link>
+            <Link to="/project/new">
+              <Button className="bg-indigo-600 hover:bg-indigo-700 text-white gap-2">
+                <Plus className="w-4 h-4" />
+                New Project
+              </Button>
+            </Link>
           </div>
         </div>
 
@@ -94,10 +110,12 @@ const ClientDetails = () => {
                   <span className="text-slate-600">{client.website}</span>
                 </div>
                 <div className="pt-4 border-t border-slate-100">
-                  <Button variant="ghost" className="w-full justify-start text-indigo-600 hover:bg-indigo-50 gap-2">
-                    <MessageSquare className="w-4 h-4" />
-                    Message Client
-                  </Button>
+                  <Link to="/messages">
+                    <Button variant="ghost" className="w-full justify-start text-indigo-600 hover:bg-indigo-50 gap-2">
+                      <MessageSquare className="w-4 h-4" />
+                      Message Client
+                    </Button>
+                  </Link>
                 </div>
               </CardContent>
             </Card>
@@ -110,6 +128,18 @@ const ClientDetails = () => {
                   <div className="h-full bg-indigo-500 w-3/4" />
                 </div>
                 <p className="text-[10px] text-slate-400 mt-2">Top 10% of your clients</p>
+              </CardContent>
+            </Card>
+
+            <Card className="border-none shadow-sm bg-indigo-50 border-indigo-100">
+              <CardContent className="p-6">
+                <div className="flex items-center gap-2 text-indigo-600 mb-2">
+                  <Sparkles className="w-4 h-4" />
+                  <span className="text-xs font-bold uppercase tracking-wider">AI Insight</span>
+                </div>
+                <p className="text-sm text-indigo-900 font-medium">
+                  This client is likely to need a website maintenance retainer next month based on project completion.
+                </p>
               </CardContent>
             </Card>
           </div>
@@ -171,6 +201,11 @@ const ClientDetails = () => {
                         )}>
                           {invoice.status}
                         </Badge>
+                        <Link to={`/invoice/view/${invoice.id}`}>
+                          <Button variant="ghost" size="icon" className="text-slate-400">
+                            <ExternalLink className="w-4 h-4" />
+                          </Button>
+                        </Link>
                       </div>
                     </CardContent>
                   </Card>
