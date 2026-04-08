@@ -21,6 +21,7 @@ import {
   TableHeader, 
   TableRow 
 } from "@/components/ui/table";
+import { Textarea } from "@/components/ui/textarea";
 
 const InvoiceBuilder = () => {
   const navigate = useNavigate();
