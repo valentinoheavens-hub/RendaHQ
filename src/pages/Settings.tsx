@@ -13,8 +13,12 @@ import {
   CreditCard,
   Upload,
   Check,
-  ExternalLink
+  ExternalLink,
+  Users,
+  UserPlus,
+  Mail
 } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const Settings = () => {
   return (
@@ -22,15 +26,15 @@ const Settings = () => {
       <div className="space-y-8">
         <div>
           <h1 className="text-2xl font-bold text-slate-900">Settings</h1>
-          <p className="text-slate-500">Manage your account, branding, and payment integrations.</p>
+          <p className="text-slate-500">Manage your account, branding, and team collaboration.</p>
         </div>
 
         <Tabs defaultValue="branding" className="w-full">
           <TabsList className="bg-white border border-slate-200 p-1 h-12 mb-8">
             <TabsTrigger value="branding" className="gap-2"><Palette className="w-4 h-4" /> Branding</TabsTrigger>
-            <TabsTrigger value="domain" className="gap-2"><Globe className="w-4 h-4" /> Domain</TabsTrigger>
+            <TabsTrigger value="team" className="gap-2"><Users className="w-4 h-4" /> Team</TabsTrigger>
             <TabsTrigger value="payments" className="gap-2"><CreditCard className="w-4 h-4" /> Payments</TabsTrigger>
-            <TabsTrigger value="notifications" className="gap-2"><Bell className="w-4 h-4" /> Notifications</TabsTrigger>
+            <TabsTrigger value="domain" className="gap-2"><Globe className="w-4 h-4" /> Domain</TabsTrigger>
           </TabsList>
 
           <TabsContent value="branding" className="space-y-6">
@@ -103,6 +107,46 @@ const Settings = () => {
             </div>
           </TabsContent>
 
+          <TabsContent value="team" className="space-y-6">
+            <Card className="border-none shadow-sm">
+              <CardHeader className="flex flex-row items-center justify-between">
+                <div>
+                  <CardTitle>Team Members</CardTitle>
+                  <CardDescription>Manage who has access to your agency dashboard.</CardDescription>
+                </div>
+                <Button className="bg-indigo-600 hover:bg-indigo-700 text-white gap-2">
+                  <UserPlus className="w-4 h-4" /> Invite Member
+                </Button>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {[
+                  { name: "Felix K.", email: "felix@nexwork.io", role: "Owner", avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" },
+                  { name: "Sarah Chen", email: "sarah@nexwork.io", role: "Project Manager", avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah" },
+                  { name: "Marcus T.", email: "marcus@nexwork.io", role: "Designer", avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Marcus" },
+                ].map((member) => (
+                  <div key={member.email} className="flex items-center justify-between p-4 rounded-xl border border-slate-100">
+                    <div className="flex items-center gap-4">
+                      <Avatar className="w-10 h-10">
+                        <AvatarImage src={member.avatar} />
+                        <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
+                      </Avatar>
+                      <div>
+                        <p className="font-bold text-slate-900">{member.name}</p>
+                        <p className="text-xs text-slate-500">{member.email}</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-4">
+                      <Badge variant="secondary" className="bg-slate-100 text-slate-600 border-none">
+                        {member.role}
+                      </Badge>
+                      <Button variant="ghost" size="sm" className="text-slate-400">Edit</Button>
+                    </div>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
+          </TabsContent>
+
           <TabsContent value="payments" className="space-y-6">
             <Card className="border-none shadow-sm">
               <CardHeader>
@@ -112,10 +156,10 @@ const Settings = () => {
               <CardContent className="space-y-6">
                 <div className="space-y-4">
                   {[
-                    { name: "Stripe", desc: "Global credit card payments and bank transfers.", status: "Connected", icon: "https://api.dicebear.com/7.x/initials/svg?seed=ST" },
-                    { name: "Paystack", desc: "Optimized for Nigeria, Ghana, and South Africa.", status: "Connected", icon: "https://api.dicebear.com/7.x/initials/svg?seed=PS" },
-                    { name: "Flutterwave", desc: "Accept payments across 30+ African countries.", status: "Not Connected", icon: "https://api.dicebear.com/7.x/initials/svg?seed=FW" },
-                    { name: "M-Pesa", desc: "Direct mobile money payments for East Africa.", status: "Not Connected", icon: "https://api.dicebear.com/7.x/initials/svg?seed=MP" },
+                    { name: "Stripe", desc: "Global credit card payments and bank transfers.", status: "Connected" },
+                    { name: "Paystack", desc: "Optimized for Nigeria, Ghana, and South Africa.", status: "Connected" },
+                    { name: "Flutterwave", desc: "Accept payments across 30+ African countries.", status: "Not Connected" },
+                    { name: "M-Pesa", desc: "Direct mobile money payments for East Africa.", status: "Not Connected" },
                   ].map((gateway) => (
                     <div key={gateway.name} className="flex items-center justify-between p-4 rounded-xl border border-slate-100 hover:border-indigo-100 transition-colors">
                       <div className="flex items-center gap-4">
@@ -135,9 +179,6 @@ const Settings = () => {
                         ) : (
                           <Button variant="outline" size="sm" className="border-slate-200">Connect</Button>
                         )}
-                        <Button variant="ghost" size="icon" className="text-slate-400">
-                          <ExternalLink className="w-4 h-4" />
-                        </Button>
                       </div>
                     </div>
                   ))}

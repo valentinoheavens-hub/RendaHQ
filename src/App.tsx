@@ -10,6 +10,8 @@ import Proposals from "./pages/Proposals";
 import ClientPortal from "./pages/ClientPortal";
 import Contracts from "./pages/Contracts";
 import Invoices from "./pages/Invoices";
+import InvoiceBuilder from "./pages/InvoiceBuilder";
+import InvoiceView from "./pages/InvoiceView";
 import Clients from "./pages/Clients";
 import ClientDetails from "./pages/ClientDetails";
 import TimeTracking from "./pages/TimeTracking";
@@ -18,7 +20,6 @@ import ProjectDetails from "./pages/ProjectDetails";
 import QuestionnaireBuilder from "./pages/QuestionnaireBuilder";
 import CreateProject from "./pages/CreateProject";
 import ContractEditor from "./pages/ContractEditor";
-import InvoiceBuilder from "./pages/InvoiceBuilder";
 import ClientOnboarding from "./pages/ClientOnboarding";
 import Reports from "./pages/Reports";
 import Messages from "./pages/Messages";
@@ -44,6 +45,7 @@ const App = () => (
           <Route path="/contract/edit/:contractId" element={<ContractEditor />} />
           <Route path="/invoices" element={<Invoices />} />
           <Route path="/invoice/new" element={<InvoiceBuilder />} />
+          <Route path="/invoice/view/:invoiceId" element={<InvoiceView />} />
           <Route path="/clients" element={<Clients />} />
           <Route path="/client/:clientId" element={<ClientDetails />} />
           <Route path="/time" element={<TimeTracking />} />
