@@ -13,7 +13,8 @@ import {
   BarChart3,
   MessageSquare,
   HelpCircle,
-  LogOut
+  LogOut,
+  Target
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -33,7 +34,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const navigation = [
     { name: "Overview", href: "/dashboard", icon: LayoutDashboard },
     { name: "Clients", href: "/clients", icon: Users },
-    { name: "Projects", href: "/dashboard", icon: Target }, // Reusing dashboard for now
+    { name: "Projects", href: "/projects", icon: Target },
     { name: "Contracts", href: "/contracts", icon: FileText },
     { name: "Invoices", href: "/invoices", icon: CreditCard },
     { name: "Messages", href: "/messages", icon: MessageSquare },
@@ -214,5 +215,4 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-import { Target } from "lucide-react";
 export default DashboardLayout;

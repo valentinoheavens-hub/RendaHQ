@@ -5,10 +5,12 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import Dashboard from "./pages/Dashboard";
+import Projects from "./pages/Projects";
 import ClientPortal from "./pages/ClientPortal";
 import Contracts from "./pages/Contracts";
 import Invoices from "./pages/Invoices";
 import Clients from "./pages/Clients";
+import ClientDetails from "./pages/ClientDetails";
 import TimeTracking from "./pages/TimeTracking";
 import Settings from "./pages/Settings";
 import ProjectDetails from "./pages/ProjectDetails";
@@ -33,6 +35,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/projects" element={<Projects />} />
           <Route path="/portal/:clientId" element={<ClientPortal />} />
           <Route path="/onboarding/:token" element={<ClientOnboarding />} />
           <Route path="/contracts" element={<Contracts />} />
@@ -40,6 +43,7 @@ const App = () => (
           <Route path="/invoices" element={<Invoices />} />
           <Route path="/invoice/new" element={<InvoiceBuilder />} />
           <Route path="/clients" element={<Clients />} />
+          <Route path="/client/:clientId" element={<ClientDetails />} />
           <Route path="/time" element={<TimeTracking />} />
           <Route path="/messages" element={<Messages />} />
           <Route path="/reports" element={<Reports />} />
