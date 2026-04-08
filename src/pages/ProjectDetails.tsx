@@ -46,7 +46,7 @@ const ProjectDetails = () => {
     <DashboardLayout>
       <div className="space-y-8">
         <div className="flex items-center gap-4">
-          <Link to="/dashboard">
+          <Link to="/projects">
             <Button variant="ghost" size="icon" className="rounded-full">
               <ChevronLeft className="w-5 h-5" />
             </Button>
@@ -60,10 +60,12 @@ const ProjectDetails = () => {
           </div>
           <div className="ml-auto flex gap-3">
             <Button variant="outline" className="border-slate-200">View Portal</Button>
-            <Button className="bg-indigo-600 hover:bg-indigo-700 text-white gap-2">
-              <Plus className="w-4 h-4" />
-              New Change Order
-            </Button>
+            <Link to={`/project/${projectId}/change-order`}>
+              <Button className="bg-indigo-600 hover:bg-indigo-700 text-white gap-2">
+                <Plus className="w-4 h-4" />
+                New Change Order
+              </Button>
+            </Link>
           </div>
         </div>
 

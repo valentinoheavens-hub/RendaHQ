@@ -7,6 +7,8 @@ import Index from "./pages/Index";
 import Dashboard from "./pages/Dashboard";
 import Projects from "./pages/Projects";
 import Proposals from "./pages/Proposals";
+import ProposalBuilder from "./pages/ProposalBuilder";
+import ChangeOrderBuilder from "./pages/ChangeOrderBuilder";
 import ClientPortal from "./pages/ClientPortal";
 import Contracts from "./pages/Contracts";
 import Invoices from "./pages/Invoices";
@@ -15,15 +17,15 @@ import InvoiceView from "./pages/InvoiceView";
 import Clients from "./pages/Clients";
 import ClientDetails from "./pages/ClientDetails";
 import TimeTracking from "./pages/TimeTracking";
+import Messages from "./pages/Messages";
+import Reports from "./pages/Reports";
+import HelpCenter from "./pages/HelpCenter";
 import Settings from "./pages/Settings";
 import ProjectDetails from "./pages/ProjectDetails";
 import QuestionnaireBuilder from "./pages/QuestionnaireBuilder";
 import CreateProject from "./pages/CreateProject";
 import ContractEditor from "./pages/ContractEditor";
 import ClientOnboarding from "./pages/ClientOnboarding";
-import Reports from "./pages/Reports";
-import Messages from "./pages/Messages";
-import HelpCenter from "./pages/HelpCenter";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -39,6 +41,8 @@ const App = () => (
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/projects" element={<Projects />} />
           <Route path="/proposals" element={<Proposals />} />
+          <Route path="/proposal/new" element={<ProposalBuilder />} />
+          <Route path="/project/:projectId/change-order" element={<ChangeOrderBuilder />} />
           <Route path="/portal/:clientId" element={<ClientPortal />} />
           <Route path="/onboarding/:token" element={<ClientOnboarding />} />
           <Route path="/contracts" element={<Contracts />} />

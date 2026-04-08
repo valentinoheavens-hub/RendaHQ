@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -31,10 +32,12 @@ const Proposals = () => {
             <h1 className="text-2xl font-bold text-slate-900">Proposals</h1>
             <p className="text-slate-500">Create and track professional quotes for your clients.</p>
           </div>
-          <Button className="bg-indigo-600 hover:bg-indigo-700 text-white gap-2">
-            <Plus className="w-4 h-4" />
-            New Proposal
-          </Button>
+          <Link to="/proposal/new">
+            <Button className="bg-indigo-600 hover:bg-indigo-700 text-white gap-2">
+              <Plus className="w-4 h-4" />
+              New Proposal
+            </Button>
+          </Link>
         </div>
 
         <div className="flex items-center gap-4">
