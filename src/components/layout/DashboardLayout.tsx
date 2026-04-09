@@ -19,7 +19,9 @@ import {
   Target,
   FileSignature,
   Package,
-  Receipt
+  Receipt,
+  FolderOpen,
+  Calendar as CalendarIcon
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -40,6 +42,8 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
     { name: "Overview", href: "/dashboard", icon: LayoutDashboard },
     { name: "Clients", href: "/clients", icon: Users },
     { name: "Projects", href: "/projects", icon: Target },
+    { name: "Calendar", href: "/calendar", icon: CalendarIcon },
+    { name: "Files", href: "/files", icon: FolderOpen },
     { name: "Services", href: "/services", icon: Package },
     { name: "Proposals", href: "/proposals", icon: FileSignature },
     { name: "Contracts", href: "/contracts", icon: FileText },

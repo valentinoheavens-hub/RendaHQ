@@ -31,6 +31,8 @@ import ContractEditor from "./pages/ContractEditor";
 import ClientOnboarding from "./pages/ClientOnboarding";
 import Services from "./pages/Services";
 import Expenses from "./pages/Expenses";
+import Files from "./pages/Files";
+import Calendar from "./pages/Calendar";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -68,6 +70,8 @@ const App = () => (
           <Route path="/questionnaire-builder" element={<QuestionnaireBuilder />} />
           <Route path="/services" element={<Services />} />
           <Route path="/expenses" element={<Expenses />} />
+          <Route path="/files" element={<Files />} />
+          <Route path="/calendar" element={<Calendar />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
