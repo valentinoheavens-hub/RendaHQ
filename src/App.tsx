@@ -9,6 +9,7 @@ import Index from "./pages/Index";
 import Dashboard from "./pages/Dashboard";
 import BusinessDiagnostics from "./pages/BusinessDiagnostics";
 import StrategicPlanning from "./pages/StrategicPlanning";
+import MarketIntelligence from "./pages/MarketIntelligence";
 import GrowthLab from "./pages/GrowthLab";
 import Leads from "./pages/Leads";
 import Projects from "./pages/Projects";
@@ -52,6 +53,7 @@ const App = () => (
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/diagnostics" element={<BusinessDiagnostics />} />
           <Route path="/strategy" element={<StrategicPlanning />} />
+          <Route path="/market" element={<MarketIntelligence />} />
           <Route path="/growth" element={<GrowthLab />} />
           <Route path="/leads" element={<Leads />} />
           <Route path="/projects" element={<Projects />} />
