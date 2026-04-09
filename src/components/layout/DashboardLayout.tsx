@@ -21,7 +21,8 @@ import {
   Package,
   Receipt,
   FolderOpen,
-  Calendar as CalendarIcon
+  Calendar as CalendarIcon,
+  Activity
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -40,6 +41,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   
   const navigation = [
     { name: "Overview", href: "/dashboard", icon: LayoutDashboard },
+    { name: "Diagnostics", href: "/diagnostics", icon: Activity },
     { name: "Clients", href: "/clients", icon: Users },
     { name: "Projects", href: "/projects", icon: Target },
     { name: "Calendar", href: "/calendar", icon: CalendarIcon },
