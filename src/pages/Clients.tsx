@@ -10,10 +10,13 @@ import {
   ExternalLink, 
   MoreHorizontal,
   UserPlus,
-  CheckCircle2
+  Users as UsersIcon
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Link } from "react-router-dom";
+import { cn } from "@/lib/utils";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 const Clients = () => {
   const clients = [
@@ -25,7 +28,11 @@ const Clients = () => {
       status: "Active", 
       projects: 2, 
       revenue: "$12,500",
-      avatar: "https://api.dicebear.com/7.x/initials/svg?seed=AC"
+      avatar: "https://api.dicebear.com/7.x/initials/svg?seed=AC",
+      assignedStaff: [
+        { name: "Felix K.", avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" },
+        { name: "Sarah Chen", avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah" }
+      ]
     },
     { 
       id: "2", 
@@ -35,7 +42,10 @@ const Clients = () => {
       status: "Onboarding", 
       projects: 1, 
       revenue: "$8,200",
-      avatar: "https://api.dicebear.com/7.x/initials/svg?seed=GT"
+      avatar: "https://api.dicebear.com/7.x/initials/svg?seed=GT",
+      assignedStaff: [
+        { name: "Marcus T.", avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Marcus" }
+      ]
     },
     { 
       id: "3", 
@@ -45,7 +55,10 @@ const Clients = () => {
       status: "Active", 
       projects: 1, 
       revenue: "$4,000",
-      avatar: "https://api.dicebear.com/7.x/initials/svg?seed=ZF"
+      avatar: "https://api.dicebear.com/7.x/initials/svg?seed=ZF",
+      assignedStaff: [
+        { name: "Felix K.", avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" }
+      ]
     },
   ];
 
@@ -55,7 +68,7 @@ const Clients = () => {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold text-slate-900">Clients</h1>
-            <p className="text-slate-500">Manage your client relationships and portal access.</p>
+            <p className="text-slate-500">Manage your client relationships and assigned account teams.</p>
           </div>
           <Button className="bg-indigo-600 hover:bg-indigo-700 text-white gap-2">
             <UserPlus className="w-4 h-4" />
@@ -89,7 +102,9 @@ const Clients = () => {
                 </div>
                 
                 <div className="space-y-1 mb-6">
-                  <h3 className="font-bold text-lg text-slate-900">{client.name}</h3>
+                  <Link to={`/client/${client.id}`} className="hover:text-indigo-600 transition-colors">
+                    <h3 className="font-bold text-lg text-slate-900">{client.name}</h3>
+                  </Link>
                   <p className="text-sm text-slate-500 flex items-center gap-1">
                     <Mail className="w-3 h-3" /> {client.email}
                   </p>
@@ -106,11 +121,39 @@ const Clients = () => {
                   </div>
                 </div>
 
+                <div className="flex items-center justify-between mb-6">
+                  <div className="space-y-2">
+                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Assigned Team</p>
+                    <div className="flex -space-x-2">
+                      {client.assignedStaff.map((staff, i) => (
+                        <Tooltip key={i}>
+                          <TooltipTrigger asChild>
+                            <Avatar className="w-8 h-8 border-2 border-white rounded-full">
+                              <AvatarImage src={staff.avatar} />
+                              <AvatarFallback>{staff.name.charAt(0)}</AvatarFallback>
+                            </Avatar>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p className="text-xs font-bold">{staff.name}</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      ))}
+                    </div>
+                  </div>
+                  <Link to={`/portal/${client.id}`}>
+                    <Button variant="outline" size="sm" className="border-slate-200 text-slate-600 gap-2">
+                      <ExternalLink className="w-3 h-3" />
+                      Portal
+                    </Button>
+                  </Link>
+                </div>
+
                 <div className="flex items-center gap-2">
-                  <Button variant="outline" className="flex-1 border-slate-200 text-slate-600 gap-2">
-                    <ExternalLink className="w-4 h-4" />
-                    Portal
-                  </Button>
+                  <Link to={`/client/${client.id}`} className="flex-1">
+                    <Button variant="secondary" className="w-full bg-slate-50 text-slate-600 hover:bg-slate-100">
+                      View Details
+                    </Button>
+                  </Link>
                   <Button variant="ghost" size="icon" className="text-slate-400">
                     <MoreHorizontal className="w-5 h-5" />
                   </Button>
@@ -119,8 +162,7 @@ const Clients = () => {
             </Card>
           ))}
           
-          {/* Add Client Placeholder */}
-          <button className="border-2 border-dashed border-slate-200 rounded-3xl p-6 flex flex-col items-center justify-center text-slate-400 hover:border-indigo-300 hover:text-indigo-500 transition-all min-h-[280px]">
+          <button className="border-2 border-dashed border-slate-200 rounded-3xl p-6 flex flex-col items-center justify-center text-slate-400 hover:border-indigo-300 hover:text-indigo-500 transition-all min-h-[320px]">
             <div className="w-12 h-12 rounded-full bg-slate-50 flex items-center justify-center mb-4 group-hover:bg-indigo-50">
               <Plus className="w-6 h-6" />
             </div>
@@ -133,5 +175,4 @@ const Clients = () => {
   );
 };
 
-import { cn } from "@/lib/utils";
 export default Clients;

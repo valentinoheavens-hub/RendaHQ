@@ -1,15 +1,41 @@
 import React, { useState } from "react";
-import { CheckCircle2, Circle, Plus, MoreVertical, Clock } from "lucide-react";
+import { CheckCircle2, Circle, Plus, MoreVertical, Clock, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 
 const TaskBoard = () => {
   const [tasks, setTasks] = useState([
-    { id: 1, title: "Research competitor visual identities", status: "completed", priority: "medium" },
-    { id: 2, title: "Draft 3 initial logo concepts", status: "in-progress", priority: "high" },
-    { id: 3, title: "Select typography pairings", status: "todo", priority: "medium" },
-    { id: 4, title: "Create color palette variations", status: "todo", priority: "low" },
+    { 
+      id: 1, 
+      title: "Research competitor visual identities", 
+      status: "completed", 
+      priority: "medium",
+      assignee: { name: "Sarah Chen", avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah" }
+    },
+    { 
+      id: 2, 
+      title: "Draft 3 initial logo concepts", 
+      status: "in-progress", 
+      priority: "high",
+      assignee: { name: "Felix K.", avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" }
+    },
+    { 
+      id: 3, 
+      title: "Select typography pairings", 
+      status: "todo", 
+      priority: "medium",
+      assignee: { name: "Sarah Chen", avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah" }
+    },
+    { 
+      id: 4, 
+      title: "Create color palette variations", 
+      status: "todo", 
+      priority: "low",
+      assignee: { name: "Marcus T.", avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Marcus" }
+    },
   ]);
 
   const toggleTask = (id: number) => {
@@ -61,6 +87,19 @@ const TaskBoard = () => {
               )}>
                 {task.priority}
               </Badge>
+              
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Avatar className="w-6 h-6 rounded-full border border-white">
+                    <AvatarImage src={task.assignee.avatar} />
+                    <AvatarFallback>{task.assignee.name.charAt(0)}</AvatarFallback>
+                  </Avatar>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p className="text-[10px] font-bold">Assigned to {task.assignee.name}</p>
+                </TooltipContent>
+              </Tooltip>
+
               <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-400 opacity-0 group-hover:opacity-100">
                 <MoreVertical className="w-4 h-4" />
               </Button>
