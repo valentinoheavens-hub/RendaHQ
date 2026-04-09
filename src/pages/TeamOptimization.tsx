@@ -23,7 +23,8 @@ import {
   Trophy,
   Star,
   Calendar,
-  UserPlus
+  UserPlus,
+  ArrowUpRight
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
@@ -181,7 +182,9 @@ const TeamOptimization = () => {
                           </div>
                         </div>
                         <div className="text-center md:text-left space-y-1">
-                          <h4 className="font-bold text-lg text-slate-900 group-hover:text-indigo-600 transition-colors">{member.name}</h4>
+                          <Link to={`/staff/${member.id}`} className="hover:text-indigo-600 transition-colors">
+                            <h4 className="font-bold text-lg text-slate-900">{member.name}</h4>
+                          </Link>
                           <p className="text-xs font-medium text-slate-500">{member.role}</p>
                           <div className="flex items-center justify-center md:justify-start gap-1.5 text-[10px] text-slate-400 font-bold uppercase tracking-wider">
                             <Calendar className="w-3 h-3" />
@@ -238,9 +241,11 @@ const TeamOptimization = () => {
 
                       {/* Actions */}
                       <div className="flex items-start gap-2">
-                        <Button variant="ghost" size="icon" className="text-slate-400">
-                          <Activity className="w-4 h-4" />
-                        </Button>
+                        <Link to={`/staff/${member.id}`}>
+                          <Button variant="ghost" size="icon" className="text-slate-400 hover:text-indigo-600">
+                            <ArrowUpRight className="w-4 h-4" />
+                          </Button>
+                        </Link>
                         <Button variant="ghost" size="icon" className="text-slate-400">
                           <MoreHorizontal className="w-4 h-4" />
                         </Button>

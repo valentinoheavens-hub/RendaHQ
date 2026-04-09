@@ -36,6 +36,7 @@ import CreateProject from "./pages/CreateProject";
 import ContractEditor from "./pages/ContractEditor";
 import ClientOnboarding from "./pages/ClientOnboarding";
 import StaffOnboarding from "./pages/StaffOnboarding";
+import StaffDetails from "./pages/StaffDetails";
 import Services from "./pages/Services";
 import Expenses from "./pages/Expenses";
 import Files from "./pages/Files";
@@ -57,6 +58,7 @@ const App = () => (
           <Route path="/diagnostics" element={<BusinessDiagnostics />} />
           <Route path="/strategy" element={<StrategicPlanning />} />
           <Route path="/team-optimization" element={<TeamOptimization />} />
+          <Route path="/staff/:staffId" element={<StaffDetails />} />
           <Route path="/market" element={<MarketIntelligence />} />
           <Route path="/growth" element={<GrowthLab />} />
           <Route path="/workflows" element={<Workflows />} />
