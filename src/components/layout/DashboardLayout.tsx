@@ -28,7 +28,8 @@ import {
   Compass,
   Globe,
   Zap,
-  HeartPulse
+  HeartPulse,
+  Layers
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -56,6 +57,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
     { name: "Leads", href: "/leads", icon: Briefcase },
     { name: "Clients", href: "/clients", icon: Users },
     { name: "Projects", href: "/projects", icon: Target },
+    { name: "Templates", href: "/project-templates", icon: Layers },
     { name: "Calendar", href: "/calendar", icon: CalendarIcon },
     { name: "Files", href: "/files", icon: FolderOpen },
     { name: "Services", href: "/services", icon: Package },

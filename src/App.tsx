@@ -14,6 +14,7 @@ import GrowthLab from "./pages/GrowthLab";
 import Workflows from "./pages/Workflows";
 import Leads from "./pages/Leads";
 import Projects from "./pages/Projects";
+import ProjectTemplates from "./pages/ProjectTemplates";
 import Proposals from "./pages/Proposals";
 import ProposalBuilder from "./pages/ProposalBuilder";
 import ProposalView from "./pages/ProposalView";
@@ -64,6 +65,7 @@ const App = () => (
           <Route path="/workflows" element={<Workflows />} />
           <Route path="/leads" element={<Leads />} />
           <Route path="/projects" element={<Projects />} />
+          <Route path="/project-templates" element={<ProjectTemplates />} />
           <Route path="/proposals" element={<Proposals />} />
           <Route path="/proposal/new" element={<ProposalBuilder />} />
           <Route path="/proposal/view/:proposalId" element={<ProposalView />} />
