@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -20,7 +20,9 @@ import {
   ShieldAlert,
   Lightbulb,
   BarChart3,
-  PieChart as PieChartIcon
+  PieChart as PieChartIcon,
+  Sparkles,
+  Loader2
 } from "lucide-react";
 import { 
   ResponsiveContainer, 
@@ -36,8 +38,29 @@ import {
   Legend
 } from "recharts";
 import { cn } from "@/lib/utils";
+import { generateDiagnosticReco } from "@/lib/ai";
+import { showError, showSuccess } from "@/utils/toast";
 
 const BusinessDiagnostics = () => {
+  const [aiReco, setAiReco] = useState("");
+  const [isRunning, setIsRunning] = useState(false);
+
+  const handleRunDiagnostic = async () => {
+    setIsRunning(true);
+    try {
+      const context = diagnostics.map(d =>
+        `${d.title}: Score ${d.score}/100 (${d.status}) — ${d.metric}. ${d.description}`
+      ).join('\n');
+      const result = await generateDiagnosticReco(context);
+      setAiReco(result);
+      showSuccess("Diagnostic complete!");
+    } catch (err: any) {
+      showError(err.message || "Diagnostic failed. Please try again.");
+    } finally {
+      setIsRunning(false);
+    }
+  };
+
   // Mock Data for Diagnostics
   const healthScore = 78;
   
@@ -101,8 +124,12 @@ const BusinessDiagnostics = () => {
           </div>
           <div className="flex gap-3">
             <Button variant="outline" className="border-slate-200">Export Audit PDF</Button>
-            <Button className="bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg shadow-indigo-100">
-              Run New Diagnostic
+            <Button
+              className="bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg shadow-indigo-100 gap-2"
+              onClick={handleRunDiagnostic}
+              disabled={isRunning}
+            >
+              {isRunning ? <><Loader2 className="w-4 h-4 animate-spin" /> Analyzing...</> : <><Sparkles className="w-4 h-4" /> Run AI Diagnostic</>}
             </Button>
           </div>
         </div>
@@ -271,40 +298,46 @@ const BusinessDiagnostics = () => {
         {/* Strategic Recommendations */}
         <Card className="border-none shadow-sm bg-indigo-600 text-white">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Target className="w-6 h-6" />
-              Strategic Growth Roadmap
-            </CardTitle>
-            <CardDescription className="text-indigo-100">Actionable steps to improve your business health score.</CardDescription>
-          </CardHeader>
-          <CardContent className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[
-              {
-                step: "01",
-                title: "Diversify Revenue",
-                action: "Launch a 'Quick Audit' service at $999 to attract 3-5 smaller clients this quarter.",
-                impact: "Reduces Concentration Risk"
-              },
-              {
-                step: "02",
-                title: "Optimize Margins",
-                action: "Automate client onboarding using the Questionnaire Builder to save 4 hours per project.",
-                impact: "Increases Operational Score"
-              },
-              {
-                step: "03",
-                title: "Scale Pricing",
-                action: "Increase your hourly rate by 15% for all new proposals starting next month.",
-                impact: "Boosts Financial Vitality"
-              }
-            ].map((rec) => (
-              <div key={rec.step} className="bg-white/10 rounded-2xl p-6 border border-white/10 hover:bg-white/20 transition-colors">
-                <span className="text-3xl font-black opacity-30 mb-4 block">{rec.step}</span>
-                <h4 className="font-bold text-lg mb-2">{rec.title}</h4>
-                <p className="text-sm text-indigo-100 mb-4 leading-relaxed">{rec.action}</p>
-                <Badge className="bg-white text-indigo-600 border-none font-bold text-[10px]">{rec.impact}</Badge>
+            <div className="flex items-center justify-between">
+              <div>
+                <CardTitle className="flex items-center gap-2">
+                  <Target className="w-6 h-6" />
+                  Strategic Growth Roadmap
+                </CardTitle>
+                <CardDescription className="text-indigo-100 mt-1">AI-powered recommendations based on your diagnostic scores.</CardDescription>
               </div>
-            ))}
+              <Button
+                onClick={handleRunDiagnostic}
+                disabled={isRunning}
+                className="bg-white/20 hover:bg-white/30 text-white border-none gap-2 shrink-0"
+                size="sm"
+              >
+                {isRunning ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Sparkles className="w-3.5 h-3.5" />}
+                {aiReco ? "Refresh" : "Generate"}
+              </Button>
+            </div>
+          </CardHeader>
+          <CardContent>
+            {aiReco ? (
+              <div className="bg-white/10 rounded-2xl p-6 border border-white/10">
+                <p className="text-sm text-indigo-100 leading-relaxed whitespace-pre-line">{aiReco}</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {[
+                  { step: "01", title: "Diversify Revenue", action: "Launch a 'Quick Audit' service at $999 to attract 3-5 smaller clients this quarter.", impact: "Reduces Concentration Risk" },
+                  { step: "02", title: "Optimize Margins", action: "Automate client onboarding using the Questionnaire Builder to save 4 hours per project.", impact: "Increases Operational Score" },
+                  { step: "03", title: "Scale Pricing", action: "Increase your hourly rate by 15% for all new proposals starting next month.", impact: "Boosts Financial Vitality" }
+                ].map((rec) => (
+                  <div key={rec.step} className="bg-white/10 rounded-2xl p-6 border border-white/10 hover:bg-white/20 transition-colors">
+                    <span className="text-3xl font-black opacity-30 mb-4 block">{rec.step}</span>
+                    <h4 className="font-bold text-lg mb-2">{rec.title}</h4>
+                    <p className="text-sm text-indigo-100 mb-4 leading-relaxed">{rec.action}</p>
+                    <Badge className="bg-white text-indigo-600 border-none font-bold text-[10px]">{rec.impact}</Badge>
+                  </div>
+                ))}
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>

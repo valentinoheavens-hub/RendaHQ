@@ -218,6 +218,56 @@ Sender: ${opts.senderName ?? 'Felix'}`,
   );
 };
 
+// ─── Strategy Insights ───────────────────────────────────────────────────────
+export const generateStrategyInsights = async (objectivesContext: string): Promise<string> => {
+  guardKey();
+  return chat(
+    `You are a strategic business advisor for a freelance agency. Analyze the OKR data provided and give a concise, actionable insight in 2-3 sentences. Focus on what is at risk, what is on track, and the single highest-leverage action to take right now. Be direct and specific.`,
+    `Analyze these objectives and key results and give strategic insights:\n\n${objectivesContext}`,
+    400
+  );
+};
+
+// ─── Vitality Insight ────────────────────────────────────────────────────────
+export const generateVitalityInsight = async (teamContext: string): Promise<string> => {
+  guardKey();
+  return chat(
+    `You are an expert in team well-being and performance management. Analyze the team vitality data and provide a concise 2-3 sentence insight. Identify who needs immediate attention, why, and one concrete intervention to recommend. Be empathetic but direct.`,
+    `Analyze this team vitality data and give a well-being insight:\n\n${teamContext}`,
+    400
+  );
+};
+
+// ─── Positioning Gap ─────────────────────────────────────────────────────────
+export const generatePositioningGap = async (marketContext: string): Promise<string> => {
+  guardKey();
+  return chat(
+    `You are a market strategist for a boutique design and technology agency. Analyze the SWOT and competitor data provided. Identify the most compelling positioning gap — a specific opportunity that none of the competitors are exploiting. Describe it in 2-3 sentences and explain why it's the right moment to act.`,
+    `Identify the key market positioning gap from this data:\n\n${marketContext}`,
+    400
+  );
+};
+
+// ─── Diagnostic Recommendations ──────────────────────────────────────────────
+export const generateDiagnosticReco = async (diagnosticsContext: string): Promise<string> => {
+  guardKey();
+  return chat(
+    `You are a business health consultant. Based on the diagnostic scores provided, give 3 numbered, concrete action items the agency should prioritize this quarter to improve their overall health score. Each action should be one sentence. Be specific, not generic.`,
+    `Generate prioritized recommendations from these business diagnostics:\n\n${diagnosticsContext}`,
+    500
+  );
+};
+
+// ─── Growth Ideas ─────────────────────────────────────────────────────────────
+export const generateGrowthIdeas = async (growthContext: string): Promise<string> => {
+  guardKey();
+  return chat(
+    `You are a growth strategist for a freelance agency. Based on the funnel and experiment data provided, identify the single biggest lever for growth and suggest one bold experiment the team should run next. Keep it to 2-3 sentences. Be specific and data-driven.`,
+    `Identify the highest-impact growth opportunity from this data:\n\n${growthContext}`,
+    400
+  );
+};
+
 // ─── Automation Suggestion ───────────────────────────────────────────────────
 export const suggestAutomations = async (businessContext: string): Promise<string> => {
   guardKey();

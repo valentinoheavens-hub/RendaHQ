@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -19,11 +19,35 @@ import {
   Zap,
   Eye,
   Layers,
-  ExternalLink
+  ExternalLink,
+  Sparkles,
+  Loader2
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { generatePositioningGap } from "@/lib/ai";
+import { showError } from "@/utils/toast";
 
 const MarketIntelligence = () => {
+  const [positioningGap, setPositioningGap] = useState("");
+  const [isLoadingGap, setIsLoadingGap] = useState(false);
+
+  const handlePositioningGap = async () => {
+    setIsLoadingGap(true);
+    try {
+      const swot = `Strengths: Niche Fintech Expertise, Fast Turnaround. Weaknesses: Small Team Capacity, Limited SEO Services. Opportunities: AI Integration, African Market Growth. Threats: Low-cost Outsourcing, Economic Downturn.`;
+      const compList = competitors.map(c =>
+        `${c.name} — Focus: ${c.focus}, Pricing: ${c.pricing}, Strength: ${c.strength}, Weakness: ${c.weakness}, Status: ${c.status}`
+      ).join('\n');
+      const context = `SWOT:\n${swot}\n\nCompetitors:\n${compList}`;
+      const result = await generatePositioningGap(context);
+      setPositioningGap(result);
+    } catch (err: any) {
+      showError(err.message || "Failed to generate positioning analysis.");
+    } finally {
+      setIsLoadingGap(false);
+    }
+  };
+
   const competitors = [
     { 
       name: "Pixel Perfect Agency", 
@@ -205,11 +229,19 @@ const MarketIntelligence = () => {
                 <div>
                   <h3 className="text-xl font-bold mb-2">Positioning Gap</h3>
                   <p className="text-slate-400 text-sm leading-relaxed">
-                    We've identified a gap in the market for "AI-Assisted Fintech Compliance Design". None of your direct competitors offer this yet.
+                    {positioningGap || "Click below to identify untapped market opportunities your competitors haven't seized yet."}
                   </p>
                 </div>
-                <Button className="w-full bg-white text-slate-900 hover:bg-slate-100 font-bold py-6 rounded-xl">
-                  Explore Opportunity
+                <Button
+                  className="w-full bg-white text-slate-900 hover:bg-slate-100 font-bold py-6 rounded-xl gap-2"
+                  onClick={handlePositioningGap}
+                  disabled={isLoadingGap}
+                >
+                  {isLoadingGap ? (
+                    <><Loader2 className="w-4 h-4 animate-spin" /> Scanning Market...</>
+                  ) : (
+                    <><Sparkles className="w-4 h-4" /> {positioningGap ? "Re-analyze Market" : "Find Positioning Gap"}</>
+                  )}
                 </Button>
               </CardContent>
             </Card>

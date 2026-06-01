@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -24,12 +24,34 @@ import {
   Star,
   Calendar,
   UserPlus,
-  ArrowUpRight
+  ArrowUpRight,
+  Sparkles,
+  Loader2
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
+import { generateVitalityInsight } from "@/lib/ai";
+import { showError } from "@/utils/toast";
 
 const TeamOptimization = () => {
+  const [vitalityInsight, setVitalityInsight] = useState("");
+  const [isLoadingVitality, setIsLoadingVitality] = useState(false);
+
+  const handleVitalityAlert = async () => {
+    setIsLoadingVitality(true);
+    try {
+      const context = team.map(m =>
+        `${m.name} (${m.role}): Alignment ${m.alignment}%, Engagement ${m.engagement}%, Vitality ${m.vitality}%, Burnout Risk: ${m.burnoutRisk}, Current Focus: ${m.currentFocus}, Tenure: ${m.tenure}`
+      ).join('\n');
+      const result = await generateVitalityInsight(context);
+      setVitalityInsight(result);
+    } catch (err: any) {
+      showError(err.message || "Failed to generate vitality insight.");
+    } finally {
+      setIsLoadingVitality(false);
+    }
+  };
+
   const team = [
     {
       id: 1,
@@ -317,11 +339,19 @@ const TeamOptimization = () => {
                 <div>
                   <h3 className="text-xl font-bold mb-2">Vitality Alert</h3>
                   <p className="text-slate-400 text-sm leading-relaxed">
-                    Marcus T. has exceeded 50 hours/week for 3 consecutive weeks. Vitality score has dropped by 30%.
+                    {vitalityInsight || "Click below to get an AI-powered analysis of your team's well-being and burnout risks."}
                   </p>
                 </div>
-                <Button className="w-full bg-white text-slate-900 hover:bg-slate-100 font-bold py-6 rounded-xl">
-                  Schedule 1-on-1
+                <Button
+                  className="w-full bg-white text-slate-900 hover:bg-slate-100 font-bold py-6 rounded-xl gap-2"
+                  onClick={handleVitalityAlert}
+                  disabled={isLoadingVitality}
+                >
+                  {isLoadingVitality ? (
+                    <><Loader2 className="w-4 h-4 animate-spin" /> Analyzing Team...</>
+                  ) : (
+                    <><Sparkles className="w-4 h-4" /> {vitalityInsight ? "Refresh Analysis" : "Analyze Team Vitality"}</>
+                  )}
                 </Button>
               </CardContent>
             </Card>

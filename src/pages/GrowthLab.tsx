@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -21,11 +21,35 @@ import {
   Plus,
   MoreVertical,
   Filter,
-  Users
+  Users,
+  Sparkles,
+  Loader2
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { generateGrowthIdeas } from "@/lib/ai";
+import { showError } from "@/utils/toast";
 
 const GrowthLab = () => {
+  const [growthInsight, setGrowthInsight] = useState("");
+  const [isLoadingGrowth, setIsLoadingGrowth] = useState(false);
+
+  const handleGrowthIdeas = async () => {
+    setIsLoadingGrowth(true);
+    try {
+      const funnelSummary = funnelData.map(f => `${f.stage}: ${f.count} (${f.conversion})`).join(', ');
+      const expSummary = experiments.map(e =>
+        `"${e.title || e.name}" — Status: ${e.status}, Impact: ${e.impact}, Confidence: ${e.confidence}%, Results: ${e.results}`
+      ).join('\n');
+      const context = `Funnel:\n${funnelSummary}\n\nExperiments:\n${expSummary}`;
+      const result = await generateGrowthIdeas(context);
+      setGrowthInsight(result);
+    } catch (err: any) {
+      showError(err.message || "Failed to generate growth ideas.");
+    } finally {
+      setIsLoadingGrowth(false);
+    }
+  };
+
   const experiments = [
     { 
       id: 1, 
@@ -112,13 +136,27 @@ const GrowthLab = () => {
                   </div>
                 </div>
               ))}
-              <div className="mt-6 p-4 bg-indigo-50 rounded-xl border border-indigo-100">
+              <div className="mt-6 p-4 bg-indigo-50 rounded-xl border border-indigo-100 space-y-3">
                 <div className="flex gap-3">
-                  <Zap className="w-5 h-5 text-indigo-600 shrink-0" />
+                  <Zap className="w-5 h-5 text-indigo-600 shrink-0 mt-0.5" />
                   <p className="text-xs text-indigo-900 leading-relaxed">
-                    <span className="font-bold">Funnel Insight:</span> Your biggest drop-off is between <span className="font-bold">Leads</span> and <span className="font-bold">Qualified</span>. Consider adding a pre-qualification step to your contact form.
+                    {growthInsight
+                      ? <span>{growthInsight}</span>
+                      : <><span className="font-bold">Funnel Insight:</span> Click below to get an AI-powered analysis of your biggest growth lever.</>
+                    }
                   </p>
                 </div>
+                <Button
+                  className="w-full bg-indigo-600 hover:bg-indigo-700 text-white text-xs gap-2 h-8 rounded-lg"
+                  onClick={handleGrowthIdeas}
+                  disabled={isLoadingGrowth}
+                >
+                  {isLoadingGrowth ? (
+                    <><Loader2 className="w-3 h-3 animate-spin" /> Analyzing...</>
+                  ) : (
+                    <><Sparkles className="w-3 h-3" /> {growthInsight ? "Refresh" : "Analyze Growth"}</>
+                  )}
+                </Button>
               </div>
             </CardContent>
           </Card>

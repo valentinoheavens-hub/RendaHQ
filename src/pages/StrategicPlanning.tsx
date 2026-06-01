@@ -1,28 +1,50 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { 
-  Target, 
-  TrendingUp, 
-  Flag, 
-  CheckCircle2, 
-  Clock, 
-  Plus, 
+  Target,
+  TrendingUp,
+  Flag,
+  CheckCircle2,
+  Clock,
+  Plus,
   MoreVertical,
   ArrowUpRight,
   Layers,
   Zap,
   BarChart3,
-  ChevronRight
+  ChevronRight,
+  Sparkles,
+  Loader2
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { generateStrategyInsights } from "@/lib/ai";
+import { showError } from "@/utils/toast";
 
 const StrategicPlanning = () => {
+  const [insight, setInsight] = useState("");
+  const [isLoadingInsight, setIsLoadingInsight] = useState(false);
+
+  const handleGenerateInsight = async () => {
+    setIsLoadingInsight(true);
+    try {
+      const context = objectives.map(o =>
+        `Objective: "${o.title}" (${o.period}) — Progress: ${o.progress}% — Status: ${o.status}\nKey Results:\n${o.keyResults.map(kr => `  - ${kr.title}: ${kr.current}/${kr.target} ${kr.unit}`).join('\n')}`
+      ).join('\n\n');
+      const result = await generateStrategyInsights(context);
+      setInsight(result);
+    } catch (err: any) {
+      showError(err.message || "Failed to generate insight.");
+    } finally {
+      setIsLoadingInsight(false);
+    }
+  };
+
   const objectives = [
     {
       id: 1,
@@ -239,11 +261,19 @@ const StrategicPlanning = () => {
               <div>
                 <h3 className="text-xl font-bold mb-2">Strategy Insights</h3>
                 <p className="text-slate-400 text-sm leading-relaxed">
-                  Your "Operational Efficiency" objective is at risk. We recommend prioritizing the "Onboarding Automation" initiative to recover progress.
+                  {insight || "Click below to get an AI-powered analysis of your current objectives and key results."}
                 </p>
               </div>
-              <Button className="w-full bg-white text-slate-900 hover:bg-slate-100 font-bold py-6 rounded-xl">
-                View Strategy Report
+              <Button
+                className="w-full bg-white text-slate-900 hover:bg-slate-100 font-bold py-6 rounded-xl gap-2"
+                onClick={handleGenerateInsight}
+                disabled={isLoadingInsight}
+              >
+                {isLoadingInsight ? (
+                  <><Loader2 className="w-4 h-4 animate-spin" /> Analyzing...</>
+                ) : (
+                  <><Sparkles className="w-4 h-4" /> {insight ? "Refresh Insight" : "Generate Insight"}</>
+                )}
               </Button>
             </CardContent>
           </Card>
