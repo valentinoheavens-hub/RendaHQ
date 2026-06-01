@@ -16,7 +16,7 @@ const MODEL = 'llama-3.3-70b-versatile';
 const guardKey = () => {
   if (!apiKey) {
     throw new Error(
-      'Groq API Key is missing. Please add VITE_GROQ_API_KEY to your .env file.'
+      'NexWork AI is not configured. Please check your environment setup.'
     );
   }
 };

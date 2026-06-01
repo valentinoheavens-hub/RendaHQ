@@ -238,7 +238,7 @@ export const AIAssistant = () => {
               {isLoading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Send className="w-3.5 h-3.5" />}
             </button>
           </div>
-          <p className="text-center text-[10px] text-slate-300 mt-2">Powered by Groq · NexWork AI</p>
+          <p className="text-center text-[10px] text-slate-300 mt-2">NexWork AI · Your Business Co-Pilot</p>
         </div>
       </div>
     </>

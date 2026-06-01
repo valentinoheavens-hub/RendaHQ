@@ -75,14 +75,14 @@ const ContractEditor = () => {
 
   const handleAISuggestion = async () => {
     if (!hasApiKey) {
-      showError("Groq API key missing. Add VITE_GROQ_API_KEY to your .env file.");
+      showError("NexWork AI is not configured. Please contact support.");
       return;
     }
     setIsSuggesting(true);
     try {
       const suggestion = await suggestClause(content, "Intellectual Property");
       setContent(prev => prev + "\n\n" + suggestion);
-      showSuccess("Clause added by Groq AI!");
+      showSuccess("Clause added by NexWork AI!");
     } catch (err) {
       showError("AI suggestion failed.");
     } finally {
@@ -140,17 +140,17 @@ const ContractEditor = () => {
               <CardContent className="p-6">
                 <div className="flex items-center gap-2 text-indigo-600 mb-2">
                   <Sparkles className="w-4 h-4" />
-                  <h4 className="font-bold">Groq AI Assistant</h4>
+                  <h4 className="font-bold">NexWork AI Assistant</h4>
                 </div>
                 <p className="text-sm text-indigo-700 mb-4">
-                  Groq AI can help you refine this contract. Click below to add a standard "Intellectual Property" clause.
+                  NexWork AI can help you refine this contract. Click below to add a standard "Intellectual Property" clause.
                 </p>
                 <Button 
                   className="w-full bg-indigo-600 text-white hover:bg-indigo-700 border-none"
                   onClick={handleAISuggestion}
                   disabled={isSuggesting || !hasApiKey}
                 >
-                  {isSuggesting ? <Loader2 className="w-4 h-4 animate-spin" /> : "Add Clause with Groq AI"}
+                  {isSuggesting ? <Loader2 className="w-4 h-4 animate-spin" /> : "Add Clause with NexWork AI"}
                 </Button>
               </CardContent>
             </Card>

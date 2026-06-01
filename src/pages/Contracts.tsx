@@ -55,7 +55,7 @@ const Contracts = () => {
   const handleGenerate = async () => {
     if (!description) return;
     if (!hasApiKey) {
-      showError("Please add VITE_GROQ_API_KEY to your environment variables.");
+      showError("NexWork AI is not configured. Please check your environment setup.");
       return;
     }
 
@@ -96,7 +96,7 @@ const Contracts = () => {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold text-slate-900">Contracts</h1>
-            <p className="text-slate-500">Manage agreements and generate new ones with Groq AI.</p>
+            <p className="text-slate-500">Manage agreements and generate new ones with NexWork AI.</p>
           </div>
           <Button className="bg-indigo-600 hover:bg-indigo-700 text-white gap-2">
             <Plus className="w-4 h-4" />
@@ -108,7 +108,7 @@ const Contracts = () => {
           <div className="p-4 bg-amber-50 border border-amber-100 rounded-2xl flex gap-3 items-center">
             <AlertCircle className="w-5 h-5 text-amber-600" />
             <p className="text-sm text-amber-800">
-              <strong>Groq AI is not connected.</strong> Please add your <code>VITE_GROQ_API_KEY</code> to the environment variables to enable AI generation.
+              <strong>NexWork AI is not configured.</strong> Please contact support or check your environment setup to enable AI generation.
             </p>
           </div>
         )}
@@ -120,9 +120,9 @@ const Contracts = () => {
                 <Sparkles className="w-5 h-5" />
                 <span className="text-xs font-bold uppercase tracking-wider">AI Contract Builder</span>
               </div>
-              <CardTitle className="text-lg font-bold">Generate with Groq AI</CardTitle>
+              <CardTitle className="text-lg font-bold">Generate with NexWork AI</CardTitle>
               <CardDescription>
-                Describe your project scope and Groq will draft a professional contract.
+                Describe your project scope and NexWork AI will draft a professional contract.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4 relative z-10">
@@ -155,7 +155,7 @@ const Contracts = () => {
                 {isGenerating ? (
                   <>
                     <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    Groq is Drafting...
+                    NexWork AI is Drafting...
                   </>
                 ) : (
                   <>
