@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { 
-  Plus, 
-  Search, 
-  Download, 
+import {
+  Plus,
+  Search,
+  Download,
   ExternalLink,
   CreditCard,
   DollarSign,
@@ -14,22 +15,50 @@ import {
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { 
-  Table, 
-  TableBody, 
-  TableCell, 
-  TableHead, 
-  TableHeader, 
-  TableRow 
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow
 } from "@/components/ui/table";
+import { cn } from "@/lib/utils";
+
+type InvoiceStatus = "All" | "Paid" | "Pending" | "Overdue" | "Draft";
 
 const Invoices = () => {
+  const [activeFilter, setActiveFilter] = useState<InvoiceStatus>("All");
+  const [searchQuery, setSearchQuery] = useState("");
+
   const invoices = [
     { id: "INV-001", client: "Acme Corp", amount: "$1,500.00", status: "Paid", date: "Oct 12, 2023", method: "Stripe" },
     { id: "INV-002", client: "Global Tech", amount: "$3,200.00", status: "Overdue", date: "Oct 28, 2023", method: "Paystack" },
     { id: "INV-003", client: "Zest Foods", amount: "$850.00", status: "Sent", date: "Nov 01, 2023", method: "Flutterwave" },
     { id: "INV-004", client: "Acme Corp", amount: "$2,100.00", status: "Draft", date: "Nov 05, 2023", method: "-" },
   ];
+
+  const filters: InvoiceStatus[] = ["All", "Paid", "Pending", "Overdue"];
+
+  const filteredInvoices = invoices.filter((inv) => {
+    const matchesFilter =
+      activeFilter === "All" ||
+      inv.status === activeFilter ||
+      (activeFilter === "Pending" && inv.status === "Sent");
+    const matchesSearch =
+      !searchQuery ||
+      inv.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      inv.client.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesFilter && matchesSearch;
+  });
+
+  const statusStyle = (status: string) =>
+    cn(
+      "border-none",
+      status === "Paid" ? "bg-emerald-50 text-emerald-700" :
+      status === "Overdue" ? "bg-rose-50 text-rose-700" :
+      status === "Sent" ? "bg-blue-50 text-blue-700" : "bg-slate-100 text-slate-600"
+    );
 
   return (
     <DashboardLayout>
@@ -44,10 +73,12 @@ const Invoices = () => {
               <Download className="w-4 h-4" />
               Export Tax Summary
             </Button>
-            <Button className="bg-indigo-600 hover:bg-indigo-700 text-white gap-2">
-              <Plus className="w-4 h-4" />
-              Create Invoice
-            </Button>
+            <Link to="/invoice/new">
+              <Button className="bg-indigo-600 hover:bg-indigo-700 text-white gap-2">
+                <Plus className="w-4 h-4" />
+                Create Invoice
+              </Button>
+            </Link>
           </div>
         </div>
 
@@ -90,54 +121,76 @@ const Invoices = () => {
           <CardHeader className="flex flex-row items-center justify-between">
             <div className="relative w-72">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-              <Input placeholder="Search invoices..." className="pl-10 bg-slate-50 border-none" />
+              <Input
+                placeholder="Search invoices..."
+                className="pl-10 bg-slate-50 border-none"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
             </div>
-            <div className="flex gap-2">
-              <Button variant="ghost" size="sm" className="text-slate-500">All</Button>
-              <Button variant="ghost" size="sm" className="text-slate-500">Paid</Button>
-              <Button variant="ghost" size="sm" className="text-slate-500">Pending</Button>
+            <div className="flex gap-1 bg-slate-50 rounded-xl p-1">
+              {filters.map((f) => (
+                <Button
+                  key={f}
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setActiveFilter(f)}
+                  className={cn(
+                    "rounded-lg text-sm transition-all",
+                    activeFilter === f
+                      ? "bg-white shadow-sm text-indigo-600 font-bold"
+                      : "text-slate-500 hover:text-slate-700"
+                  )}
+                >
+                  {f}
+                </Button>
+              ))}
             </div>
           </CardHeader>
           <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow className="hover:bg-transparent border-slate-100">
-                  <TableHead className="font-bold text-slate-900">Invoice ID</TableHead>
-                  <TableHead className="font-bold text-slate-900">Client</TableHead>
-                  <TableHead className="font-bold text-slate-900">Amount</TableHead>
-                  <TableHead className="font-bold text-slate-900">Status</TableHead>
-                  <TableHead className="font-bold text-slate-900">Due Date</TableHead>
-                  <TableHead className="font-bold text-slate-900">Method</TableHead>
-                  <TableHead className="text-right"></TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {invoices.map((invoice) => (
-                  <TableRow key={invoice.id} className="border-slate-50 hover:bg-slate-50/50 transition-colors">
-                    <TableCell className="font-medium text-slate-900">{invoice.id}</TableCell>
-                    <TableCell className="text-slate-600">{invoice.client}</TableCell>
-                    <TableCell className="font-bold text-slate-900">{invoice.amount}</TableCell>
-                    <TableCell>
-                      <Badge className={cn(
-                        "border-none",
-                        invoice.status === "Paid" ? "bg-emerald-50 text-emerald-700" : 
-                        invoice.status === "Overdue" ? "bg-rose-50 text-rose-700" : 
-                        invoice.status === "Sent" ? "bg-blue-50 text-blue-700" : "bg-slate-100 text-slate-600"
-                      )}>
-                        {invoice.status}
-                      </Badge>
-                    </TableCell>
-                    <TableCell className="text-slate-500">{invoice.date}</TableCell>
-                    <TableCell className="text-slate-500">{invoice.method}</TableCell>
-                    <TableCell className="text-right">
-                      <Button variant="ghost" size="icon" className="text-slate-400">
-                        <ExternalLink className="w-4 h-4" />
-                      </Button>
-                    </TableCell>
+            {filteredInvoices.length === 0 ? (
+              <div className="py-16 text-center text-slate-400">
+                <CreditCard className="w-8 h-8 mx-auto mb-3 opacity-40" />
+                <p className="text-sm font-medium">No invoices match your filter.</p>
+              </div>
+            ) : (
+              <Table>
+                <TableHeader>
+                  <TableRow className="hover:bg-transparent border-slate-100">
+                    <TableHead className="font-bold text-slate-900">Invoice ID</TableHead>
+                    <TableHead className="font-bold text-slate-900">Client</TableHead>
+                    <TableHead className="font-bold text-slate-900">Amount</TableHead>
+                    <TableHead className="font-bold text-slate-900">Status</TableHead>
+                    <TableHead className="font-bold text-slate-900">Due Date</TableHead>
+                    <TableHead className="font-bold text-slate-900">Method</TableHead>
+                    <TableHead className="text-right"></TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                </TableHeader>
+                <TableBody>
+                  {filteredInvoices.map((invoice) => (
+                    <TableRow key={invoice.id} className="border-slate-50 hover:bg-slate-50/50 transition-colors">
+                      <TableCell className="font-medium text-slate-900">{invoice.id}</TableCell>
+                      <TableCell className="text-slate-600">{invoice.client}</TableCell>
+                      <TableCell className="font-bold text-slate-900">{invoice.amount}</TableCell>
+                      <TableCell>
+                        <Badge className={statusStyle(invoice.status)}>
+                          {invoice.status}
+                        </Badge>
+                      </TableCell>
+                      <TableCell className="text-slate-500">{invoice.date}</TableCell>
+                      <TableCell className="text-slate-500">{invoice.method}</TableCell>
+                      <TableCell className="text-right">
+                        <Link to={`/invoice/view/${invoice.id}`}>
+                          <Button variant="ghost" size="icon" className="text-slate-400 hover:text-indigo-600">
+                            <ExternalLink className="w-4 h-4" />
+                          </Button>
+                        </Link>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            )}
           </CardContent>
         </Card>
       </div>
@@ -145,5 +198,4 @@ const Invoices = () => {
   );
 };
 
-import { cn } from "@/lib/utils";
 export default Invoices;

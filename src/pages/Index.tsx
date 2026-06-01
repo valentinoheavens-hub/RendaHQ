@@ -1,11 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { 
-  CheckCircle2, 
-  ArrowRight, 
-  Shield, 
-  Zap, 
-  Globe, 
+import { cn } from "@/lib/utils";
+import {
+  CheckCircle2,
+  ArrowRight,
+  Shield,
+  Zap,
+  Globe,
   Smartphone,
   BarChart3,
   FileSignature
@@ -30,10 +31,10 @@ const Index = () => {
           <a href="#about" className="hover:text-indigo-600 transition-colors">About</a>
         </div>
         <div className="flex items-center gap-4">
-          <Link to="/dashboard">
+          <Link to="/signin">
             <Button variant="ghost" className="text-slate-600 font-medium">Log in</Button>
           </Link>
-          <Link to="/dashboard">
+          <Link to="/signin">
             <Button className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 shadow-lg shadow-indigo-100">
               Get Started
             </Button>
@@ -56,7 +57,7 @@ const Index = () => {
           Built for freelancers and agencies in emerging markets.
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <Link to="/dashboard">
+          <Link to="/signin">
             <Button size="lg" className="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-7 text-lg rounded-2xl shadow-xl shadow-indigo-200 group">
               Start Your Free Trial
               <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -151,7 +152,7 @@ const Index = () => {
             <p className="text-slate-400 text-lg mb-12 max-w-xl mx-auto">
               Join 500+ freelancers and agencies who have upgraded their client experience with NexWork.
             </p>
-            <Link to="/dashboard">
+            <Link to="/signin">
               <Button size="lg" className="bg-white text-slate-900 hover:bg-slate-100 px-10 py-7 text-lg rounded-2xl font-bold">
                 Get Started for Free
               </Button>
@@ -177,5 +178,4 @@ const Index = () => {
   );
 };
 
-import { cn } from "@/lib/utils";
 export default Index;

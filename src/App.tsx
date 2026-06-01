@@ -44,6 +44,9 @@ import Expenses from "./pages/Expenses";
 import Files from "./pages/Files";
 import Calendar from "./pages/Calendar";
 import TeamOptimization from "./pages/TeamOptimization";
+import Automations from "./pages/Automations";
+import Payments from "./pages/Payments";
+import SignIn from "./pages/SignIn";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -53,7 +56,7 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
+      <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/dashboard" element={<Dashboard />} />
@@ -94,6 +97,10 @@ const App = () => (
           <Route path="/expenses" element={<Expenses />} />
           <Route path="/files" element={<Files />} />
           <Route path="/calendar" element={<Calendar />} />
+          <Route path="/automations" element={<Automations />} />
+          <Route path="/payments" element={<Payments />} />
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/login" element={<SignIn />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

@@ -1,10 +1,10 @@
 import React from "react";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { 
-  TrendingUp, 
-  Users, 
-  Clock, 
+import {
+  TrendingUp,
+  Users,
+  Clock,
   AlertCircle,
   ArrowUpRight,
   MoreHorizontal,
@@ -12,7 +12,9 @@ import {
   Plus,
   FileText,
   CreditCard,
-  Target
+  Target,
+  Wallet,
+  Bot,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -31,7 +33,9 @@ const Dashboard = () => {
     { name: "New Project", icon: Target, href: "/project/new", color: "bg-indigo-50 text-indigo-600" },
     { name: "Create Invoice", icon: CreditCard, href: "/invoice/new", color: "bg-emerald-50 text-emerald-600" },
     { name: "Draft Proposal", icon: FileText, href: "/proposal/new", color: "bg-blue-50 text-blue-600" },
-    { name: "Add Client", icon: Users, href: "/clients", color: "bg-amber-50 text-amber-600" },
+    { name: "Track Payments", icon: Wallet, href: "/payments", color: "bg-amber-50 text-amber-600" },
+    { name: "Automations", icon: Bot, href: "/automations", color: "bg-violet-50 text-violet-600" },
+    { name: "Add Client", icon: Users, href: "/clients", color: "bg-rose-50 text-rose-600" },
   ];
 
   const recentProjects = [
@@ -57,7 +61,7 @@ const Dashboard = () => {
         </div>
 
         {/* Quick Actions */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
           {quickActions.map((action) => (
             <Link key={action.name} to={action.href}>
               <Card className="border-none shadow-sm hover:shadow-md transition-all group cursor-pointer">

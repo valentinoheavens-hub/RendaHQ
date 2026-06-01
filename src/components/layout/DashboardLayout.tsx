@@ -3,12 +3,12 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { 
-  LayoutDashboard, 
-  Users, 
-  FileText, 
-  CreditCard, 
-  Clock, 
-  Settings, 
+  LayoutDashboard,
+  Users,
+  FileText,
+  CreditCard,
+  Clock,
+  Settings,
   Bell,
   Search,
   Plus,
@@ -29,11 +29,14 @@ import {
   Globe,
   Zap,
   HeartPulse,
-  Layers
+  Layers,
+  Wallet,
+  Bot,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { AIAssistant } from "@/components/AIAssistant";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -64,6 +67,8 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
     { name: "Proposals", href: "/proposals", icon: FileSignature },
     { name: "Contracts", href: "/contracts", icon: FileText },
     { name: "Invoices", href: "/invoices", icon: CreditCard },
+    { name: "Payments", href: "/payments", icon: Wallet },
+    { name: "Automations", href: "/automations", icon: Bot },
     { name: "Expenses", href: "/expenses", icon: Receipt },
     { name: "Messages", href: "/messages", icon: MessageSquare },
     { name: "Time Tracking", href: "/time", icon: Clock },
@@ -227,7 +232,10 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
                   <CreditCard className="w-4 h-4" /> Billing & Subscription
                 </DropdownMenuItem>
                 <DropdownMenuSeparator className="my-2 bg-slate-100" />
-                <DropdownMenuItem className="rounded-xl cursor-pointer gap-2 text-rose-600 focus:text-rose-600 focus:bg-rose-50">
+                <DropdownMenuItem
+                  className="rounded-xl cursor-pointer gap-2 text-rose-600 focus:text-rose-600 focus:bg-rose-50"
+                  onClick={() => window.location.href = '/signin'}
+                >
                   <LogOut className="w-4 h-4" /> Log out
                 </DropdownMenuItem>
               </DropdownMenuContent>
@@ -239,6 +247,9 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
           {children}
         </div>
       </main>
+
+      {/* Global AI Assistant — available on every dashboard page */}
+      <AIAssistant />
     </div>
   );
 };
