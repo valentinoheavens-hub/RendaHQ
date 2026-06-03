@@ -2,7 +2,16 @@ import { Resend } from 'resend';
 
 const apiKey = import.meta.env.VITE_RESEND_API_KEY;
 
-const resend = new Resend(apiKey || '');
+const resend = new Resend(apiKey);
+
+// ─── Quick test (matches the Resend quickstart exactly) ───────────────────────
+export const sendTestEmail = () =>
+  resend.emails.send({
+    from: 'onboarding@resend.dev',
+    to: 'valentinoheavens@gmail.com',
+    subject: 'Hello World',
+    html: '<p>Congrats on sending your <strong>first email</strong>!</p>',
+  });
 
 // ─── Guard ────────────────────────────────────────────────────────────────────
 const guardKey = () => {
@@ -30,7 +39,9 @@ export interface SendEmailResult {
 export const sendEmail = async (opts: SendEmailOptions): Promise<SendEmailResult> => {
   guardKey();
 
-  const from = `${opts.fromName ?? 'NexWork'} <onboarding@resend.dev>`;
+  const from = opts.fromName && opts.fromName !== 'NexWork'
+    ? `${opts.fromName} <onboarding@resend.dev>`
+    : 'onboarding@resend.dev';
 
   try {
     const { data, error } = await resend.emails.send({

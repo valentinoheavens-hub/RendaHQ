@@ -1,27 +1,50 @@
-import React from "react";
+import React, { useState } from "react";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { 
-  Globe, 
-  Palette, 
-  Shield, 
-  Bell, 
+import {
+  Globe,
+  Palette,
+  Shield,
   CreditCard,
   Upload,
   Check,
-  ExternalLink,
   Users,
   UserPlus,
-  Mail
+  Mail,
+  Send,
+  Loader2,
+  CheckCircle2,
+  AlertCircle,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { sendTestEmail } from "@/lib/email";
 
 const Settings = () => {
+  const [isSendingTest, setIsSendingTest] = useState(false);
+  const [testResult, setTestResult] = useState<{ success: boolean; message: string } | null>(null);
+
+  const handleTestEmail = async () => {
+    setIsSendingTest(true);
+    setTestResult(null);
+    try {
+      const result = await sendTestEmail();
+      if ((result as any)?.error) {
+        setTestResult({ success: false, message: (result as any).error.message ?? "Failed to send." });
+      } else {
+        setTestResult({ success: true, message: "Test email sent to valentinoheavens@gmail.com!" });
+      }
+    } catch (err: any) {
+      setTestResult({ success: false, message: err?.message ?? "Failed to send." });
+    } finally {
+      setIsSendingTest(false);
+    }
+  };
+
   return (
     <DashboardLayout>
       <div className="space-y-8">
@@ -36,6 +59,7 @@ const Settings = () => {
             <TabsTrigger value="team" className="gap-2"><Users className="w-4 h-4" /> Team</TabsTrigger>
             <TabsTrigger value="payments" className="gap-2"><CreditCard className="w-4 h-4" /> Payments</TabsTrigger>
             <TabsTrigger value="domain" className="gap-2"><Globe className="w-4 h-4" /> Domain</TabsTrigger>
+            <TabsTrigger value="email" className="gap-2"><Mail className="w-4 h-4" /> Email</TabsTrigger>
           </TabsList>
 
           <TabsContent value="branding" className="space-y-6">
@@ -209,6 +233,74 @@ const Settings = () => {
                     <Input placeholder="portal.youragency.com" disabled />
                     <Button variant="outline" disabled>Connect</Button>
                   </div>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+          <TabsContent value="email" className="space-y-6">
+            <Card className="border-none shadow-sm">
+              <CardHeader>
+                <CardTitle>Email Delivery</CardTitle>
+                <CardDescription>
+                  NexWork uses Resend to send invoice reminders, contract notifications, and proposals. Use the button below to verify your connection.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                {/* Status */}
+                <div className="flex items-center gap-3 p-4 rounded-xl bg-emerald-50 border border-emerald-100">
+                  <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
+                  <div>
+                    <p className="text-sm font-bold text-emerald-900">Resend Connected</p>
+                    <p className="text-sm text-emerald-700">
+                      Sending via <span className="font-mono">onboarding@resend.dev</span> — verified Resend sender.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Config details */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="space-y-1.5">
+                    <Label>From Address</Label>
+                    <Input value="onboarding@resend.dev" readOnly className="bg-slate-50 text-slate-500" />
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label>Default Reply-To</Label>
+                    <Input placeholder="Not set — replies go to sender" readOnly className="bg-slate-50 text-slate-500" />
+                  </div>
+                </div>
+
+                {/* Test email */}
+                <div className="border-t border-slate-100 pt-6 space-y-4">
+                  <div>
+                    <h4 className="font-bold text-slate-900 text-sm mb-1">Send a Test Email</h4>
+                    <p className="text-sm text-slate-500">
+                      Sends a quick "Hello World" email to <span className="font-semibold text-slate-700">valentinoheavens@gmail.com</span> to confirm delivery is working.
+                    </p>
+                  </div>
+
+                  {testResult && (
+                    <div className={`flex items-center gap-2 p-3 rounded-lg text-sm font-medium ${
+                      testResult.success
+                        ? "bg-emerald-50 text-emerald-700 border border-emerald-100"
+                        : "bg-red-50 text-red-700 border border-red-100"
+                    }`}>
+                      {testResult.success
+                        ? <CheckCircle2 className="w-4 h-4 shrink-0" />
+                        : <AlertCircle className="w-4 h-4 shrink-0" />}
+                      {testResult.message}
+                    </div>
+                  )}
+
+                  <Button
+                    className="bg-indigo-600 hover:bg-indigo-700 text-white gap-2"
+                    onClick={handleTestEmail}
+                    disabled={isSendingTest}
+                  >
+                    {isSendingTest
+                      ? <Loader2 className="w-4 h-4 animate-spin" />
+                      : <Send className="w-4 h-4" />}
+                    {isSendingTest ? "Sending…" : "Send Test Email"}
+                  </Button>
                 </div>
               </CardContent>
             </Card>
