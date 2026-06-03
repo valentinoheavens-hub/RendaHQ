@@ -46,7 +46,6 @@ import Calendar from "./pages/Calendar";
 import TeamOptimization from "./pages/TeamOptimization";
 import Automations from "./pages/Automations";
 import Payments from "./pages/Payments";
-import SignIn from "./pages/SignIn";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -99,8 +98,6 @@ const App = () => (
           <Route path="/calendar" element={<Calendar />} />
           <Route path="/automations" element={<Automations />} />
           <Route path="/payments" element={<Payments />} />
-          <Route path="/signin" element={<SignIn />} />
-          <Route path="/login" element={<SignIn />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
