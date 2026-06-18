@@ -18,9 +18,11 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { showError, showSuccess } from "@/utils/toast";
+import { useAuth } from "@/context/AuthContext";
 
 export default function SignIn() {
   const navigate = useNavigate();
+  const { signIn, signUp, resetPassword } = useAuth();
   const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -31,28 +33,36 @@ export default function SignIn() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email || !password) {
-      showError("Please fill in all fields.");
-      return;
-    }
-    if (mode === "signup" && !name) {
-      showError("Please enter your name.");
-      return;
-    }
+    if (!email || !password) { showError("Please fill in all fields."); return; }
+    if (mode === "signup" && !name) { showError("Please enter your name."); return; }
+    if (mode === "signup" && password.length < 8) { showError("Password must be at least 8 characters."); return; }
+
     setIsLoading(true);
-    // Simulate auth — replace with real Supabase auth call
-    await new Promise((r) => setTimeout(r, 1200));
+    if (mode === "signin") {
+      const { error } = await signIn(email, password);
+      if (error) { showError(error); setIsLoading(false); return; }
+      showSuccess("Welcome back!");
+      navigate("/dashboard");
+    } else {
+      const { error } = await signUp(email, password, name);
+      if (error) { showError(error); setIsLoading(false); return; }
+      showSuccess("Account created! Check your email to confirm, then sign in.");
+      setMode("signin");
+    }
     setIsLoading(false);
-    showSuccess(mode === "signin" ? "Welcome back!" : "Account created! Welcome to NexWork.");
-    navigate("/dashboard");
+  };
+
+  const handleForgotPassword = async () => {
+    if (!email) { showError("Enter your email address first."); return; }
+    const { error } = await resetPassword(email);
+    if (error) { showError(error); return; }
+    showSuccess("Password reset email sent!");
   };
 
   const handleOAuth = async (provider: "github" | "google") => {
     setOauthLoading(provider);
-    await new Promise((r) => setTimeout(r, 1000));
+    showError("OAuth is not configured yet — use email/password.");
     setOauthLoading(null);
-    showSuccess(`Signed in with ${provider === "github" ? "GitHub" : "Google"}`);
-    navigate("/dashboard");
   };
 
   return (
@@ -203,7 +213,7 @@ export default function SignIn() {
                   <button
                     type="button"
                     className="text-xs text-indigo-600 hover:text-indigo-700 font-medium"
-                    onClick={() => showSuccess("Password reset email sent!")}
+                    onClick={handleForgotPassword}
                   >
                     Forgot password?
                   </button>

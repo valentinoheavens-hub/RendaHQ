@@ -5,7 +5,10 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "@/context/AuthContext";
+import { ProtectedRoute } from "@/components/ProtectedRoute";
 import Index from "./pages/Index";
+import SignIn from "./pages/SignIn";
 import Dashboard from "./pages/Dashboard";
 import BusinessDiagnostics from "./pages/BusinessDiagnostics";
 import StrategicPlanning from "./pages/StrategicPlanning";
@@ -50,56 +53,65 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
+const P = ({ el }: { el: React.ReactNode }) => <ProtectedRoute>{el}</ProtectedRoute>;
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
       <Sonner />
       <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/diagnostics" element={<BusinessDiagnostics />} />
-          <Route path="/strategy" element={<StrategicPlanning />} />
-          <Route path="/team-optimization" element={<TeamOptimization />} />
-          <Route path="/staff/:staffId" element={<StaffDetails />} />
-          <Route path="/market" element={<MarketIntelligence />} />
-          <Route path="/growth" element={<GrowthLab />} />
-          <Route path="/workflows" element={<Workflows />} />
-          <Route path="/leads" element={<Leads />} />
-          <Route path="/lead/:leadId" element={<LeadDetails />} />
-          <Route path="/projects" element={<Projects />} />
-          <Route path="/project-templates" element={<ProjectTemplates />} />
-          <Route path="/proposals" element={<Proposals />} />
-          <Route path="/proposal/new" element={<ProposalBuilder />} />
-          <Route path="/proposal/view/:proposalId" element={<ProposalView />} />
-          <Route path="/project/:projectId/change-order" element={<ChangeOrderBuilder />} />
-          <Route path="/portal/:clientId" element={<ClientPortal />} />
-          <Route path="/onboarding/:token" element={<ClientOnboarding />} />
-          <Route path="/staff-onboarding" element={<StaffOnboarding />} />
-          <Route path="/contracts" element={<Contracts />} />
-          <Route path="/contract/edit/:contractId" element={<ContractEditor />} />
-          <Route path="/invoices" element={<Invoices />} />
-          <Route path="/invoice/new" element={<InvoiceBuilder />} />
-          <Route path="/invoice/view/:invoiceId" element={<InvoiceView />} />
-          <Route path="/clients" element={<Clients />} />
-          <Route path="/client/:clientId" element={<ClientDetails />} />
-          <Route path="/time" element={<TimeTracking />} />
-          <Route path="/messages" element={<Messages />} />
-          <Route path="/reports" element={<Reports />} />
-          <Route path="/help" element={<HelpCenter />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/project/new" element={<CreateProject />} />
-          <Route path="/project/:projectId" element={<ProjectDetails />} />
-          <Route path="/questionnaire-builder" element={<QuestionnaireBuilder />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/expenses" element={<Expenses />} />
-          <Route path="/files" element={<Files />} />
-          <Route path="/calendar" element={<Calendar />} />
-          <Route path="/automations" element={<Automations />} />
-          <Route path="/payments" element={<Payments />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <AuthProvider>
+          <Routes>
+            {/* Public */}
+            <Route path="/" element={<Index />} />
+            <Route path="/signin" element={<SignIn />} />
+            <Route path="/login" element={<SignIn />} />
+            <Route path="/portal/:clientId" element={<ClientPortal />} />
+            <Route path="/onboarding/:token" element={<ClientOnboarding />} />
+            <Route path="/invoice/view/:invoiceId" element={<InvoiceView />} />
+
+            {/* Protected */}
+            <Route path="/dashboard" element={<P el={<Dashboard />} />} />
+            <Route path="/diagnostics" element={<P el={<BusinessDiagnostics />} />} />
+            <Route path="/strategy" element={<P el={<StrategicPlanning />} />} />
+            <Route path="/team-optimization" element={<P el={<TeamOptimization />} />} />
+            <Route path="/staff/:staffId" element={<P el={<StaffDetails />} />} />
+            <Route path="/market" element={<P el={<MarketIntelligence />} />} />
+            <Route path="/growth" element={<P el={<GrowthLab />} />} />
+            <Route path="/workflows" element={<P el={<Workflows />} />} />
+            <Route path="/leads" element={<P el={<Leads />} />} />
+            <Route path="/lead/:leadId" element={<P el={<LeadDetails />} />} />
+            <Route path="/projects" element={<P el={<Projects />} />} />
+            <Route path="/project-templates" element={<P el={<ProjectTemplates />} />} />
+            <Route path="/proposals" element={<P el={<Proposals />} />} />
+            <Route path="/proposal/new" element={<P el={<ProposalBuilder />} />} />
+            <Route path="/proposal/view/:proposalId" element={<P el={<ProposalView />} />} />
+            <Route path="/project/:projectId/change-order" element={<P el={<ChangeOrderBuilder />} />} />
+            <Route path="/staff-onboarding" element={<P el={<StaffOnboarding />} />} />
+            <Route path="/contracts" element={<P el={<Contracts />} />} />
+            <Route path="/contract/edit/:contractId" element={<P el={<ContractEditor />} />} />
+            <Route path="/invoices" element={<P el={<Invoices />} />} />
+            <Route path="/invoice/new" element={<P el={<InvoiceBuilder />} />} />
+            <Route path="/clients" element={<P el={<Clients />} />} />
+            <Route path="/client/:clientId" element={<P el={<ClientDetails />} />} />
+            <Route path="/time" element={<P el={<TimeTracking />} />} />
+            <Route path="/messages" element={<P el={<Messages />} />} />
+            <Route path="/reports" element={<P el={<Reports />} />} />
+            <Route path="/help" element={<P el={<HelpCenter />} />} />
+            <Route path="/settings" element={<P el={<Settings />} />} />
+            <Route path="/project/new" element={<P el={<CreateProject />} />} />
+            <Route path="/project/:projectId" element={<P el={<ProjectDetails />} />} />
+            <Route path="/questionnaire-builder" element={<P el={<QuestionnaireBuilder />} />} />
+            <Route path="/services" element={<P el={<Services />} />} />
+            <Route path="/expenses" element={<P el={<Expenses />} />} />
+            <Route path="/files" element={<P el={<Files />} />} />
+            <Route path="/calendar" element={<P el={<Calendar />} />} />
+            <Route path="/automations" element={<P el={<Automations />} />} />
+            <Route path="/payments" element={<P el={<Payments />} />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

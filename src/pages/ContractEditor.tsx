@@ -45,22 +45,23 @@ const ContractEditor = () => {
 
   useEffect(() => {
     if (!contractId) return;
-    const contract = contractStore.getById(contractId);
-    if (!contract) {
-      showError("Contract not found.");
-      navigate("/contracts");
-      return;
-    }
-    setContent(contract.content || "");
-    setTitle(contract.title);
-    setLoading(false);
+    contractStore.getById(contractId).then((contract) => {
+      if (!contract) {
+        showError("Contract not found.");
+        navigate("/contracts");
+        return;
+      }
+      setContent(contract.content || "");
+      setTitle(contract.title);
+      setLoading(false);
+    });
   }, [contractId]);
 
   const handleSave = async () => {
     if (!contractId) return;
     setSaving(true);
     try {
-      contractStore.update(contractId, { content });
+      await contractStore.update(contractId, { content });
       showSuccess("Contract saved!");
     } catch {
       showError("Failed to save.");

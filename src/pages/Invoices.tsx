@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import DashboardLayout from "@/components/layout/DashboardLayout";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
   Plus,
@@ -9,9 +9,8 @@ import {
   Download,
   ExternalLink,
   CreditCard,
-  DollarSign,
-  Clock,
-  CheckCircle2
+  CheckCircle2,
+  Loader2,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -21,46 +20,51 @@ import {
   TableCell,
   TableHead,
   TableHeader,
-  TableRow
+  TableRow,
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { useCurrency } from "@/hooks/useCurrency";
+import { invoiceStore, Invoice } from "@/lib/invoiceStore";
 
-type InvoiceStatus = "All" | "Paid" | "Pending" | "Overdue" | "Draft";
+type FilterStatus = "All" | "Paid" | "Pending" | "Overdue";
+
+const statusStyle = (status: string) =>
+  cn(
+    "border-none",
+    status === "Paid" ? "bg-emerald-50 text-emerald-700" :
+    status === "Overdue" ? "bg-rose-50 text-rose-700" :
+    status === "Sent" ? "bg-blue-50 text-blue-700" :
+    status === "Cancelled" ? "bg-red-50 text-red-700" :
+    "bg-slate-100 text-slate-600"
+  );
 
 const Invoices = () => {
-  const [activeFilter, setActiveFilter] = useState<InvoiceStatus>("All");
+  const [activeFilter, setActiveFilter] = useState<FilterStatus>("All");
   const [searchQuery, setSearchQuery] = useState("");
+  const [invoices, setInvoices] = useState<Invoice[]>([]);
+  const [loading, setLoading] = useState(true);
   const { format } = useCurrency();
 
-  const invoices = [
-    { id: "INV-001", client: "Acme Corp", amount: format(1500), status: "Paid", date: "Oct 12, 2023", method: "Stripe" },
-    { id: "INV-002", client: "Global Tech", amount: format(3200), status: "Overdue", date: "Oct 28, 2023", method: "Paystack" },
-    { id: "INV-003", client: "Zest Foods", amount: format(850), status: "Sent", date: "Nov 01, 2023", method: "Flutterwave" },
-    { id: "INV-004", client: "Acme Corp", amount: format(2100), status: "Draft", date: "Nov 05, 2023", method: "-" },
-  ];
+  useEffect(() => {
+    invoiceStore.getAll()
+      .then(setInvoices)
+      .catch(() => setInvoices([]))
+      .finally(() => setLoading(false));
+  }, []);
 
-  const filters: InvoiceStatus[] = ["All", "Paid", "Pending", "Overdue"];
+  const filters: FilterStatus[] = ["All", "Paid", "Pending", "Overdue"];
 
-  const filteredInvoices = invoices.filter((inv) => {
+  const filtered = invoices.filter((inv) => {
     const matchesFilter =
       activeFilter === "All" ||
       inv.status === activeFilter ||
       (activeFilter === "Pending" && inv.status === "Sent");
     const matchesSearch =
       !searchQuery ||
-      inv.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      inv.client.toLowerCase().includes(searchQuery.toLowerCase());
+      inv.invoice_number.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      inv.client_name.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesFilter && matchesSearch;
   });
-
-  const statusStyle = (status: string) =>
-    cn(
-      "border-none",
-      status === "Paid" ? "bg-emerald-50 text-emerald-700" :
-      status === "Overdue" ? "bg-rose-50 text-rose-700" :
-      status === "Sent" ? "bg-blue-50 text-blue-700" : "bg-slate-100 text-slate-600"
-    );
 
   return (
     <DashboardLayout>
@@ -73,7 +77,7 @@ const Invoices = () => {
           <div className="flex gap-3">
             <Button variant="outline" className="border-slate-200 gap-2">
               <Download className="w-4 h-4" />
-              Export Tax Summary
+              Export
             </Button>
             <Link to="/invoice/new">
               <Button className="bg-indigo-600 hover:bg-indigo-700 text-white gap-2">
@@ -150,37 +154,52 @@ const Invoices = () => {
             </div>
           </CardHeader>
           <CardContent>
-            {filteredInvoices.length === 0 ? (
+            {loading ? (
+              <div className="py-16 flex justify-center">
+                <Loader2 className="w-8 h-8 animate-spin text-indigo-500" />
+              </div>
+            ) : filtered.length === 0 ? (
               <div className="py-16 text-center text-slate-400">
                 <CreditCard className="w-8 h-8 mx-auto mb-3 opacity-40" />
-                <p className="text-sm font-medium">No invoices match your filter.</p>
+                <p className="text-sm font-medium">
+                  {invoices.length === 0
+                    ? "No invoices yet. Create your first invoice."
+                    : "No invoices match your filter."}
+                </p>
+                {invoices.length === 0 && (
+                  <Link to="/invoice/new">
+                    <Button className="mt-4 bg-indigo-600 hover:bg-indigo-700 text-white gap-2">
+                      <Plus className="w-4 h-4" /> Create Invoice
+                    </Button>
+                  </Link>
+                )}
               </div>
             ) : (
               <Table>
                 <TableHeader>
                   <TableRow className="hover:bg-transparent border-slate-100">
-                    <TableHead className="font-bold text-slate-900">Invoice ID</TableHead>
+                    <TableHead className="font-bold text-slate-900">Invoice #</TableHead>
                     <TableHead className="font-bold text-slate-900">Client</TableHead>
                     <TableHead className="font-bold text-slate-900">Amount</TableHead>
                     <TableHead className="font-bold text-slate-900">Status</TableHead>
                     <TableHead className="font-bold text-slate-900">Due Date</TableHead>
                     <TableHead className="font-bold text-slate-900">Method</TableHead>
-                    <TableHead className="text-right"></TableHead>
+                    <TableHead className="text-right" />
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {filteredInvoices.map((invoice) => (
+                  {filtered.map((invoice) => (
                     <TableRow key={invoice.id} className="border-slate-50 hover:bg-slate-50/50 transition-colors">
-                      <TableCell className="font-medium text-slate-900">{invoice.id}</TableCell>
-                      <TableCell className="text-slate-600">{invoice.client}</TableCell>
-                      <TableCell className="font-bold text-slate-900">{invoice.amount}</TableCell>
+                      <TableCell className="font-medium text-slate-900">{invoice.invoice_number}</TableCell>
+                      <TableCell className="text-slate-600">{invoice.client_name}</TableCell>
+                      <TableCell className="font-bold text-slate-900">{format(invoice.amount)}</TableCell>
                       <TableCell>
-                        <Badge className={statusStyle(invoice.status)}>
-                          {invoice.status}
-                        </Badge>
+                        <Badge className={statusStyle(invoice.status)}>{invoice.status}</Badge>
                       </TableCell>
-                      <TableCell className="text-slate-500">{invoice.date}</TableCell>
-                      <TableCell className="text-slate-500">{invoice.method}</TableCell>
+                      <TableCell className="text-slate-500">
+                        {invoice.due_date ? new Date(invoice.due_date).toLocaleDateString() : "—"}
+                      </TableCell>
+                      <TableCell className="text-slate-500">{invoice.payment_method ?? "—"}</TableCell>
                       <TableCell className="text-right">
                         <Link to={`/invoice/view/${invoice.id}`}>
                           <Button variant="ghost" size="icon" className="text-slate-400 hover:text-indigo-600">

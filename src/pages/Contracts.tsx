@@ -29,11 +29,15 @@ const Contracts = () => {
   const [description, setDescription] = useState("");
   const [serviceType, setServiceType] = useState("Design Services");
   const [contracts, setContracts] = useState<Contract[]>([]);
+  const [loadingContracts, setLoadingContracts] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const hasApiKey = Boolean(import.meta.env.VITE_GROQ_API_KEY);
 
   useEffect(() => {
-    setContracts(contractStore.getAll());
+    contractStore.getAll()
+      .then(setContracts)
+      .catch(() => setContracts([]))
+      .finally(() => setLoadingContracts(false));
   }, []);
 
   const filteredContracts = contracts.filter(
@@ -54,7 +58,7 @@ const Contracts = () => {
       const aiContent = await generateContract(description, serviceType);
       const title = `${serviceType} — ${new Date().toLocaleDateString()}`;
 
-      const contract = contractStore.create({
+      const contract = await contractStore.create({
         title,
         client: "New Client",
         status: "Draft",
@@ -187,7 +191,10 @@ const Contracts = () => {
                       <div className="flex items-center gap-4">
                         <div className={cn(
                           "w-12 h-12 rounded-xl flex items-center justify-center",
-                          contract.status === "Signed" ? "bg-emerald-50 text-emerald-600" : "bg-blue-50 text-blue-600"
+                          contract.status === "Signed" ? "bg-emerald-50 text-emerald-600" :
+                          contract.status === "Sent" ? "bg-amber-50 text-amber-600" :
+                          contract.status === "Cancelled" ? "bg-red-50 text-red-600" :
+                          "bg-blue-50 text-blue-600"
                         )}>
                           <FileText className="w-6 h-6" />
                         </div>
@@ -203,7 +210,10 @@ const Contracts = () => {
                           <p className="font-bold text-slate-900">{contract.value}</p>
                           <Badge className={cn(
                             "border-none",
-                            contract.status === "Signed" ? "bg-emerald-50 text-emerald-700" : "bg-blue-50 text-blue-700"
+                            contract.status === "Signed" ? "bg-emerald-50 text-emerald-700" :
+                            contract.status === "Sent" ? "bg-amber-50 text-amber-700" :
+                            contract.status === "Cancelled" ? "bg-red-50 text-red-700" :
+                            "bg-blue-50 text-blue-700"
                           )}>
                             {contract.status}
                           </Badge>

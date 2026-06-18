@@ -1,5 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useCurrency } from "@/hooks/useCurrency";
+import { useAuth } from "@/context/AuthContext";
+import { clientStore } from "@/lib/clientStore";
+import { invoiceStore } from "@/lib/invoiceStore";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -24,12 +27,30 @@ import { Link } from "react-router-dom";
 
 const Dashboard = () => {
   const { format } = useCurrency();
+  const { user } = useAuth();
+  const displayName = user?.user_metadata?.full_name?.split(" ")[0] ?? user?.email?.split("@")[0] ?? "there";
+
+  const [clientCount, setClientCount] = useState<number | null>(null);
+  const [revenue, setRevenue] = useState<number | null>(null);
+  const [pendingTotal, setPendingTotal] = useState<number | null>(null);
+  const [pendingCount, setPendingCount] = useState<number>(0);
+
+  useEffect(() => {
+    clientStore.getAll().then((cs) => setClientCount(cs.length)).catch(() => setClientCount(0));
+    invoiceStore.getAll().then((invs) => {
+      const paid = invs.filter((i) => i.status === "Paid").reduce((s, i) => s + i.amount, 0);
+      const pending = invs.filter((i) => i.status === "Sent" || i.status === "Overdue");
+      setRevenue(paid);
+      setPendingTotal(pending.reduce((s, i) => s + i.amount, 0));
+      setPendingCount(pending.length);
+    }).catch(() => { setRevenue(0); setPendingTotal(0); });
+  }, []);
 
   const stats = [
-    { title: "Total Revenue", value: format(12450), change: "+12.5%", icon: TrendingUp, color: "text-emerald-600" },
-    { title: "Active Clients", value: "8", change: "+2", icon: Users, color: "text-blue-600" },
-    { title: "Pending Invoices", value: format(3200), change: "4 total", icon: Clock, color: "text-amber-600" },
-    { title: "Scope Changes", value: "3", change: "Awaiting approval", icon: AlertCircle, color: "text-rose-600" },
+    { title: "Total Revenue", value: revenue !== null ? format(revenue) : "—", change: "Paid invoices", icon: TrendingUp, color: "text-emerald-600" },
+    { title: "Active Clients", value: clientCount !== null ? String(clientCount) : "—", change: "In workspace", icon: Users, color: "text-blue-600" },
+    { title: "Pending Invoices", value: pendingTotal !== null ? format(pendingTotal) : "—", change: `${pendingCount} total`, icon: Clock, color: "text-amber-600" },
+    { title: "Scope Changes", value: "—", change: "Track via projects", icon: AlertCircle, color: "text-rose-600" },
   ];
 
   const quickActions = [
@@ -52,7 +73,7 @@ const Dashboard = () => {
       <div className="space-y-8">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-slate-900">Welcome back, Felix</h1>
+            <h1 className="text-2xl font-bold text-slate-900">Welcome back, {displayName}</h1>
             <p className="text-slate-500">Here's what's happening with your business today.</p>
           </div>
           <div className="flex gap-3">
