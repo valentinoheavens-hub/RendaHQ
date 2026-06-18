@@ -24,7 +24,6 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { MadeWithDyad } from "@/components/made-with-dyad";
 
 /* ─── Mini dashboard mockup rendered inline — no external images ─── */
 const DashboardMockup = () => (
@@ -628,7 +627,6 @@ const Index = () => {
           </div>
           <div className="flex flex-col md:flex-row items-center justify-between pt-8 border-t border-slate-100 gap-4">
             <p className="text-slate-400 text-sm">© {new Date().getFullYear()} NexWork OS. All rights reserved.</p>
-            <MadeWithDyad />
           </div>
         </div>
       </footer>
