@@ -19,6 +19,7 @@ import {
 import { cn } from "@/lib/utils";
 import { showError, showSuccess } from "@/utils/toast";
 import { useAuth } from "@/context/AuthContext";
+import { supabase } from "@/lib/supabase";
 
 export default function SignIn() {
   const navigate = useNavigate();
@@ -42,12 +43,20 @@ export default function SignIn() {
       const { error } = await signIn(email, password);
       if (error) { showError(error); setIsLoading(false); return; }
       showSuccess("Welcome back!");
-      navigate("/dashboard");
+      navigate("/dashboard", { replace: true });
     } else {
       const { error } = await signUp(email, password, name);
       if (error) { showError(error); setIsLoading(false); return; }
-      showSuccess("Account created! Check your email to confirm, then sign in.");
-      setMode("signin");
+      // Attempt immediate sign-in — works when email confirmation is disabled.
+      // If confirmation is required, signIn will fail and the user sees the email prompt.
+      const { error: signInError } = await signIn(email, password);
+      if (!signInError) {
+        showSuccess("Welcome to NexWork!");
+        navigate("/dashboard");
+      } else {
+        showSuccess("Account created! Check your email to confirm your address, then sign in.");
+        setMode("signin");
+      }
     }
     setIsLoading(false);
   };
@@ -61,8 +70,17 @@ export default function SignIn() {
 
   const handleOAuth = async (provider: "github" | "google") => {
     setOauthLoading(provider);
-    showError("OAuth is not configured yet — use email/password.");
-    setOauthLoading(null);
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider,
+      options: {
+        redirectTo: `${window.location.origin}/dashboard`,
+      },
+    });
+    if (error) {
+      showError(error.message);
+      setOauthLoading(null);
+    }
+    // On success the browser redirects to the OAuth provider — keep loading state
   };
 
   return (
