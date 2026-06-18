@@ -1,57 +1,58 @@
-import Groq from 'groq-sdk';
+// All AI calls are routed server-side through the Supabase Edge Function.
+// The Groq API key never touches the browser.
 
-const apiKey = import.meta.env.VITE_GROQ_API_KEY;
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string;
+const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY as string;
+const EDGE_FN_URL = `${SUPABASE_URL}/functions/v1/ai-proxy`;
 
-// Initialize Groq client
-// Note: In production, route AI calls through a backend to keep the key secure.
-const groq = new Groq({
-  apiKey: apiKey || '',
-  dangerouslyAllowBrowser: true,
-});
+interface Message {
+  role: 'system' | 'user' | 'assistant';
+  content: string;
+}
 
-// Default model — fast and highly capable (free on Groq)
-const MODEL = 'llama-3.3-70b-versatile';
-
-// ─── Guard ─────────────────────────────────────────────────────────────────
-const guardKey = () => {
-  if (!apiKey) {
-    throw new Error(
-      'NexWork AI is not configured. Please check your environment setup.'
-    );
+// ─── Core caller ─────────────────────────────────────────────────────────────
+const callEdge = async (messages: Message[], maxTokens = 1024): Promise<string> => {
+  if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+    throw new Error('NexWork AI is not configured. Please check your environment setup.');
   }
+
+  const res = await fetch(EDGE_FN_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'apikey': SUPABASE_ANON_KEY,
+      'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+    },
+    body: JSON.stringify({ messages, max_tokens: maxTokens }),
+  });
+
+  const json = await res.json();
+  if (!res.ok || json.error) {
+    throw new Error(json.error || 'NexWork AI request failed.');
+  }
+  return json.content as string;
 };
 
-// ─── Helper ─────────────────────────────────────────────────────────────────
-const chat = async (system: string, userMessage: string, maxTokens = 1024): Promise<string> => {
-  const response = await groq.chat.completions.create({
-    model: MODEL,
-    max_tokens: maxTokens,
-    messages: [
-      { role: 'system', content: system },
-      { role: 'user', content: userMessage },
-    ],
-  });
-  return response.choices[0]?.message?.content ?? '';
-};
+const chat = (system: string, userMessage: string, maxTokens = 1024) =>
+  callEdge([
+    { role: 'system', content: system },
+    { role: 'user', content: userMessage },
+  ], maxTokens);
 
 // ─── Contracts ─────────────────────────────────────────────────────────────
-export const generateContract = async (description: string, serviceType: string): Promise<string> => {
-  guardKey();
-  return chat(
+export const generateContract = async (description: string, serviceType: string): Promise<string> =>
+  chat(
     'You are a professional legal assistant specializing in freelance and agency contracts. Generate a detailed, professional contract based on the provided scope. Use Markdown formatting.',
     `Generate a ${serviceType} contract for the following project scope: ${description}. Include sections for Scope of Work, Payment Terms, Intellectual Property, and Termination.`,
     2000
   );
-};
 
-export const suggestClause = async (contractContent: string, clauseType: string): Promise<string> => {
-  if (!apiKey) return '';
-  return chat(
+export const suggestClause = async (contractContent: string, clauseType: string): Promise<string> =>
+  chat(
     'You are a legal assistant. Suggest a specific clause to add to an existing contract.',
     `Based on this contract:\n\n${contractContent}\n\nSuggest a professional "${clauseType}" clause to add.`,
     1000
   );
-};
 
 // ─── Email Drafting ─────────────────────────────────────────────────────────
 export interface EmailDraftOptions {
@@ -63,7 +64,6 @@ export interface EmailDraftOptions {
 }
 
 export const generateEmailDraft = async (opts: EmailDraftOptions): Promise<string> => {
-  guardKey();
   const tone = opts.tone ?? 'professional';
   const sender = opts.senderName ?? 'Felix';
   const company = opts.recipientCompany ? ` at ${opts.recipientCompany}` : '';
@@ -87,9 +87,8 @@ export interface ProposalOptions {
   budget?: string;
 }
 
-export const generateProposalContent = async (opts: ProposalOptions): Promise<string> => {
-  guardKey();
-  return chat(
+export const generateProposalContent = async (opts: ProposalOptions): Promise<string> =>
+  chat(
     `You are a senior business consultant writing winning project proposals for a design & strategy agency.
 Use Markdown formatting with clear headings (##). Include: Executive Summary, Our Approach, Deliverables, Timeline, Why Choose Us.
 Be specific and compelling. Match the client's industry language.`,
@@ -100,7 +99,6 @@ Scope: ${opts.scopeSummary}
 ${opts.budget ? `Budget: ${opts.budget}` : ''}`,
     1500
   );
-};
 
 // ─── Lead Analysis ──────────────────────────────────────────────────────────
 export interface LeadAnalysisInput {
@@ -122,7 +120,6 @@ export interface LeadAnalysis {
 }
 
 export const analyzeLeadData = async (lead: LeadAnalysisInput): Promise<LeadAnalysis> => {
-  guardKey();
   const timelineText = lead.timeline?.join(', ') || 'No prior interactions';
   const text = await chat(
     `You are an expert sales strategist and CRM analyst for a freelance agency.
@@ -147,7 +144,6 @@ Return ONLY valid JSON. No markdown, no explanation.`,
   );
 
   try {
-    // Strip markdown code fences if the model wrapped the JSON
     const cleaned = text.replace(/```(?:json)?\n?/g, '').trim();
     return JSON.parse(cleaned) as LeadAnalysis;
   } catch {
@@ -171,8 +167,6 @@ export const askBusinessAssistant = async (
   messages: ChatMessage[],
   systemContext?: string
 ): Promise<string> => {
-  guardKey();
-
   const system =
     systemContext ??
     `You are NexWork AI — an expert business assistant for freelancers and agencies.
@@ -182,16 +176,13 @@ and answering general business questions.
 Be concise, actionable, and professional. Use plain text or Markdown as appropriate.
 Never make up specific financial data — acknowledge when you need more context.`;
 
-  const response = await groq.chat.completions.create({
-    model: MODEL,
-    max_tokens: 1024,
-    messages: [
+  return callEdge(
+    [
       { role: 'system', content: system },
-      ...messages.map((m) => ({ role: m.role as 'user' | 'assistant', content: m.content })),
+      ...messages.map((m) => ({ role: m.role as 'system' | 'user' | 'assistant', content: m.content })),
     ],
-  });
-
-  return response.choices[0]?.message?.content ?? 'I encountered an error. Please try again.';
+    1024
+  );
 };
 
 // ─── Payment Reminder ────────────────────────────────────────────────────────
@@ -204,7 +195,6 @@ export interface PaymentReminderOptions {
 }
 
 export const generatePaymentReminder = async (opts: PaymentReminderOptions): Promise<string> => {
-  guardKey();
   const tone = opts.daysOverdue > 14 ? 'firm but professional' : 'polite and friendly';
   return chat(
     `You are a professional business communicator. Write ${tone} payment reminder emails.
@@ -219,63 +209,51 @@ Sender: ${opts.senderName ?? 'Felix'}`,
 };
 
 // ─── Strategy Insights ───────────────────────────────────────────────────────
-export const generateStrategyInsights = async (objectivesContext: string): Promise<string> => {
-  guardKey();
-  return chat(
+export const generateStrategyInsights = async (objectivesContext: string): Promise<string> =>
+  chat(
     `You are a strategic business advisor for a freelance agency. Analyze the OKR data provided and give a concise, actionable insight in 2-3 sentences. Focus on what is at risk, what is on track, and the single highest-leverage action to take right now. Be direct and specific.`,
     `Analyze these objectives and key results and give strategic insights:\n\n${objectivesContext}`,
     400
   );
-};
 
 // ─── Vitality Insight ────────────────────────────────────────────────────────
-export const generateVitalityInsight = async (teamContext: string): Promise<string> => {
-  guardKey();
-  return chat(
+export const generateVitalityInsight = async (teamContext: string): Promise<string> =>
+  chat(
     `You are an expert in team well-being and performance management. Analyze the team vitality data and provide a concise 2-3 sentence insight. Identify who needs immediate attention, why, and one concrete intervention to recommend. Be empathetic but direct.`,
     `Analyze this team vitality data and give a well-being insight:\n\n${teamContext}`,
     400
   );
-};
 
 // ─── Positioning Gap ─────────────────────────────────────────────────────────
-export const generatePositioningGap = async (marketContext: string): Promise<string> => {
-  guardKey();
-  return chat(
+export const generatePositioningGap = async (marketContext: string): Promise<string> =>
+  chat(
     `You are a market strategist for a boutique design and technology agency. Analyze the SWOT and competitor data provided. Identify the most compelling positioning gap — a specific opportunity that none of the competitors are exploiting. Describe it in 2-3 sentences and explain why it's the right moment to act.`,
     `Identify the key market positioning gap from this data:\n\n${marketContext}`,
     400
   );
-};
 
 // ─── Diagnostic Recommendations ──────────────────────────────────────────────
-export const generateDiagnosticReco = async (diagnosticsContext: string): Promise<string> => {
-  guardKey();
-  return chat(
+export const generateDiagnosticReco = async (diagnosticsContext: string): Promise<string> =>
+  chat(
     `You are a business health consultant. Based on the diagnostic scores provided, give 3 numbered, concrete action items the agency should prioritize this quarter to improve their overall health score. Each action should be one sentence. Be specific, not generic.`,
     `Generate prioritized recommendations from these business diagnostics:\n\n${diagnosticsContext}`,
     500
   );
-};
 
 // ─── Growth Ideas ─────────────────────────────────────────────────────────────
-export const generateGrowthIdeas = async (growthContext: string): Promise<string> => {
-  guardKey();
-  return chat(
+export const generateGrowthIdeas = async (growthContext: string): Promise<string> =>
+  chat(
     `You are a growth strategist for a freelance agency. Based on the funnel and experiment data provided, identify the single biggest lever for growth and suggest one bold experiment the team should run next. Keep it to 2-3 sentences. Be specific and data-driven.`,
     `Identify the highest-impact growth opportunity from this data:\n\n${growthContext}`,
     400
   );
-};
 
 // ─── Automation Suggestion ───────────────────────────────────────────────────
-export const suggestAutomations = async (businessContext: string): Promise<string> => {
-  guardKey();
-  return chat(
+export const suggestAutomations = async (businessContext: string): Promise<string> =>
+  chat(
     `You are a business process expert. Suggest practical workflow automations for a freelance agency.
 Format your response as a JSON array of objects with keys: trigger, action, benefit, category.
 Return ONLY valid JSON array. No markdown, no explanation.`,
     `Suggest 5 high-value workflow automations for this agency context: ${businessContext}`,
     800
   );
-};
