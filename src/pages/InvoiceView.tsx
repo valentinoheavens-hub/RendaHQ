@@ -14,6 +14,7 @@ import {
   CheckCircle2,
   Loader2,
   ExternalLink,
+  Smartphone,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useCurrency } from "@/hooks/useCurrency";
@@ -50,7 +51,7 @@ const InvoiceView = () => {
   const [clientEmail, setClientEmail] = useState("");
   const [loading, setLoading] = useState(true);
   const [paying, setPaying] = useState(false);
-  const [payingFlutterwave, setPayingFlutterwave] = useState(false);
+  const [flwLoading, setFlwLoading] = useState<string | null>(null);
   const [payingStripe, setPayingStripe] = useState(false);
 
   const paystackKey = import.meta.env.VITE_PAYSTACK_PUBLIC_KEY as string | undefined;
@@ -149,7 +150,7 @@ const InvoiceView = () => {
     handler.openIframe();
   };
 
-  const handleFlutterwavePayment = () => {
+  const handleFlutterwavePayment = (paymentOptions: string) => {
     if (!invoice) return;
     if (!flutterwaveKey) {
       showError("Flutterwave not configured. Add VITE_FLUTTERWAVE_PUBLIC_KEY to your environment.");
@@ -160,15 +161,15 @@ const InvoiceView = () => {
       return;
     }
 
-    setPayingFlutterwave(true);
+    setFlwLoading(paymentOptions);
     const txRef = `NEX-FLW-${invoice.invoice_number}-${Date.now()}`;
 
     window.FlutterwaveCheckout({
       public_key: flutterwaveKey,
       tx_ref: txRef,
-      amount: invoice.amount, // Flutterwave uses major currency unit (not kobo)
+      amount: invoice.amount,
       currency: getPaymentCurrency(currencyCode),
-      payment_options: "card,mobilemoney,ussd,banktransfer",
+      payment_options: paymentOptions,
       customer: {
         email: clientEmail,
         name: invoice.client_name,
@@ -193,9 +194,9 @@ const InvoiceView = () => {
         } else {
           showError("Payment was not completed. Please try again.");
         }
-        setPayingFlutterwave(false);
+        setFlwLoading(null);
       },
-      onclose: () => setPayingFlutterwave(false),
+      onclose: () => setFlwLoading(null),
     });
   };
 
@@ -289,15 +290,15 @@ const InvoiceView = () => {
         {/* Pay panel */}
         {canPay && (
           <Card className="border-none shadow-sm bg-indigo-50 no-print">
-            <CardContent className="p-6 flex flex-col sm:flex-row items-start sm:items-center gap-4">
-              <div className="flex-1">
-                <h3 className="font-bold text-slate-900 mb-1">Pay this invoice</h3>
-                <p className="text-sm text-slate-500">
-                  Amount due:{" "}
-                  <strong className="text-indigo-600">{format(invoice.amount)}</strong>
-                </p>
-              </div>
-              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 w-full sm:w-auto">
+            <CardContent className="p-6 space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div>
+                  <h3 className="font-bold text-slate-900">Pay this invoice</h3>
+                  <p className="text-sm text-slate-500">
+                    Amount due:{" "}
+                    <strong className="text-indigo-600">{format(invoice.amount)}</strong>
+                  </p>
+                </div>
                 <Input
                   type="email"
                   placeholder="Your email address"
@@ -305,46 +306,85 @@ const InvoiceView = () => {
                   onChange={(e) => setClientEmail(e.target.value)}
                   className="h-10 bg-white border-slate-200 w-full sm:max-w-xs"
                 />
-                <div className="flex gap-2 w-full sm:w-auto flex-wrap">
+              </div>
+
+              {/* Card payments row */}
+              <div className="space-y-1.5">
+                <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 flex items-center gap-1.5">
+                  <CreditCard className="w-3.5 h-3.5" /> Card Payments
+                </p>
+                <div className="flex flex-wrap gap-2">
                   {paystackKey && (
                     <Button
                       onClick={handlePay}
                       disabled={paying || !clientEmail}
                       variant="outline"
-                      className="gap-2 whitespace-nowrap border-indigo-200 text-indigo-700 hover:bg-indigo-50 flex-1 sm:flex-none"
+                      className="gap-2 whitespace-nowrap border-indigo-200 text-indigo-700 hover:bg-indigo-50"
                     >
-                      {paying
-                        ? <Loader2 className="w-4 h-4 animate-spin" />
-                        : <CreditCard className="w-4 h-4" />}
+                      {paying ? <Loader2 className="w-4 h-4 animate-spin" /> : <CreditCard className="w-4 h-4" />}
                       Paystack
                     </Button>
                   )}
                   {flutterwaveKey && (
                     <Button
-                      onClick={handleFlutterwavePayment}
-                      disabled={payingFlutterwave || !clientEmail}
+                      onClick={() => handleFlutterwavePayment("card")}
+                      disabled={!!flwLoading || !clientEmail}
                       variant="outline"
-                      className="gap-2 whitespace-nowrap border-orange-200 text-orange-600 hover:bg-orange-50 flex-1 sm:flex-none"
+                      className="gap-2 whitespace-nowrap border-orange-200 text-orange-600 hover:bg-orange-50"
                     >
-                      {payingFlutterwave
-                        ? <Loader2 className="w-4 h-4 animate-spin" />
-                        : <CreditCard className="w-4 h-4" />}
-                      Flutterwave
+                      {flwLoading === "card" ? <Loader2 className="w-4 h-4 animate-spin" /> : <CreditCard className="w-4 h-4" />}
+                      Flutterwave Card
                     </Button>
                   )}
                   <Button
                     onClick={handleStripeCheckout}
                     disabled={payingStripe || !clientEmail}
-                    className="bg-indigo-600 hover:bg-indigo-700 text-white gap-2 whitespace-nowrap flex-1 sm:flex-none"
+                    className="bg-indigo-600 hover:bg-indigo-700 text-white gap-2 whitespace-nowrap"
                     title={!stripePublishableKey ? "Stripe not configured yet" : undefined}
                   >
-                    {payingStripe
-                      ? <Loader2 className="w-4 h-4 animate-spin" />
-                      : <ExternalLink className="w-4 h-4" />}
+                    {payingStripe ? <Loader2 className="w-4 h-4 animate-spin" /> : <ExternalLink className="w-4 h-4" />}
                     Stripe
                   </Button>
                 </div>
               </div>
+
+              {/* Mobile money row — only shown when Flutterwave key present */}
+              {flutterwaveKey && (
+                <div className="space-y-1.5">
+                  <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 flex items-center gap-1.5">
+                    <Smartphone className="w-3.5 h-3.5" /> Mobile Money · via Flutterwave
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    <Button
+                      onClick={() => handleFlutterwavePayment("mobilemoney")}
+                      disabled={!!flwLoading || !clientEmail}
+                      variant="outline"
+                      className="gap-2 whitespace-nowrap border-yellow-300 text-yellow-700 hover:bg-yellow-50"
+                    >
+                      {flwLoading === "mobilemoney" ? <Loader2 className="w-4 h-4 animate-spin" /> : <Smartphone className="w-4 h-4" />}
+                      MTN MoMo
+                    </Button>
+                    <Button
+                      onClick={() => handleFlutterwavePayment("mpesa")}
+                      disabled={!!flwLoading || !clientEmail}
+                      variant="outline"
+                      className="gap-2 whitespace-nowrap border-green-300 text-green-700 hover:bg-green-50"
+                    >
+                      {flwLoading === "mpesa" ? <Loader2 className="w-4 h-4 animate-spin" /> : <Smartphone className="w-4 h-4" />}
+                      M-Pesa
+                    </Button>
+                    <Button
+                      onClick={() => handleFlutterwavePayment("ussd")}
+                      disabled={!!flwLoading || !clientEmail}
+                      variant="outline"
+                      className="gap-2 whitespace-nowrap border-slate-200 text-slate-600 hover:bg-slate-50"
+                    >
+                      {flwLoading === "ussd" ? <Loader2 className="w-4 h-4 animate-spin" /> : <Smartphone className="w-4 h-4" />}
+                      USSD
+                    </Button>
+                  </div>
+                </div>
+              )}
             </CardContent>
           </Card>
         )}
