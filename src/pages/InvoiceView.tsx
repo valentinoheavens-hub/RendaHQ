@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -13,6 +13,7 @@ import {
   CreditCard,
   CheckCircle2,
   Loader2,
+  ExternalLink,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useCurrency } from "@/hooks/useCurrency";
@@ -42,12 +43,17 @@ const InvoiceView = () => {
   const navigate = useNavigate();
   const { format } = useCurrency();
 
+  const [searchParams] = useSearchParams();
   const [invoice, setInvoice] = useState<Invoice | null>(null);
   const [clientEmail, setClientEmail] = useState("");
   const [loading, setLoading] = useState(true);
   const [paying, setPaying] = useState(false);
+  const [payingStripe, setPayingStripe] = useState(false);
 
   const paystackKey = import.meta.env.VITE_PAYSTACK_PUBLIC_KEY as string | undefined;
+  const stripePublishableKey = import.meta.env.VITE_STRIPE_PUBLIC_KEY as string | undefined;
+  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string;
+  const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string;
 
   // Inject Paystack script once
   useEffect(() => {
@@ -72,6 +78,21 @@ const InvoiceView = () => {
       setLoading(false);
     });
   }, [invoiceId]);
+
+  // Handle Stripe redirect back to this page
+  useEffect(() => {
+    const payment = searchParams.get("payment");
+    if (!payment || !invoiceId) return;
+    if (payment === "success") {
+      showSuccess("Payment successful! The invoice will be updated shortly.");
+      // Reload invoice in case webhook already fired
+      invoiceStore.getById(invoiceId).then((inv) => { if (inv) setInvoice(inv); });
+    } else if (payment === "cancelled") {
+      showError("Payment cancelled. The invoice has not been charged.");
+    }
+    // Clean the query param from the URL without re-rendering
+    window.history.replaceState({}, "", window.location.pathname);
+  }, [searchParams, invoiceId]);
 
   const handlePay = () => {
     if (!invoice) return;
@@ -115,6 +136,46 @@ const InvoiceView = () => {
     });
 
     handler.openIframe();
+  };
+
+  const handleStripeCheckout = async () => {
+    if (!invoice) return;
+    if (!stripePublishableKey) {
+      showError("Stripe is not configured yet. Add VITE_STRIPE_PUBLIC_KEY to your environment.");
+      return;
+    }
+    if (!clientEmail) {
+      showError("Please enter your email address to continue.");
+      return;
+    }
+    setPayingStripe(true);
+    try {
+      const origin = window.location.origin;
+      const base = `${origin}/invoice/view/${invoice.id}`;
+      const res = await fetch(`${supabaseUrl}/functions/v1/create-checkout-session`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${supabaseKey}`,
+          apikey: supabaseKey,
+        },
+        body: JSON.stringify({
+          invoiceId: invoice.id,
+          invoiceNumber: invoice.invoice_number,
+          amount: invoice.amount,
+          clientName: invoice.client_name,
+          email: clientEmail,
+          successUrl: `${base}?payment=success`,
+          cancelUrl: `${base}?payment=cancelled`,
+        }),
+      });
+      const json = await res.json();
+      if (!res.ok || !json.url) throw new Error(json.error ?? "Failed to create checkout session");
+      window.location.href = json.url;
+    } catch (err) {
+      showError((err as Error).message);
+      setPayingStripe(false);
+    }
   };
 
   if (loading) {
@@ -175,37 +236,56 @@ const InvoiceView = () => {
                   <strong className="text-indigo-600">{format(invoice.amount)}</strong>
                 </p>
               </div>
-              <div className="flex items-center gap-3 w-full sm:w-auto">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 w-full sm:w-auto">
                 <Input
                   type="email"
                   placeholder="Your email address"
                   value={clientEmail}
                   onChange={(e) => setClientEmail(e.target.value)}
-                  className="h-10 bg-white border-slate-200 max-w-xs"
+                  className="h-10 bg-white border-slate-200 w-full sm:max-w-xs"
                 />
-                <Button
-                  onClick={handlePay}
-                  disabled={paying || !clientEmail}
-                  className="bg-indigo-600 hover:bg-indigo-700 text-white gap-2 whitespace-nowrap"
-                >
-                  {paying
-                    ? <Loader2 className="w-4 h-4 animate-spin" />
-                    : <CreditCard className="w-4 h-4" />}
-                  Pay with Paystack
-                </Button>
+                <div className="flex gap-2 w-full sm:w-auto">
+                  {paystackKey && (
+                    <Button
+                      onClick={handlePay}
+                      disabled={paying || !clientEmail}
+                      variant="outline"
+                      className="gap-2 whitespace-nowrap border-indigo-200 text-indigo-700 hover:bg-indigo-50 flex-1 sm:flex-none"
+                    >
+                      {paying
+                        ? <Loader2 className="w-4 h-4 animate-spin" />
+                        : <CreditCard className="w-4 h-4" />}
+                      Paystack
+                    </Button>
+                  )}
+                  <Button
+                    onClick={handleStripeCheckout}
+                    disabled={payingStripe || !clientEmail}
+                    className="bg-indigo-600 hover:bg-indigo-700 text-white gap-2 whitespace-nowrap flex-1 sm:flex-none"
+                    title={!stripePublishableKey ? "Stripe not configured yet" : undefined}
+                  >
+                    {payingStripe
+                      ? <Loader2 className="w-4 h-4 animate-spin" />
+                      : <ExternalLink className="w-4 h-4" />}
+                    Pay with Stripe
+                  </Button>
+                </div>
               </div>
             </CardContent>
           </Card>
         )}
 
         {/* Paid confirmation */}
-        {isPaid && invoice.paystack_reference && (
+        {isPaid && (
           <Card className="border-none shadow-sm bg-emerald-50 no-print">
             <CardContent className="p-4 flex items-center gap-3">
               <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
               <p className="text-sm text-emerald-800">
-                Paid{invoice.paid_at ? ` on ${new Date(invoice.paid_at).toLocaleDateString()}` : ""}.{" "}
-                Ref: <span className="font-mono font-bold">{invoice.paystack_reference}</span>
+                Paid via {invoice.payment_method ?? "card"}
+                {invoice.paid_at ? ` on ${new Date(invoice.paid_at).toLocaleDateString()}` : ""}.
+                {invoice.paystack_reference && (
+                  <> Ref: <span className="font-mono font-bold">{invoice.paystack_reference}</span></>
+                )}
               </p>
             </CardContent>
           </Card>
