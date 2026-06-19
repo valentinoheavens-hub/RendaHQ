@@ -1,5 +1,5 @@
 -- ============================================================
--- NexWork — Onboarding Migration
+-- RendaHQ — Onboarding Migration
 -- Run in: Supabase Dashboard → SQL Editor → New Query
 -- ============================================================
 

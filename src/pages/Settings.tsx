@@ -84,13 +84,13 @@ const Settings = () => {
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                       <div className="space-y-2">
                         <Label>Agency Name</Label>
-                        <Input defaultValue="NexWork Design Studio" />
+                        <Input defaultValue="RendaHQ Design Studio" />
                       </div>
                       <div className="space-y-2">
                         <Label>Primary Brand Color</Label>
                         <div className="flex gap-2">
                           <Input defaultValue="#4F46E5" className="flex-1" />
-                          <div className="w-10 h-10 rounded-md bg-indigo-600 border border-slate-200" />
+                          <div className="w-10 h-10 rounded-md bg-emerald-600 border border-slate-200" />
                         </div>
                       </div>
                     </div>
@@ -110,7 +110,7 @@ const Settings = () => {
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent className="max-h-72">
-                            <SelectItem value="_group_pay" disabled className="text-xs font-semibold text-indigo-600 uppercase tracking-wide py-1">
+                            <SelectItem value="_group_pay" disabled className="text-xs font-semibold text-emerald-600 uppercase tracking-wide py-1">
                               — Paystack &amp; Flutterwave supported —
                             </SelectItem>
                             {currencies.filter(c => c.paymentSupported).map((cur) => (
@@ -138,22 +138,22 @@ const Settings = () => {
 
                     <div className="space-y-4">
                       <Label>Agency Logo</Label>
-                      <div className="border-2 border-dashed border-slate-200 rounded-xl p-8 text-center hover:border-indigo-300 transition-colors cursor-pointer">
+                      <div className="border-2 border-dashed border-slate-200 rounded-xl p-8 text-center hover:border-emerald-300 transition-colors cursor-pointer">
                         <Upload className="w-8 h-8 text-slate-300 mx-auto mb-2" />
                         <p className="text-sm font-medium text-slate-600">Click to upload or drag and drop</p>
                         <p className="text-xs text-slate-400 mt-1">SVG, PNG, JPG up to 2MB</p>
                       </div>
                     </div>
 
-                    <Button className="bg-indigo-600 hover:bg-indigo-700 text-white">Save Branding Changes</Button>
+                    <Button className="bg-emerald-600 hover:bg-emerald-700 text-white">Save Branding Changes</Button>
                   </CardContent>
                 </Card>
               </div>
 
               <div className="space-y-6">
-                <Card className="border-none shadow-sm bg-indigo-50 border-indigo-100">
+                <Card className="border-none shadow-sm bg-emerald-50 border-emerald-100">
                   <CardHeader>
-                    <CardTitle className="text-sm font-bold text-indigo-900">Live Preview</CardTitle>
+                    <CardTitle className="text-sm font-bold text-emerald-900">Live Preview</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
@@ -164,17 +164,17 @@ const Settings = () => {
                       </div>
                       <div className="p-4">
                         <div className="flex items-center gap-2 mb-4">
-                          <div className="w-6 h-6 bg-indigo-600 rounded" />
+                          <div className="w-6 h-6 bg-emerald-600 rounded" />
                           <div className="h-3 w-20 bg-slate-100 rounded" />
                         </div>
                         <div className="space-y-2">
                           <div className="h-4 w-full bg-slate-50 rounded" />
                           <div className="h-4 w-3/4 bg-slate-50 rounded" />
                         </div>
-                        <div className="mt-4 h-8 w-full bg-indigo-600 rounded" />
+                        <div className="mt-4 h-8 w-full bg-emerald-600 rounded" />
                       </div>
                     </div>
-                    <p className="text-xs text-indigo-600 mt-4 text-center font-medium">
+                    <p className="text-xs text-emerald-600 mt-4 text-center font-medium">
                       This is how your portal will look to clients.
                     </p>
                   </CardContent>
@@ -190,16 +190,16 @@ const Settings = () => {
                   <CardTitle>Team Members</CardTitle>
                   <CardDescription>Manage who has access to your agency dashboard.</CardDescription>
                 </div>
-                <Button className="bg-indigo-600 hover:bg-indigo-700 text-white gap-2">
+                <Button className="bg-emerald-600 hover:bg-emerald-700 text-white gap-2">
                   <UserPlus className="w-4 h-4" /> Invite Member
                 </Button>
               </CardHeader>
               <CardContent className="space-y-4">
                 {[
-                  { name: "Felix K.", email: "felix@nexwork.io", role: "Owner", avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" },
-                  { name: "Sarah Chen", email: "sarah@nexwork.io", role: "Senior UI/UX Designer", avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=200&h=200" },
-                  { name: "Marcus T.", email: "marcus@nexwork.io", role: "Full-stack Developer", avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200&h=200" },
-                  { name: "Elena Moss", email: "elena@nexwork.io", role: "Project Manager", avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=200&h=200" },
+                  { name: "Felix K.", email: "felix@rendahq.com", role: "Owner", avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" },
+                  { name: "Sarah Chen", email: "sarah@rendahq.com", role: "Senior UI/UX Designer", avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=200&h=200" },
+                  { name: "Marcus T.", email: "marcus@rendahq.com", role: "Full-stack Developer", avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200&h=200" },
+                  { name: "Elena Moss", email: "elena@rendahq.com", role: "Project Manager", avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=200&h=200" },
                 ].map((member) => (
                   <div key={member.email} className="flex items-center justify-between p-4 rounded-xl border border-slate-100">
                     <div className="flex items-center gap-4">
@@ -238,9 +238,9 @@ const Settings = () => {
                     { name: "Flutterwave", desc: "Accept payments across 30+ African countries.", status: "Not Connected" },
                     { name: "M-Pesa", desc: "Direct mobile money payments for East Africa.", status: "Not Connected" },
                   ].map((gateway) => (
-                    <div key={gateway.name} className="flex items-center justify-between p-4 rounded-xl border border-slate-100 hover:border-indigo-100 transition-colors">
+                    <div key={gateway.name} className="flex items-center justify-between p-4 rounded-xl border border-slate-100 hover:border-emerald-100 transition-colors">
                       <div className="flex items-center gap-4">
-                        <div className="w-10 h-10 rounded-lg bg-slate-50 flex items-center justify-center font-bold text-indigo-600">
+                        <div className="w-10 h-10 rounded-lg bg-slate-50 flex items-center justify-center font-bold text-emerald-600">
                           {gateway.name.charAt(0)}
                         </div>
                         <div>
@@ -268,7 +268,7 @@ const Settings = () => {
             <Card className="border-none shadow-sm">
               <CardHeader>
                 <CardTitle>Custom Domain</CardTitle>
-                <CardDescription>Connect your own domain to remove NexWork branding.</CardDescription>
+                <CardDescription>Connect your own domain to remove RendaHQ branding.</CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="p-4 bg-amber-50 border border-amber-100 rounded-xl flex gap-3">
@@ -293,7 +293,7 @@ const Settings = () => {
               <CardHeader>
                 <CardTitle>Email Delivery</CardTitle>
                 <CardDescription>
-                  NexWork uses Resend to send invoice reminders, contract notifications, and proposals. Use the button below to verify your connection.
+                  RendaHQ uses Resend to send invoice reminders, contract notifications, and proposals. Use the button below to verify your connection.
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
@@ -343,7 +343,7 @@ const Settings = () => {
                   )}
 
                   <Button
-                    className="bg-indigo-600 hover:bg-indigo-700 text-white gap-2"
+                    className="bg-emerald-600 hover:bg-emerald-700 text-white gap-2"
                     onClick={handleTestEmail}
                     disabled={isSendingTest}
                   >

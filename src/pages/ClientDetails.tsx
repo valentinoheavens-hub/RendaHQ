@@ -82,7 +82,7 @@ const ClientDetails = () => {
               </Button>
             </Link>
             <Link to="/project/new">
-              <Button className="bg-indigo-600 hover:bg-indigo-700 text-white gap-2">
+              <Button className="bg-emerald-600 hover:bg-emerald-700 text-white gap-2">
                 <Plus className="w-4 h-4" />
                 New Project
               </Button>
@@ -111,7 +111,7 @@ const ClientDetails = () => {
                 </div>
                 <div className="pt-4 border-t border-slate-100">
                   <Link to="/messages">
-                    <Button variant="ghost" className="w-full justify-start text-indigo-600 hover:bg-indigo-50 gap-2">
+                    <Button variant="ghost" className="w-full justify-start text-emerald-600 hover:bg-emerald-50 gap-2">
                       <MessageSquare className="w-4 h-4" />
                       Message Client
                     </Button>
@@ -125,19 +125,19 @@ const ClientDetails = () => {
                 <p className="text-slate-400 text-xs font-bold uppercase tracking-widest mb-1">Lifetime Value</p>
                 <h3 className="text-3xl font-bold">{client.totalRevenue}</h3>
                 <div className="mt-4 h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
-                  <div className="h-full bg-indigo-500 w-3/4" />
+                  <div className="h-full bg-emerald-500 w-3/4" />
                 </div>
                 <p className="text-[10px] text-slate-400 mt-2">Top 10% of your clients</p>
               </CardContent>
             </Card>
 
-            <Card className="border-none shadow-sm bg-indigo-50 border-indigo-100">
+            <Card className="border-none shadow-sm bg-emerald-50 border-emerald-100">
               <CardContent className="p-6">
-                <div className="flex items-center gap-2 text-indigo-600 mb-2">
+                <div className="flex items-center gap-2 text-emerald-600 mb-2">
                   <Sparkles className="w-4 h-4" />
                   <span className="text-xs font-bold uppercase tracking-wider">AI Insight</span>
                 </div>
-                <p className="text-sm text-indigo-900 font-medium">
+                <p className="text-sm text-emerald-900 font-medium">
                   This client is likely to need a website maintenance retainer next month based on project completion.
                 </p>
               </CardContent>
@@ -157,7 +157,7 @@ const ClientDetails = () => {
                   <Card key={project.id} className="border-none shadow-sm hover:shadow-md transition-all">
                     <CardContent className="p-5 flex items-center justify-between">
                       <div className="flex items-center gap-4">
-                        <div className="w-10 h-10 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600">
+                        <div className="w-10 h-10 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-600">
                           <FileText className="w-5 h-5" />
                         </div>
                         <div>

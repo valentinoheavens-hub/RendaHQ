@@ -80,7 +80,7 @@ const Invoices = () => {
               Export
             </Button>
             <Link to="/invoice/new">
-              <Button className="bg-indigo-600 hover:bg-indigo-700 text-white gap-2">
+              <Button className="bg-emerald-600 hover:bg-emerald-700 text-white gap-2">
                 <Plus className="w-4 h-4" />
                 Create Invoice
               </Button>
@@ -101,10 +101,10 @@ const Invoices = () => {
               </div>
             </CardContent>
           </Card>
-          <Card className="border-none shadow-sm bg-indigo-600 text-white">
+          <Card className="border-none shadow-sm bg-emerald-600 text-white">
             <CardContent className="p-6 flex items-center justify-between">
               <div>
-                <p className="text-indigo-200 text-xs font-bold uppercase tracking-wider mb-1">African Rails</p>
+                <p className="text-emerald-200 text-xs font-bold uppercase tracking-wider mb-1">African Rails</p>
                 <h3 className="text-xl font-bold">Paystack & Flutterwave Active</h3>
               </div>
               <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
@@ -118,7 +118,7 @@ const Invoices = () => {
                 <p className="text-slate-400 text-xs font-bold uppercase tracking-wider mb-1">Mobile Money</p>
                 <h3 className="text-xl font-bold text-slate-400">Connect M-Pesa</h3>
               </div>
-              <Button variant="ghost" size="sm" className="text-indigo-600 hover:bg-indigo-50">Setup</Button>
+              <Button variant="ghost" size="sm" className="text-emerald-600 hover:bg-emerald-50">Setup</Button>
             </CardContent>
           </Card>
         </div>
@@ -144,7 +144,7 @@ const Invoices = () => {
                   className={cn(
                     "rounded-lg text-sm transition-all",
                     activeFilter === f
-                      ? "bg-white shadow-sm text-indigo-600 font-bold"
+                      ? "bg-white shadow-sm text-emerald-600 font-bold"
                       : "text-slate-500 hover:text-slate-700"
                   )}
                 >
@@ -156,7 +156,7 @@ const Invoices = () => {
           <CardContent>
             {loading ? (
               <div className="py-16 flex justify-center">
-                <Loader2 className="w-8 h-8 animate-spin text-indigo-500" />
+                <Loader2 className="w-8 h-8 animate-spin text-emerald-500" />
               </div>
             ) : filtered.length === 0 ? (
               <div className="py-16 text-center text-slate-400">
@@ -168,7 +168,7 @@ const Invoices = () => {
                 </p>
                 {invoices.length === 0 && (
                   <Link to="/invoice/new">
-                    <Button className="mt-4 bg-indigo-600 hover:bg-indigo-700 text-white gap-2">
+                    <Button className="mt-4 bg-emerald-600 hover:bg-emerald-700 text-white gap-2">
                       <Plus className="w-4 h-4" /> Create Invoice
                     </Button>
                   </Link>
@@ -202,7 +202,7 @@ const Invoices = () => {
                       <TableCell className="text-slate-500">{invoice.payment_method ?? "—"}</TableCell>
                       <TableCell className="text-right">
                         <Link to={`/invoice/view/${invoice.id}`}>
-                          <Button variant="ghost" size="icon" className="text-slate-400 hover:text-indigo-600">
+                          <Button variant="ghost" size="icon" className="text-slate-400 hover:text-emerald-600">
                             <ExternalLink className="w-4 h-4" />
                           </Button>
                         </Link>

@@ -66,7 +66,7 @@ const ProjectTemplates = () => {
             <h1 className="text-3xl font-black text-slate-900 tracking-tight">Project Templates</h1>
             <p className="text-slate-500">Standardize your delivery with reusable project structures.</p>
           </div>
-          <Button className="bg-indigo-600 hover:bg-indigo-700 text-white gap-2 shadow-lg shadow-indigo-100">
+          <Button className="bg-emerald-600 hover:bg-emerald-700 text-white gap-2 shadow-lg shadow-emerald-100">
             <Plus className="w-4 h-4" />
             Create Template
           </Button>
@@ -89,7 +89,7 @@ const ProjectTemplates = () => {
             <Card key={template.id} className="border-none shadow-sm hover:shadow-md transition-all group">
               <CardContent className="p-6">
                 <div className="flex justify-between items-start mb-4">
-                  <div className="w-12 h-12 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-600">
+                  <div className="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600">
                     <Layers className="w-6 h-6" />
                   </div>
                   <Badge variant="secondary" className="bg-slate-100 text-slate-600 border-none text-[10px]">
@@ -98,7 +98,7 @@ const ProjectTemplates = () => {
                 </div>
                 
                 <div className="space-y-2 mb-6">
-                  <h3 className="font-bold text-lg text-slate-900 group-hover:text-indigo-600 transition-colors">
+                  <h3 className="font-bold text-lg text-slate-900 group-hover:text-emerald-600 transition-colors">
                     {template.name}
                   </h3>
                   <p className="text-sm text-slate-500 line-clamp-2 leading-relaxed">
@@ -144,8 +144,8 @@ const ProjectTemplates = () => {
             </Card>
           ))}
           
-          <button className="border-2 border-dashed border-slate-200 rounded-3xl p-6 flex flex-col items-center justify-center text-slate-400 hover:border-indigo-300 hover:text-indigo-500 transition-all min-h-[280px] group">
-            <div className="w-12 h-12 rounded-full bg-slate-50 flex items-center justify-center mb-4 group-hover:bg-indigo-50">
+          <button className="border-2 border-dashed border-slate-200 rounded-3xl p-6 flex flex-col items-center justify-center text-slate-400 hover:border-emerald-300 hover:text-emerald-500 transition-all min-h-[280px] group">
+            <div className="w-12 h-12 rounded-full bg-slate-50 flex items-center justify-center mb-4 group-hover:bg-emerald-50">
               <Plus className="w-6 h-6" />
             </div>
             <p className="font-bold">New Template</p>
@@ -156,7 +156,7 @@ const ProjectTemplates = () => {
         <Card className="border-none shadow-sm bg-slate-900 text-white">
           <CardContent className="p-8 flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="flex items-center gap-6">
-              <div className="w-16 h-16 bg-indigo-600 rounded-2xl flex items-center justify-center shadow-xl shadow-indigo-500/20">
+              <div className="w-16 h-16 bg-emerald-600 rounded-2xl flex items-center justify-center shadow-xl shadow-emerald-500/20">
                 <Sparkles className="w-8 h-8" />
               </div>
               <div>

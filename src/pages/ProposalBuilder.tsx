@@ -58,7 +58,7 @@ const ProposalBuilder = () => {
             <Button variant="outline" className="gap-2">
               <Eye className="w-4 h-4" /> Preview
             </Button>
-            <Button className="bg-indigo-600 hover:bg-indigo-700 text-white gap-2">
+            <Button className="bg-emerald-600 hover:bg-emerald-700 text-white gap-2">
               <Send className="w-4 h-4" /> Send Proposal
             </Button>
           </div>
@@ -132,14 +132,14 @@ const ProposalBuilder = () => {
                     ))}
                   </TableBody>
                 </Table>
-                <Button variant="ghost" className="mt-4 text-indigo-600 hover:text-indigo-700 hover:bg-indigo-50" onClick={addItem}>
+                <Button variant="ghost" className="mt-4 text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50" onClick={addItem}>
                   <Plus className="w-4 h-4 mr-2" /> Add Line Item
                 </Button>
 
                 <div className="flex justify-end pt-8 border-t border-slate-100 mt-8">
                   <div className="w-64 flex justify-between items-center">
                     <span className="text-lg font-bold text-slate-900">Total Investment</span>
-                    <span className="text-2xl font-black text-indigo-600">${total.toLocaleString()}</span>
+                    <span className="text-2xl font-black text-emerald-600">${total.toLocaleString()}</span>
                   </div>
                 </div>
               </CardContent>
@@ -177,7 +177,7 @@ const ProposalBuilder = () => {
             <Card className="border-none shadow-sm bg-slate-900 text-white">
               <CardContent className="p-6">
                 <div className="flex items-center gap-2 mb-4">
-                  <FileText className="w-5 h-5 text-indigo-400" />
+                  <FileText className="w-5 h-5 text-emerald-400" />
                   <h4 className="font-bold">Proposal Template</h4>
                 </div>
                 <p className="text-slate-400 text-sm mb-4">

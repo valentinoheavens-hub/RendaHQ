@@ -175,7 +175,7 @@ const InvoiceView = () => {
         name: invoice.client_name,
       },
       customizations: {
-        title: "NexWork Invoice",
+        title: "RendaHQ Invoice",
         description: `Payment for Invoice #${invoice.invoice_number}`,
         logo: `${window.location.origin}/favicon.svg`,
       },
@@ -243,7 +243,7 @@ const InvoiceView = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-indigo-600" />
+        <Loader2 className="w-8 h-8 animate-spin text-emerald-600" />
       </div>
     );
   }
@@ -279,7 +279,7 @@ const InvoiceView = () => {
               <Printer className="w-4 h-4" /> Print
             </Button>
             <Button
-              className="bg-indigo-600 hover:bg-indigo-700 text-white gap-2"
+              className="bg-emerald-600 hover:bg-emerald-700 text-white gap-2"
               onClick={() => window.print()}
             >
               <Download className="w-4 h-4" /> Download PDF
@@ -289,14 +289,14 @@ const InvoiceView = () => {
 
         {/* Pay panel */}
         {canPay && (
-          <Card className="border-none shadow-sm bg-indigo-50 no-print">
+          <Card className="border-none shadow-sm bg-emerald-50 no-print">
             <CardContent className="p-6 space-y-4">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <div>
                   <h3 className="font-bold text-slate-900">Pay this invoice</h3>
                   <p className="text-sm text-slate-500">
                     Amount due:{" "}
-                    <strong className="text-indigo-600">{format(invoice.amount)}</strong>
+                    <strong className="text-emerald-600">{format(invoice.amount)}</strong>
                   </p>
                 </div>
                 <Input
@@ -319,7 +319,7 @@ const InvoiceView = () => {
                       onClick={handlePay}
                       disabled={paying || !clientEmail}
                       variant="outline"
-                      className="gap-2 whitespace-nowrap border-indigo-200 text-indigo-700 hover:bg-indigo-50"
+                      className="gap-2 whitespace-nowrap border-emerald-200 text-emerald-700 hover:bg-emerald-50"
                     >
                       {paying ? <Loader2 className="w-4 h-4 animate-spin" /> : <CreditCard className="w-4 h-4" />}
                       Paystack
@@ -339,7 +339,7 @@ const InvoiceView = () => {
                   <Button
                     onClick={handleStripeCheckout}
                     disabled={payingStripe || !clientEmail}
-                    className="bg-indigo-600 hover:bg-indigo-700 text-white gap-2 whitespace-nowrap"
+                    className="bg-emerald-600 hover:bg-emerald-700 text-white gap-2 whitespace-nowrap"
                     title={!stripePublishableKey ? "Stripe not configured yet" : undefined}
                   >
                     {payingStripe ? <Loader2 className="w-4 h-4 animate-spin" /> : <ExternalLink className="w-4 h-4" />}
@@ -407,19 +407,19 @@ const InvoiceView = () => {
 
         {/* Invoice document */}
         <Card className="border-none shadow-2xl overflow-hidden bg-white">
-          <div className="h-2 bg-indigo-600" />
+          <div className="h-2 bg-emerald-600" />
           <CardContent className="p-12 space-y-12">
 
             {/* Agency + invoice number */}
             <div className="flex justify-between items-start">
               <div className="space-y-4">
-                <div className="w-16 h-16 bg-indigo-600 rounded-2xl flex items-center justify-center text-white font-bold text-3xl">
+                <div className="w-16 h-16 bg-emerald-600 rounded-2xl flex items-center justify-center text-white font-bold text-3xl">
                   N
                 </div>
                 <div>
-                  <h2 className="text-xl font-bold text-slate-900">NexWork Design Studio</h2>
+                  <h2 className="text-xl font-bold text-slate-900">RendaHQ Design Studio</h2>
                   <p className="text-slate-500">123 Creative Way, Lagos, Nigeria</p>
-                  <p className="text-slate-500">hello@nexwork.io</p>
+                  <p className="text-slate-500">hello@rendahq.com</p>
                 </div>
               </div>
               <div className="text-right space-y-2">
@@ -501,7 +501,7 @@ const InvoiceView = () => {
                 </div>
                 <div className="flex justify-between items-center pt-4 border-t border-slate-200">
                   <span className="text-lg font-bold text-slate-900">Total Amount</span>
-                  <span className="text-2xl font-black text-indigo-600">{format(invoice.amount)}</span>
+                  <span className="text-2xl font-black text-emerald-600">{format(invoice.amount)}</span>
                 </div>
               </div>
             </div>
@@ -511,7 +511,7 @@ const InvoiceView = () => {
               <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">Notes</p>
               <p className="text-sm text-slate-500 leading-relaxed">
                 {invoice.notes ||
-                  "Thank you for your business! Please make payment within 14 days. For any questions regarding this invoice, please contact hello@nexwork.io."}
+                  "Thank you for your business! Please make payment within 14 days. For any questions regarding this invoice, please contact hello@rendahq.com."}
               </p>
             </div>
           </CardContent>

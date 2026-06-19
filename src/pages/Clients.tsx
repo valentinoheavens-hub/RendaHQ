@@ -89,7 +89,7 @@ const Clients = () => {
             <p className="text-slate-500">Manage your client relationships.</p>
           </div>
           <Button
-            className="bg-indigo-600 hover:bg-indigo-700 text-white gap-2"
+            className="bg-emerald-600 hover:bg-emerald-700 text-white gap-2"
             onClick={() => setShowDialog(true)}
           >
             <UserPlus className="w-4 h-4" />
@@ -111,7 +111,7 @@ const Clients = () => {
 
         {loading ? (
           <div className="flex justify-center py-20">
-            <Loader2 className="w-8 h-8 animate-spin text-indigo-500" />
+            <Loader2 className="w-8 h-8 animate-spin text-emerald-500" />
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -120,7 +120,7 @@ const Clients = () => {
                 <CardContent className="p-6">
                   <div className="flex justify-between items-start mb-6">
                     <Avatar className="w-12 h-12 rounded-xl">
-                      <AvatarFallback className="rounded-xl bg-indigo-100 text-indigo-700 font-bold text-lg">
+                      <AvatarFallback className="rounded-xl bg-emerald-100 text-emerald-700 font-bold text-lg">
                         {client.name.charAt(0).toUpperCase()}
                       </AvatarFallback>
                     </Avatar>
@@ -135,7 +135,7 @@ const Clients = () => {
                   </div>
 
                   <div className="space-y-1 mb-6">
-                    <Link to={`/client/${client.id}`} className="hover:text-indigo-600 transition-colors">
+                    <Link to={`/client/${client.id}`} className="hover:text-emerald-600 transition-colors">
                       <h3 className="font-bold text-lg text-slate-900">{client.name}</h3>
                     </Link>
                     {client.company && (
@@ -176,7 +176,7 @@ const Clients = () => {
 
             <button
               onClick={() => setShowDialog(true)}
-              className="border-2 border-dashed border-slate-200 rounded-3xl p-6 flex flex-col items-center justify-center text-slate-400 hover:border-indigo-300 hover:text-indigo-500 transition-all min-h-[220px]"
+              className="border-2 border-dashed border-slate-200 rounded-3xl p-6 flex flex-col items-center justify-center text-slate-400 hover:border-emerald-300 hover:text-emerald-500 transition-all min-h-[220px]"
             >
               <div className="w-12 h-12 rounded-full bg-slate-50 flex items-center justify-center mb-4">
                 <Plus className="w-6 h-6" />
@@ -189,7 +189,7 @@ const Clients = () => {
 
         {!loading && filtered.length === 0 && clients.length === 0 && (
           <div className="text-center py-16 bg-white rounded-2xl border border-dashed border-slate-200">
-            <UserPlus className="w-10 h-10 text-indigo-200 mx-auto mb-3" />
+            <UserPlus className="w-10 h-10 text-emerald-200 mx-auto mb-3" />
             <p className="text-slate-500 font-medium">No clients yet</p>
             <p className="text-slate-400 text-sm mt-1">Add your first client to get started.</p>
           </div>
@@ -228,7 +228,7 @@ const Clients = () => {
                 id="c-status"
                 value={form.status}
                 onChange={(e) => setForm((f) => ({ ...f, status: e.target.value as Client["status"] }))}
-                className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
               >
                 <option>Active</option>
                 <option>Onboarding</option>
@@ -238,7 +238,7 @@ const Clients = () => {
             <div className="flex gap-3 pt-1">
               <Button variant="outline" className="flex-1" onClick={() => setShowDialog(false)}>Cancel</Button>
               <Button
-                className="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white gap-2"
+                className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white gap-2"
                 onClick={handleSave}
                 disabled={saving}
               >

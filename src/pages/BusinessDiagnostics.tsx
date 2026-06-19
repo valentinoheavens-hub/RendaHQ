@@ -65,9 +65,9 @@ const BusinessDiagnostics = () => {
   const healthScore = 78;
   
   const clientConcentrationData = [
-    { name: "Acme Corp", value: 45, color: "#4f46e5" },
-    { name: "Global Tech", value: 25, color: "#6366f1" },
-    { name: "Zest Foods", value: 15, color: "#818cf8" },
+    { name: "Acme Corp", value: 45, color: "#059669" },
+    { name: "Global Tech", value: 25, color: "#10b981" },
+    { name: "Zest Foods", value: 15, color: "#34d399" },
     { name: "Others", value: 15, color: "#c7d2fe" },
   ];
 
@@ -125,7 +125,7 @@ const BusinessDiagnostics = () => {
           <div className="flex gap-3">
             <Button variant="outline" className="border-slate-200">Export Audit PDF</Button>
             <Button
-              className="bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg shadow-indigo-100 gap-2"
+              className="bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg shadow-emerald-100 gap-2"
               onClick={handleRunDiagnostic}
               disabled={isRunning}
             >
@@ -138,7 +138,7 @@ const BusinessDiagnostics = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <Card className="lg:col-span-1 border-none shadow-sm bg-slate-900 text-white overflow-hidden relative">
             <CardContent className="p-8 flex flex-col items-center text-center relative z-10">
-              <p className="text-indigo-300 text-xs font-bold uppercase tracking-widest mb-6">Overall Health Score</p>
+              <p className="text-emerald-300 text-xs font-bold uppercase tracking-widest mb-6">Overall Health Score</p>
               <div className="relative w-48 h-48 flex items-center justify-center">
                 <svg className="w-full h-full transform -rotate-90">
                   <circle
@@ -159,19 +159,19 @@ const BusinessDiagnostics = () => {
                     fill="transparent"
                     strokeDasharray={553}
                     strokeDashoffset={553 - (553 * healthScore) / 100}
-                    className="text-indigo-500 transition-all duration-1000 ease-out"
+                    className="text-emerald-500 transition-all duration-1000 ease-out"
                   />
                 </svg>
                 <div className="absolute inset-0 flex flex-col items-center justify-center">
                   <span className="text-5xl font-black">{healthScore}</span>
-                  <span className="text-xs font-bold text-indigo-300">STABLE</span>
+                  <span className="text-xs font-bold text-emerald-300">STABLE</span>
                 </div>
               </div>
               <div className="mt-8 space-y-2">
                 <p className="text-sm text-slate-400">Your business is performing better than <span className="text-white font-bold">72%</span> of similar agencies.</p>
               </div>
             </CardContent>
-            <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-600/20 rounded-full blur-3xl -mr-16 -mt-16" />
+            <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-600/20 rounded-full blur-3xl -mr-16 -mt-16" />
           </Card>
 
           {/* Pillar Scores */}
@@ -188,7 +188,7 @@ const BusinessDiagnostics = () => {
                       "border-none px-2 py-1",
                       d.status === "Healthy" ? "bg-emerald-50 text-emerald-700" :
                       d.status === "High Risk" ? "bg-rose-50 text-rose-700" :
-                      d.status === "Warning" ? "bg-amber-50 text-amber-700" : "bg-indigo-50 text-indigo-700"
+                      d.status === "Warning" ? "bg-amber-50 text-amber-700" : "bg-emerald-50 text-emerald-700"
                     )}>
                       {d.status}
                     </Badge>
@@ -279,7 +279,7 @@ const BusinessDiagnostics = () => {
                     />
                     <Legend />
                     <Bar dataKey="estimated" name="Est. Hours" fill="#e2e8f0" radius={[4, 4, 0, 0]} />
-                    <Bar dataKey="actual" name="Actual Hours" fill="#4f46e5" radius={[4, 4, 0, 0]} />
+                    <Bar dataKey="actual" name="Actual Hours" fill="#059669" radius={[4, 4, 0, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
@@ -296,7 +296,7 @@ const BusinessDiagnostics = () => {
         </div>
 
         {/* Strategic Recommendations */}
-        <Card className="border-none shadow-sm bg-indigo-600 text-white">
+        <Card className="border-none shadow-sm bg-emerald-600 text-white">
           <CardHeader>
             <div className="flex items-center justify-between">
               <div>
@@ -304,7 +304,7 @@ const BusinessDiagnostics = () => {
                   <Target className="w-6 h-6" />
                   Strategic Growth Roadmap
                 </CardTitle>
-                <CardDescription className="text-indigo-100 mt-1">AI-powered recommendations based on your diagnostic scores.</CardDescription>
+                <CardDescription className="text-emerald-100 mt-1">AI-powered recommendations based on your diagnostic scores.</CardDescription>
               </div>
               <Button
                 onClick={handleRunDiagnostic}
@@ -320,7 +320,7 @@ const BusinessDiagnostics = () => {
           <CardContent>
             {aiReco ? (
               <div className="bg-white/10 rounded-2xl p-6 border border-white/10">
-                <p className="text-sm text-indigo-100 leading-relaxed whitespace-pre-line">{aiReco}</p>
+                <p className="text-sm text-emerald-100 leading-relaxed whitespace-pre-line">{aiReco}</p>
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -332,8 +332,8 @@ const BusinessDiagnostics = () => {
                   <div key={rec.step} className="bg-white/10 rounded-2xl p-6 border border-white/10 hover:bg-white/20 transition-colors">
                     <span className="text-3xl font-black opacity-30 mb-4 block">{rec.step}</span>
                     <h4 className="font-bold text-lg mb-2">{rec.title}</h4>
-                    <p className="text-sm text-indigo-100 mb-4 leading-relaxed">{rec.action}</p>
-                    <Badge className="bg-white text-indigo-600 border-none font-bold text-[10px]">{rec.impact}</Badge>
+                    <p className="text-sm text-emerald-100 mb-4 leading-relaxed">{rec.action}</p>
+                    <Badge className="bg-white text-emerald-600 border-none font-bold text-[10px]">{rec.impact}</Badge>
                   </div>
                 ))}
               </div>

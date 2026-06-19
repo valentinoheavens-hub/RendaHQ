@@ -30,7 +30,7 @@ const Leads = () => {
   const stages = [
     { id: "discovery", name: "Discovery", color: "bg-slate-100 text-slate-700" },
     { id: "qualified", name: "Qualified", color: "bg-blue-50 text-blue-700" },
-    { id: "proposal", name: "Proposal Sent", color: "bg-indigo-50 text-indigo-700" },
+    { id: "proposal", name: "Proposal Sent", color: "bg-emerald-50 text-emerald-700" },
     { id: "negotiation", name: "Negotiation", color: "bg-amber-50 text-amber-700" },
   ];
 
@@ -104,7 +104,7 @@ const Leads = () => {
                 List
               </Button>
             </div>
-            <Button className="bg-indigo-600 hover:bg-indigo-700 text-white gap-2">
+            <Button className="bg-emerald-600 hover:bg-emerald-700 text-white gap-2">
               <Plus className="w-4 h-4" />
               Add Lead
             </Button>
@@ -116,7 +116,7 @@ const Leads = () => {
           <Card className="border-none shadow-sm">
             <CardContent className="p-6">
               <div className="flex items-center justify-between mb-4">
-                <div className="p-2 rounded-lg bg-indigo-50 text-indigo-600">
+                <div className="p-2 rounded-lg bg-emerald-50 text-emerald-600">
                   <TrendingUp className="w-5 h-5" />
                 </div>
                 <Badge className="bg-emerald-50 text-emerald-700 border-none">+12%</Badge>
@@ -179,7 +179,7 @@ const Leads = () => {
                                 <AvatarFallback>{lead.name.charAt(0)}</AvatarFallback>
                               </Avatar>
                               <div>
-                                <h4 className="font-bold text-sm text-slate-900 group-hover:text-indigo-600 transition-colors">{lead.name}</h4>
+                                <h4 className="font-bold text-sm text-slate-900 group-hover:text-emerald-600 transition-colors">{lead.name}</h4>
                                 <p className="text-[10px] text-slate-500">{lead.contact}</p>
                               </div>
                             </div>
@@ -197,10 +197,10 @@ const Leads = () => {
 
                           <div className="pt-3 border-t border-slate-50 flex items-center justify-between">
                             <div className="flex gap-1">
-                              <Button variant="ghost" size="icon" className="h-7 w-7 text-slate-400 hover:text-indigo-600">
+                              <Button variant="ghost" size="icon" className="h-7 w-7 text-slate-400 hover:text-emerald-600">
                                 <Mail className="w-3.5 h-3.5" />
                               </Button>
-                              <Button variant="ghost" size="icon" className="h-7 w-7 text-slate-400 hover:text-indigo-600">
+                              <Button variant="ghost" size="icon" className="h-7 w-7 text-slate-400 hover:text-emerald-600">
                                 <Phone className="w-3.5 h-3.5" />
                               </Button>
                             </div>

@@ -68,7 +68,7 @@ const Services = () => {
             <h1 className="text-2xl font-bold text-slate-900">Service Catalog</h1>
             <p className="text-slate-500">Define your standard packages to speed up proposals and invoicing.</p>
           </div>
-          <Button className="bg-indigo-600 hover:bg-indigo-700 text-white gap-2">
+          <Button className="bg-emerald-600 hover:bg-emerald-700 text-white gap-2">
             <Plus className="w-4 h-4" />
             Add New Service
           </Button>
@@ -91,7 +91,7 @@ const Services = () => {
             <Card key={service.id} className="border-none shadow-sm hover:shadow-md transition-all group">
               <CardContent className="p-6">
                 <div className="flex justify-between items-start mb-4">
-                  <div className="w-12 h-12 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-600">
+                  <div className="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600">
                     <Package className="w-6 h-6" />
                   </div>
                   <Badge className={cn(
@@ -103,7 +103,7 @@ const Services = () => {
                 </div>
                 
                 <div className="space-y-2 mb-6">
-                  <h3 className="font-bold text-lg text-slate-900 group-hover:text-indigo-600 transition-colors">
+                  <h3 className="font-bold text-lg text-slate-900 group-hover:text-emerald-600 transition-colors">
                     {service.name}
                   </h3>
                   <p className="text-sm text-slate-500 line-clamp-2 leading-relaxed">
@@ -144,8 +144,8 @@ const Services = () => {
             </Card>
           ))}
           
-          <button className="border-2 border-dashed border-slate-200 rounded-3xl p-6 flex flex-col items-center justify-center text-slate-400 hover:border-indigo-300 hover:text-indigo-500 transition-all min-h-[280px] group">
-            <div className="w-12 h-12 rounded-full bg-slate-50 flex items-center justify-center mb-4 group-hover:bg-indigo-50">
+          <button className="border-2 border-dashed border-slate-200 rounded-3xl p-6 flex flex-col items-center justify-center text-slate-400 hover:border-emerald-300 hover:text-emerald-500 transition-all min-h-[280px] group">
+            <div className="w-12 h-12 rounded-full bg-slate-50 flex items-center justify-center mb-4 group-hover:bg-emerald-50">
               <Plus className="w-6 h-6" />
             </div>
             <p className="font-bold">Create New Package</p>

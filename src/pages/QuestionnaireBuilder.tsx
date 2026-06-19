@@ -72,7 +72,7 @@ const QuestionnaireBuilder = () => {
               <Eye className="w-4 h-4" />
               Preview Form
             </Button>
-            <Button className="bg-indigo-600 hover:bg-indigo-700 text-white gap-2" onClick={handleSave}>
+            <Button className="bg-emerald-600 hover:bg-emerald-700 text-white gap-2" onClick={handleSave}>
               <Save className="w-4 h-4" />
               Save Template
             </Button>
@@ -97,7 +97,7 @@ const QuestionnaireBuilder = () => {
                   <Button 
                     key={tool.type}
                     variant="ghost" 
-                    className="w-full justify-start gap-3 text-slate-600 hover:bg-indigo-50 hover:text-indigo-600"
+                    className="w-full justify-start gap-3 text-slate-600 hover:bg-emerald-50 hover:text-emerald-600"
                     onClick={() => addQuestion(tool.type)}
                   >
                     <tool.icon className="w-4 h-4" />
@@ -131,7 +131,7 @@ const QuestionnaireBuilder = () => {
                             <Input 
                               value={q.label} 
                               onChange={(e) => updateQuestion(q.id, { label: e.target.value })}
-                              className="border-none bg-slate-50 font-bold text-lg focus-visible:ring-indigo-500"
+                              className="border-none bg-slate-50 font-bold text-lg focus-visible:ring-emerald-500"
                             />
                           </div>
                           <div className="space-y-2">
@@ -139,7 +139,7 @@ const QuestionnaireBuilder = () => {
                             <Input 
                               value={q.placeholder} 
                               onChange={(e) => updateQuestion(q.id, { placeholder: e.target.value })}
-                              className="border-none bg-slate-50 text-slate-600 focus-visible:ring-indigo-500"
+                              className="border-none bg-slate-50 text-slate-600 focus-visible:ring-emerald-500"
                             />
                           </div>
                           {q.type === "dropdown" && q.options && (
@@ -147,7 +147,7 @@ const QuestionnaireBuilder = () => {
                               <Label className="text-xs font-bold uppercase tracking-wider text-slate-400">Options</Label>
                               <div className="flex flex-wrap gap-2">
                                 {q.options.map((opt, i) => (
-                                  <div key={i} className="flex items-center gap-1 bg-indigo-50 text-indigo-700 px-2 py-1 rounded-md text-sm">
+                                  <div key={i} className="flex items-center gap-1 bg-emerald-50 text-emerald-700 px-2 py-1 rounded-md text-sm">
                                     {opt}
                                     <button onClick={() => {
                                       const newOpts = q.options?.filter((_, idx) => idx !== i);

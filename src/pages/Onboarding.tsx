@@ -85,11 +85,9 @@ const Onboarding = () => {
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center p-6">
       {/* Logo */}
-      <div className="flex items-center gap-2 mb-12">
-        <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-200">
-          <span className="text-white font-bold text-xl">N</span>
-        </div>
-        <span className="font-bold text-2xl tracking-tight text-slate-900">NexWork</span>
+      <div className="flex flex-col items-center gap-2 mb-12">
+        <img src="/rendahq-logo.png" alt="RendaHQ" className="h-11 w-auto" />
+        <p className="text-slate-400 font-medium text-sm">Build. Bill. Get paid.</p>
       </div>
 
       {/* Step indicator */}
@@ -99,15 +97,15 @@ const Onboarding = () => {
             <div className="flex flex-col items-center gap-1">
               <div className={cn(
                 "w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-all",
-                i < step ? "bg-indigo-600 text-white" :
-                i === step ? "bg-indigo-600 text-white ring-4 ring-indigo-100" :
+                i < step ? "bg-emerald-600 text-white" :
+                i === step ? "bg-emerald-600 text-white ring-4 ring-emerald-100" :
                 "bg-slate-200 text-slate-400"
               )}>
                 {i < step ? <Check className="w-4 h-4" /> : i + 1}
               </div>
               <span className={cn(
                 "text-xs font-medium hidden sm:block",
-                i === step ? "text-indigo-600" : "text-slate-400"
+                i === step ? "text-emerald-600" : "text-slate-400"
               )}>
                 {label}
               </span>
@@ -115,7 +113,7 @@ const Onboarding = () => {
             {i < STEPS.length - 1 && (
               <div className={cn(
                 "h-0.5 w-12 rounded-full mb-4 transition-all",
-                i < step ? "bg-indigo-600" : "bg-slate-200"
+                i < step ? "bg-emerald-600" : "bg-slate-200"
               )} />
             )}
           </React.Fragment>
@@ -129,7 +127,7 @@ const Onboarding = () => {
         {step === 0 && (
           <div className="space-y-6">
             <div>
-              <h2 className="text-2xl font-black text-slate-900">Welcome to NexWork</h2>
+              <h2 className="text-2xl font-black text-slate-900">Welcome to RendaHQ</h2>
               <p className="text-slate-500 mt-1">Let's set up your workspace in 2 minutes.</p>
             </div>
             <div className="space-y-4">
@@ -166,7 +164,7 @@ const Onboarding = () => {
             <div>
               <h2 className="text-2xl font-black text-slate-900">What do you offer?</h2>
               <p className="text-slate-500 mt-1">
-                Select all services you provide. NexWork AI will tailor suggestions for you.
+                Select all services you provide. RendaHQ AI will tailor suggestions for you.
               </p>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
@@ -179,18 +177,18 @@ const Onboarding = () => {
                     className={cn(
                       "px-3 py-2.5 rounded-xl text-sm font-medium border-2 transition-all text-left",
                       active
-                        ? "border-indigo-600 bg-indigo-50 text-indigo-700"
-                        : "border-slate-200 bg-white text-slate-600 hover:border-indigo-300"
+                        ? "border-emerald-600 bg-emerald-50 text-emerald-700"
+                        : "border-slate-200 bg-white text-slate-600 hover:border-emerald-300"
                     )}
                   >
-                    {active && <Check className="w-3 h-3 inline mr-1.5 text-indigo-600" />}
+                    {active && <Check className="w-3 h-3 inline mr-1.5 text-emerald-600" />}
                     {s}
                   </button>
                 );
               })}
             </div>
             {selectedServices.length > 0 && (
-              <p className="text-xs text-indigo-500 font-medium">
+              <p className="text-xs text-emerald-500 font-medium">
                 {selectedServices.length} service{selectedServices.length !== 1 ? "s" : ""} selected
               </p>
             )}
@@ -216,12 +214,12 @@ const Onboarding = () => {
                     className={cn(
                       "px-4 py-3 rounded-xl border-2 text-left transition-all",
                       active
-                        ? "border-indigo-600 bg-indigo-50"
-                        : "border-slate-200 bg-white hover:border-indigo-300"
+                        ? "border-emerald-600 bg-emerald-50"
+                        : "border-slate-200 bg-white hover:border-emerald-300"
                     )}
                   >
                     <span className="text-lg font-bold mr-2">{c.symbol}</span>
-                    <span className={cn("text-sm font-medium", active ? "text-indigo-700" : "text-slate-600")}>
+                    <span className={cn("text-sm font-medium", active ? "text-emerald-700" : "text-slate-600")}>
                       {c.code} — {c.name}
                     </span>
                   </button>
@@ -234,14 +232,14 @@ const Onboarding = () => {
         {/* Step 3 — Launch */}
         {step === 3 && (
           <div className="space-y-6 text-center py-4">
-            <div className="w-20 h-20 bg-indigo-50 rounded-full flex items-center justify-center mx-auto">
-              <Sparkles className="w-10 h-10 text-indigo-600" />
+            <div className="w-20 h-20 bg-emerald-50 rounded-full flex items-center justify-center mx-auto">
+              <Sparkles className="w-10 h-10 text-emerald-600" />
             </div>
             <div>
               <h2 className="text-2xl font-black text-slate-900">You're all set, {fullName.split(" ")[0] || "there"}!</h2>
               <p className="text-slate-500 mt-2 leading-relaxed">
                 <strong className="text-slate-700">{agencyName}</strong> is ready to go.
-                Your dashboard is waiting — clients, invoices, contracts, and NexWork AI are all live.
+                Your dashboard is waiting — clients, invoices, contracts, and RendaHQ AI are all live.
               </p>
             </div>
             <div className="bg-slate-50 rounded-2xl p-4 text-left space-y-2">
@@ -276,14 +274,14 @@ const Onboarding = () => {
           <div className="flex-1" />
           {step < 3 ? (
             <Button
-              className="bg-indigo-600 hover:bg-indigo-700 text-white gap-2 px-6"
+              className="bg-emerald-600 hover:bg-emerald-700 text-white gap-2 px-6"
               onClick={handleNext}
             >
               Continue <ArrowRight className="w-4 h-4" />
             </Button>
           ) : (
             <Button
-              className="bg-indigo-600 hover:bg-indigo-700 text-white gap-2 px-8"
+              className="bg-emerald-600 hover:bg-emerald-700 text-white gap-2 px-8"
               onClick={handleFinish}
               disabled={saving}
             >

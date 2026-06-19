@@ -223,7 +223,7 @@ export default function Automations() {
           <div className="flex gap-3">
             <Button
               variant="outline"
-              className="gap-2 border-indigo-200 text-indigo-600 hover:bg-indigo-50"
+              className="gap-2 border-emerald-200 text-emerald-600 hover:bg-emerald-50"
               onClick={handleGetAISuggestions}
               disabled={isSuggesting}
             >
@@ -231,7 +231,7 @@ export default function Automations() {
               {isSuggesting ? "Thinking…" : "AI Suggestions"}
             </Button>
             <Button
-              className="bg-indigo-600 hover:bg-indigo-700 text-white gap-2"
+              className="bg-emerald-600 hover:bg-emerald-700 text-white gap-2"
               onClick={() => setIsDialogOpen(true)}
             >
               <Plus className="w-4 h-4" />
@@ -245,7 +245,7 @@ export default function Automations() {
           <Card className="border-none shadow-sm">
             <CardContent className="p-6">
               <div className="flex items-center justify-between mb-4">
-                <div className="p-2 rounded-lg bg-indigo-50 text-indigo-600">
+                <div className="p-2 rounded-lg bg-emerald-50 text-emerald-600">
                   <Zap className="w-5 h-5" />
                 </div>
                 <Badge className="bg-emerald-50 text-emerald-700 border-none">{enabledCount} active</Badge>
@@ -280,13 +280,13 @@ export default function Automations() {
 
         {/* AI Suggestions Panel */}
         {aiSuggestions.length > 0 && (
-          <Card className="border-none shadow-sm bg-indigo-50 border border-indigo-100">
+          <Card className="border-none shadow-sm bg-emerald-50 border border-emerald-100">
             <CardHeader>
               <div className="flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-indigo-600" />
-                <CardTitle className="text-base font-bold text-indigo-900">AI-Suggested Automations</CardTitle>
+                <Sparkles className="w-4 h-4 text-emerald-600" />
+                <CardTitle className="text-base font-bold text-emerald-900">AI-Suggested Automations</CardTitle>
               </div>
-              <CardDescription className="text-indigo-700">
+              <CardDescription className="text-emerald-700">
                 Based on your agency profile. Click to add any suggestion.
               </CardDescription>
             </CardHeader>
@@ -294,19 +294,19 @@ export default function Automations() {
               {aiSuggestions.map((s, i) => (
                 <div
                   key={i}
-                  className="flex items-center justify-between p-4 bg-white rounded-xl border border-indigo-100 hover:border-indigo-300 transition-all"
+                  className="flex items-center justify-between p-4 bg-white rounded-xl border border-emerald-100 hover:border-emerald-300 transition-all"
                 >
                   <div className="flex-1 min-w-0 mr-4">
                     <p className="text-sm font-bold text-slate-900 mb-0.5">{s.action}</p>
                     <p className="text-xs text-slate-500">
-                      <span className="font-medium text-indigo-600">When:</span> {s.trigger} ·{" "}
+                      <span className="font-medium text-emerald-600">When:</span> {s.trigger} ·{" "}
                       <span className="font-medium text-emerald-600">Benefit:</span> {s.benefit}
                     </p>
                   </div>
                   <Button
                     size="sm"
                     variant="outline"
-                    className="shrink-0 border-indigo-200 text-indigo-600 hover:bg-indigo-50 gap-1.5 text-xs"
+                    className="shrink-0 border-emerald-200 text-emerald-600 hover:bg-emerald-50 gap-1.5 text-xs"
                     onClick={() => addFromSuggestion(s)}
                   >
                     <Plus className="w-3.5 h-3.5" /> Add
@@ -331,7 +331,7 @@ export default function Automations() {
                   <div className="flex items-center gap-4">
                     <div className={cn(
                       "w-10 h-10 rounded-xl flex items-center justify-center shrink-0",
-                      auto.enabled ? "bg-indigo-50 text-indigo-600" : "bg-slate-100 text-slate-400"
+                      auto.enabled ? "bg-emerald-50 text-emerald-600" : "bg-slate-100 text-slate-400"
                     )}>
                       <Icon className="w-5 h-5" />
                     </div>
@@ -364,7 +364,7 @@ export default function Automations() {
                         onClick={() => toggleAutomation(auto.id)}
                         className={cn(
                           "w-10 h-6 rounded-full transition-all relative",
-                          auto.enabled ? "bg-indigo-600" : "bg-slate-200"
+                          auto.enabled ? "bg-emerald-600" : "bg-slate-200"
                         )}
                       >
                         <span className={cn(
@@ -394,13 +394,13 @@ export default function Automations() {
         <DialogContent className="sm:max-w-[500px] rounded-3xl border-none shadow-2xl p-0 overflow-hidden">
           <DialogHeader className="p-6 pb-0">
             <div className="flex items-center gap-2 mb-1">
-              <div className="w-8 h-8 rounded-xl bg-indigo-50 flex items-center justify-center">
-                <Zap className="w-4 h-4 text-indigo-600" />
+              <div className="w-8 h-8 rounded-xl bg-emerald-50 flex items-center justify-center">
+                <Zap className="w-4 h-4 text-emerald-600" />
               </div>
               <DialogTitle className="text-lg font-bold">Create Automation</DialogTitle>
             </div>
             <DialogDescription>
-              Define a trigger and an action. NexWork will run this automatically.
+              Define a trigger and an action. RendaHQ will run this automatically.
             </DialogDescription>
           </DialogHeader>
           <div className="p-6 space-y-5">
@@ -460,7 +460,7 @@ export default function Automations() {
                 Cancel
               </Button>
               <Button
-                className="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white"
+                className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white"
                 onClick={addAutomation}
               >
                 Create Automation

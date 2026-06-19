@@ -82,7 +82,7 @@ const StrategicPlanning = () => {
           </div>
           <div className="flex gap-3">
             <Button variant="outline" className="border-slate-200">Quarterly Review</Button>
-            <Button className="bg-indigo-600 hover:bg-indigo-700 text-white gap-2 shadow-lg shadow-indigo-100">
+            <Button className="bg-emerald-600 hover:bg-emerald-700 text-white gap-2 shadow-lg shadow-emerald-100">
               <Plus className="w-4 h-4" />
               New Objective
             </Button>
@@ -94,10 +94,10 @@ const StrategicPlanning = () => {
           <Card className="border-none shadow-sm">
             <CardContent className="p-6">
               <div className="flex items-center justify-between mb-4">
-                <div className="p-2 rounded-lg bg-indigo-50 text-indigo-600">
+                <div className="p-2 rounded-lg bg-emerald-50 text-emerald-600">
                   <Target className="w-5 h-5" />
                 </div>
-                <Badge className="bg-indigo-50 text-indigo-700 border-none">Q4 2023</Badge>
+                <Badge className="bg-emerald-50 text-emerald-700 border-none">Q4 2023</Badge>
               </div>
               <p className="text-sm font-medium text-slate-500">Active Objectives</p>
               <h3 className="text-2xl font-bold text-slate-900">4 Strategic Goals</h3>
@@ -154,7 +154,7 @@ const StrategicPlanning = () => {
                         <Flag className="w-6 h-6" />
                       </div>
                       <div>
-                        <h4 className="text-lg font-bold text-slate-900 group-hover:text-indigo-600 transition-colors">{obj.title}</h4>
+                        <h4 className="text-lg font-bold text-slate-900 group-hover:text-emerald-600 transition-colors">{obj.title}</h4>
                         <p className="text-xs text-slate-500">{obj.period} • {obj.keyResults.length} Key Results</p>
                       </div>
                     </div>
@@ -193,7 +193,7 @@ const StrategicPlanning = () => {
                             </div>
                             <Progress 
                               value={(kr.current / kr.target) * 100} 
-                              className="h-1 bg-slate-100 [&>div]:bg-indigo-500" 
+                              className="h-1 bg-slate-100 [&>div]:bg-emerald-500" 
                             />
                           </div>
                           <div className="w-12 text-right">
@@ -227,9 +227,9 @@ const StrategicPlanning = () => {
                 { title: "Onboarding Automation v2", objective: "Operational Efficiency", status: "Planning", impact: "Medium" },
                 { title: "Case Study: Global Tech UX", objective: "Dominate Fintech Market", status: "Review", impact: "High" }
               ].map((item, i) => (
-                <div key={i} className="flex items-center justify-between p-4 rounded-xl border border-slate-100 hover:border-indigo-100 transition-colors group">
+                <div key={i} className="flex items-center justify-between p-4 rounded-xl border border-slate-100 hover:border-emerald-100 transition-colors group">
                   <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-lg bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-indigo-50 group-hover:text-indigo-600 transition-colors">
+                    <div className="w-10 h-10 rounded-lg bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-emerald-50 group-hover:text-emerald-600 transition-colors">
                       <Layers className="w-5 h-5" />
                     </div>
                     <div>
@@ -241,7 +241,7 @@ const StrategicPlanning = () => {
                     <Badge variant="secondary" className="bg-slate-100 text-slate-600 border-none text-[10px]">
                       {item.status}
                     </Badge>
-                    <Badge className="bg-indigo-50 text-indigo-700 border-none text-[10px]">
+                    <Badge className="bg-emerald-50 text-emerald-700 border-none text-[10px]">
                       {item.impact} Impact
                     </Badge>
                     <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-300">
@@ -255,7 +255,7 @@ const StrategicPlanning = () => {
 
           <Card className="border-none shadow-sm bg-slate-900 text-white">
             <CardContent className="p-8 text-center space-y-6">
-              <div className="w-16 h-16 bg-indigo-600 rounded-2xl flex items-center justify-center mx-auto shadow-xl shadow-indigo-500/20">
+              <div className="w-16 h-16 bg-emerald-600 rounded-2xl flex items-center justify-center mx-auto shadow-xl shadow-emerald-500/20">
                 <BarChart3 className="w-8 h-8" />
               </div>
               <div>

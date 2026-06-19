@@ -22,7 +22,7 @@ import { useCurrency } from "@/hooks/useCurrency";
 
 const STATUS_COLORS: Record<string, string> = {
   "In Progress":    "bg-blue-50 text-blue-700",
-  "Active":         "bg-indigo-50 text-indigo-700",
+  "Active":         "bg-emerald-50 text-emerald-700",
   "Under Review":   "bg-amber-50 text-amber-700",
   "Completed":      "bg-emerald-50 text-emerald-700",
   "Onboarding":     "bg-purple-50 text-purple-700",
@@ -63,7 +63,7 @@ const Projects = () => {
             <p className="text-slate-500">Manage your active work and track project health.</p>
           </div>
           <Link to="/project/new">
-            <Button className="bg-indigo-600 hover:bg-indigo-700 text-white gap-2">
+            <Button className="bg-emerald-600 hover:bg-emerald-700 text-white gap-2">
               <Plus className="w-4 h-4" />
               New Project
             </Button>
@@ -86,7 +86,7 @@ const Projects = () => {
                 key={f}
                 variant={filter === f ? "default" : "ghost"}
                 size="sm"
-                className={filter === f ? "bg-indigo-600 text-white hover:bg-indigo-700" : "text-slate-500"}
+                className={filter === f ? "bg-emerald-600 text-white hover:bg-emerald-700" : "text-slate-500"}
                 onClick={() => setFilter(f)}
               >
                 {f}
@@ -115,7 +115,7 @@ const Projects = () => {
             </p>
             {!search && filter === "All" && (
               <Link to="/project/new">
-                <Button className="bg-indigo-600 hover:bg-indigo-700 text-white gap-2">
+                <Button className="bg-emerald-600 hover:bg-emerald-700 text-white gap-2">
                   <Plus className="w-4 h-4" /> New Project
                 </Button>
               </Link>
@@ -129,11 +129,11 @@ const Projects = () => {
                   <CardContent className="p-6">
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                       <div className="flex items-center gap-4 min-w-[250px]">
-                        <div className="w-12 h-12 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-600 font-bold text-lg">
+                        <div className="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600 font-bold text-lg">
                           {project.name.charAt(0)}
                         </div>
                         <div>
-                          <h3 className="font-bold text-slate-900 group-hover:text-indigo-600 transition-colors">
+                          <h3 className="font-bold text-slate-900 group-hover:text-emerald-600 transition-colors">
                             {project.name}
                           </h3>
                           <p className="text-sm text-slate-500">{project.client_name}</p>

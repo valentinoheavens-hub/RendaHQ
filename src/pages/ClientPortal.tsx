@@ -118,7 +118,7 @@ const ClientPortal = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-indigo-600" />
+        <Loader2 className="w-8 h-8 animate-spin text-emerald-600" />
       </div>
     );
   }
@@ -144,16 +144,16 @@ const ClientPortal = () => {
       <header className="bg-white border-b border-slate-200 px-6 py-4 sticky top-0 z-10">
         <div className="max-w-6xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg bg-indigo-600 flex items-center justify-center text-white font-bold text-lg">
+            <div className="w-10 h-10 rounded-lg bg-emerald-600 flex items-center justify-center text-white font-bold text-lg">
               {client.name.charAt(0)}
             </div>
             <div>
               <h1 className="font-bold text-lg text-slate-900">Client Portal</h1>
-              <p className="text-xs text-slate-500">Powered by NexWork</p>
+              <p className="text-xs text-slate-500">Powered by RendaHQ</p>
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-700 font-bold text-xs">
+            <div className="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-700 font-bold text-xs">
               {client.name.split(" ").map((n) => n[0]).join("").slice(0, 2).toUpperCase()}
             </div>
           </div>
@@ -162,13 +162,13 @@ const ClientPortal = () => {
 
       <main className="max-w-6xl mx-auto p-6 md:p-8 space-y-8">
         {/* Hero banner */}
-        <div className="bg-indigo-600 rounded-2xl p-8 text-white relative overflow-hidden">
+        <div className="bg-emerald-600 rounded-2xl p-8 text-white relative overflow-hidden">
           <div className="relative z-10">
             <h2 className="text-3xl font-bold mb-2">
               Welcome back, {client.name.split(" ")[0]}
             </h2>
             {activeProject ? (
-              <p className="text-indigo-100 max-w-md">
+              <p className="text-emerald-100 max-w-md">
                 Your project <strong>"{activeProject.name}"</strong> is{" "}
                 {activeProject.progress}% complete.{" "}
                 {activeProject.health === "At Risk"
@@ -176,7 +176,7 @@ const ClientPortal = () => {
                   : "Things are on track!"}
               </p>
             ) : (
-              <p className="text-indigo-100">Your workspace is ready.</p>
+              <p className="text-emerald-100">Your workspace is ready.</p>
             )}
             {totalOwed > 0 && (
               <div className="mt-4 inline-flex items-center gap-2 bg-white/10 rounded-xl px-4 py-2">

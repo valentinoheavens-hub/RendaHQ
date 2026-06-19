@@ -130,7 +130,7 @@ const CreateProject = () => {
             )}
             {step < 3 ? (
               <Button
-                className="bg-indigo-600 hover:bg-indigo-700 text-white"
+                className="bg-emerald-600 hover:bg-emerald-700 text-white"
                 onClick={() => setStep(step + 1)}
                 disabled={step === 1 && !name.trim()}
               >
@@ -138,7 +138,7 @@ const CreateProject = () => {
               </Button>
             ) : (
               <Button
-                className="bg-indigo-600 hover:bg-indigo-700 text-white gap-2"
+                className="bg-emerald-600 hover:bg-emerald-700 text-white gap-2"
                 onClick={handleCreate}
                 disabled={saving}
               >
@@ -152,7 +152,7 @@ const CreateProject = () => {
         {/* Progress bar */}
         <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
           <div
-            className="h-full bg-indigo-600 transition-all duration-300"
+            className="h-full bg-emerald-600 transition-all duration-300"
             style={{ width: `${(step / 3) * 100}%` }}
           />
         </div>

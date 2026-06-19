@@ -51,7 +51,7 @@ export default function SignIn() {
       // If confirmation is required, signIn will fail and the user sees the email prompt.
       const { error: signInError } = await signIn(email, password);
       if (!signInError) {
-        showSuccess("Welcome to NexWork!");
+        showSuccess("Welcome to RendaHQ!");
         navigate("/dashboard");
       } else {
         showSuccess("Account created! Check your email to confirm your address, then sign in.");
@@ -88,27 +88,30 @@ export default function SignIn() {
       {/* Left panel — branding */}
       <div className="hidden lg:flex lg:w-1/2 bg-slate-900 flex-col justify-between p-12 relative overflow-hidden">
         {/* Background glow */}
-        <div className="absolute top-0 left-0 w-96 h-96 bg-indigo-600/20 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl translate-x-1/2 translate-y-1/2" />
+        <div className="absolute top-0 left-0 w-96 h-96 bg-emerald-600/20 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-emerald-600/10 rounded-full blur-3xl translate-x-1/2 translate-y-1/2" />
 
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-2 relative z-10">
-          <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-900/50">
-            <span className="text-white font-bold text-2xl">N</span>
-          </div>
-          <span className="font-bold text-2xl tracking-tight text-white">NexWork</span>
-        </Link>
+        <div className="relative z-10">
+          <Link to="/" className="flex items-center gap-2">
+            <div className="w-10 h-10 bg-emerald-600 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-900/50">
+              <span className="text-white font-bold text-2xl">R</span>
+            </div>
+            <span className="font-bold text-2xl tracking-tight text-white">RendaHQ</span>
+          </Link>
+          <p className="text-emerald-300 font-medium text-sm mt-3 ml-1">Build. Bill. Get paid.</p>
+        </div>
 
         {/* Testimonial */}
         <div className="relative z-10 space-y-8">
           <blockquote className="text-2xl font-semibold text-white leading-relaxed">
-            "NexWork replaced 4 tools I was paying for. My client relationships have never been more professional."
+            "RendaHQ replaced 4 tools I was paying for. My client relationships have never been more professional."
           </blockquote>
           <div className="flex items-center gap-4">
             <img
               src="https://api.dicebear.com/7.x/avataaars/svg?seed=Amara"
               alt="Amara Osei"
-              className="w-12 h-12 rounded-full bg-indigo-800"
+              className="w-12 h-12 rounded-full bg-emerald-800"
             />
             <div>
               <p className="font-bold text-white">Amara Osei</p>
@@ -132,10 +135,10 @@ export default function SignIn() {
         <div className="w-full max-w-md">
           {/* Mobile logo */}
           <Link to="/" className="flex items-center gap-2 mb-10 lg:hidden">
-            <div className="w-9 h-9 bg-indigo-600 rounded-xl flex items-center justify-center">
-              <span className="text-white font-bold text-xl">N</span>
+            <div className="w-9 h-9 bg-emerald-600 rounded-xl flex items-center justify-center">
+              <span className="text-white font-bold text-xl">R</span>
             </div>
-            <span className="font-bold text-xl tracking-tight text-slate-900">NexWork</span>
+            <span className="font-bold text-xl tracking-tight text-slate-900">RendaHQ</span>
           </Link>
 
           <div className="mb-8">
@@ -144,7 +147,7 @@ export default function SignIn() {
             </h1>
             <p className="text-slate-500">
               {mode === "signin"
-                ? "Sign in to your NexWork workspace."
+                ? "Sign in to your RendaHQ workspace."
                 : "Start your 14-day free trial. No card required."}
             </p>
           </div>
@@ -198,7 +201,7 @@ export default function SignIn() {
                   placeholder="e.g. Felix Kimani"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="h-11 border-slate-200 focus-visible:ring-indigo-500"
+                  className="h-11 border-slate-200 focus-visible:ring-emerald-500"
                   autoComplete="name"
                 />
               </div>
@@ -216,7 +219,7 @@ export default function SignIn() {
                   placeholder="you@agency.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="h-11 pl-10 border-slate-200 focus-visible:ring-indigo-500"
+                  className="h-11 pl-10 border-slate-200 focus-visible:ring-emerald-500"
                   autoComplete="email"
                 />
               </div>
@@ -230,7 +233,7 @@ export default function SignIn() {
                 {mode === "signin" && (
                   <button
                     type="button"
-                    className="text-xs text-indigo-600 hover:text-indigo-700 font-medium"
+                    className="text-xs text-emerald-600 hover:text-emerald-700 font-medium"
                     onClick={handleForgotPassword}
                   >
                     Forgot password?
@@ -245,7 +248,7 @@ export default function SignIn() {
                   placeholder={mode === "signup" ? "Min. 8 characters" : "••••••••"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="h-11 pl-10 pr-10 border-slate-200 focus-visible:ring-indigo-500"
+                  className="h-11 pl-10 pr-10 border-slate-200 focus-visible:ring-emerald-500"
                   autoComplete={mode === "signin" ? "current-password" : "new-password"}
                 />
                 <button
@@ -262,7 +265,7 @@ export default function SignIn() {
             <Button
               type="submit"
               disabled={isLoading}
-              className="w-full h-11 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl mt-2 gap-2 shadow-lg shadow-indigo-100"
+              className="w-full h-11 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl mt-2 gap-2 shadow-lg shadow-emerald-100"
             >
               {isLoading ? (
                 <Loader2 className="w-4 h-4 animate-spin" />
@@ -281,7 +284,7 @@ export default function SignIn() {
                 Don't have an account?{" "}
                 <button
                   onClick={() => setMode("signup")}
-                  className="font-bold text-indigo-600 hover:text-indigo-700"
+                  className="font-bold text-emerald-600 hover:text-emerald-700"
                 >
                   Sign up free
                 </button>
@@ -291,7 +294,7 @@ export default function SignIn() {
                 Already have an account?{" "}
                 <button
                   onClick={() => setMode("signin")}
-                  className="font-bold text-indigo-600 hover:text-indigo-700"
+                  className="font-bold text-emerald-600 hover:text-emerald-700"
                 >
                   Sign in
                 </button>

@@ -198,7 +198,7 @@ export default function Payments() {
                   className={cn(
                     "rounded-lg text-xs capitalize transition-all",
                     activeFilter === f
-                      ? "bg-white shadow-sm text-indigo-600 font-bold"
+                      ? "bg-white shadow-sm text-emerald-600 font-bold"
                       : "text-slate-500 hover:text-slate-700"
                   )}
                 >
@@ -263,7 +263,7 @@ export default function Payments() {
                             "gap-1.5 text-xs",
                             payment.status === "overdue"
                               ? "border-rose-200 text-rose-600 hover:bg-rose-50"
-                              : "border-indigo-200 text-indigo-600 hover:bg-indigo-50"
+                              : "border-emerald-200 text-emerald-600 hover:bg-emerald-50"
                           )}
                           onClick={() => openReminder(payment)}
                         >
@@ -322,9 +322,9 @@ export default function Payments() {
             <div className="flex items-center gap-2 mb-1">
               <div className={cn(
                 "w-8 h-8 rounded-xl flex items-center justify-center",
-                reminderPayment?.status === "overdue" ? "bg-rose-50" : "bg-indigo-50"
+                reminderPayment?.status === "overdue" ? "bg-rose-50" : "bg-emerald-50"
               )}>
-                <Send className={cn("w-4 h-4", reminderPayment?.status === "overdue" ? "text-rose-600" : "text-indigo-600")} />
+                <Send className={cn("w-4 h-4", reminderPayment?.status === "overdue" ? "text-rose-600" : "text-emerald-600")} />
               </div>
               <DialogTitle className="text-lg font-bold">
                 {reminderPayment?.status === "overdue" ? "Payment Reminder" : "Follow-up Message"}
@@ -338,7 +338,7 @@ export default function Payments() {
           <div className="px-6 pb-6 space-y-4">
             <Button
               variant="outline"
-              className="w-full gap-2 border-indigo-200 text-indigo-600 hover:bg-indigo-50"
+              className="w-full gap-2 border-emerald-200 text-emerald-600 hover:bg-emerald-50"
               onClick={generateReminder}
               disabled={isGenerating}
             >
@@ -352,7 +352,7 @@ export default function Payments() {
                   value={reminderText}
                   onChange={(e) => setReminderText(e.target.value)}
                   placeholder="Your reminder will appear here…"
-                  className="min-h-[220px] resize-none border-slate-200 focus-visible:ring-indigo-500 text-sm leading-relaxed"
+                  className="min-h-[220px] resize-none border-slate-200 focus-visible:ring-emerald-500 text-sm leading-relaxed"
                   disabled={isGenerating}
                 />
               </div>
@@ -373,7 +373,7 @@ export default function Payments() {
                   placeholder="client@example.com"
                   value={clientEmail}
                   onChange={(e) => setClientEmail(e.target.value)}
-                  className="h-9 border-slate-200 focus-visible:ring-indigo-500 text-sm"
+                  className="h-9 border-slate-200 focus-visible:ring-emerald-500 text-sm"
                 />
               </div>
             )}
@@ -397,7 +397,7 @@ export default function Payments() {
                 </Button>
               )}
               <Button
-                className="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white gap-2"
+                className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white gap-2"
                 disabled={!reminderText || !clientEmail || isSending}
                 onClick={async () => {
                   if (!reminderPayment || !clientEmail) return;

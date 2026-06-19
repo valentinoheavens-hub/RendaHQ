@@ -34,7 +34,7 @@ const HelpCenter = () => {
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
             <Input 
               placeholder="Search for articles, guides, and more..." 
-              className="pl-12 h-14 text-lg rounded-2xl border-slate-200 shadow-sm focus-visible:ring-indigo-500"
+              className="pl-12 h-14 text-lg rounded-2xl border-slate-200 shadow-sm focus-visible:ring-emerald-500"
             />
           </div>
         </div>
@@ -47,9 +47,9 @@ const HelpCenter = () => {
                   <cat.icon className="w-7 h-7" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-xl font-bold text-slate-900 mb-2 group-hover:text-indigo-600 transition-colors">{cat.title}</h3>
+                  <h3 className="text-xl font-bold text-slate-900 mb-2 group-hover:text-emerald-600 transition-colors">{cat.title}</h3>
                   <p className="text-slate-500 leading-relaxed mb-4">{cat.desc}</p>
-                  <div className="flex items-center text-indigo-600 font-bold text-sm gap-1">
+                  <div className="flex items-center text-emerald-600 font-bold text-sm gap-1">
                     Browse Articles <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </div>
                 </div>
@@ -72,8 +72,8 @@ const HelpCenter = () => {
                 "Inviting clients to their white-labeled portal",
               ].map((article, i) => (
                 <div key={i} className="flex items-center justify-between p-4 rounded-xl hover:bg-slate-50 transition-colors cursor-pointer group">
-                  <span className="text-slate-700 font-medium group-hover:text-indigo-600">{article}</span>
-                  <ExternalLink className="w-4 h-4 text-slate-300 group-hover:text-indigo-400" />
+                  <span className="text-slate-700 font-medium group-hover:text-emerald-600">{article}</span>
+                  <ExternalLink className="w-4 h-4 text-slate-300 group-hover:text-emerald-400" />
                 </div>
               ))}
             </CardContent>
@@ -81,7 +81,7 @@ const HelpCenter = () => {
 
           <Card className="border-none shadow-sm bg-slate-900 text-white">
             <CardContent className="p-8 text-center space-y-6">
-              <div className="w-16 h-16 bg-indigo-600 rounded-2xl flex items-center justify-center mx-auto shadow-xl shadow-indigo-500/20">
+              <div className="w-16 h-16 bg-emerald-600 rounded-2xl flex items-center justify-center mx-auto shadow-xl shadow-emerald-500/20">
                 <MessageCircle className="w-8 h-8" />
               </div>
               <div>

@@ -77,7 +77,7 @@ const TimeTracking = () => {
                   onClick={() => setIsTimerRunning(!isTimerRunning)}
                   className={cn(
                     "h-14 w-14 rounded-full shadow-xl transition-all",
-                    isTimerRunning ? "bg-rose-500 hover:bg-rose-600" : "bg-indigo-600 hover:bg-indigo-700"
+                    isTimerRunning ? "bg-rose-500 hover:bg-rose-600" : "bg-emerald-600 hover:bg-emerald-700"
                   )}
                 >
                   {isTimerRunning ? <Square className="w-6 h-6 fill-current" /> : <Play className="w-6 h-6 fill-current ml-1" />}
@@ -104,10 +104,10 @@ const TimeTracking = () => {
               </div>
               <div className="space-y-4">
                 {[
-                  { day: "Mon", hours: 6.5, color: "bg-indigo-500" },
-                  { day: "Tue", hours: 8.0, color: "bg-indigo-500" },
-                  { day: "Wed", hours: 4.2, color: "bg-indigo-500" },
-                  { day: "Thu", hours: 5.8, color: "bg-indigo-500" },
+                  { day: "Mon", hours: 6.5, color: "bg-emerald-500" },
+                  { day: "Tue", hours: 8.0, color: "bg-emerald-500" },
+                  { day: "Wed", hours: 4.2, color: "bg-emerald-500" },
+                  { day: "Thu", hours: 5.8, color: "bg-emerald-500" },
                   { day: "Fri", hours: 0, color: "bg-slate-100" },
                 ].map((d) => (
                   <div key={d.day} className="flex items-center gap-3">
@@ -119,7 +119,7 @@ const TimeTracking = () => {
                   </div>
                 ))}
               </div>
-              <Button className="w-full bg-indigo-50 text-indigo-700 hover:bg-indigo-100 border-none">
+              <Button className="w-full bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border-none">
                 Generate Invoice from Hours
               </Button>
             </CardContent>
@@ -129,7 +129,7 @@ const TimeTracking = () => {
           <div className="lg:col-span-2 space-y-4">
             <div className="flex items-center justify-between mb-2">
               <h3 className="font-bold text-slate-900">Recent Logs</h3>
-              <Button variant="ghost" size="sm" className="text-indigo-600">View All</Button>
+              <Button variant="ghost" size="sm" className="text-emerald-600">View All</Button>
             </div>
             {timeLogs.map((log) => (
               <Card key={log.id} className="border-none shadow-sm hover:shadow-md transition-shadow">
@@ -142,7 +142,7 @@ const TimeTracking = () => {
                       <div>
                         <h4 className="font-bold text-slate-900">{log.description}</h4>
                         <div className="flex items-center gap-2 mt-1">
-                          <Badge variant="secondary" className="bg-indigo-50 text-indigo-700 border-none text-[10px] px-1.5">
+                          <Badge variant="secondary" className="bg-emerald-50 text-emerald-700 border-none text-[10px] px-1.5">
                             {log.project}
                           </Badge>
                           <span className="text-xs text-slate-400">•</span>

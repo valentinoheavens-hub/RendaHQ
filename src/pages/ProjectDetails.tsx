@@ -37,7 +37,7 @@ import {
 
 const STATUS_COLORS: Record<string, string> = {
   "In Progress":  "bg-blue-50 text-blue-700",
-  "Active":       "bg-indigo-50 text-indigo-700",
+  "Active":       "bg-emerald-50 text-emerald-700",
   "Under Review": "bg-amber-50 text-amber-700",
   "Completed":    "bg-emerald-50 text-emerald-700",
   "Onboarding":   "bg-purple-50 text-purple-700",
@@ -199,7 +199,7 @@ const ProjectDetails = () => {
               <Trash2 className="w-4 h-4" />
             </Button>
             <Link to={`/project/${projectId}/change-order`}>
-              <Button className="bg-indigo-600 hover:bg-indigo-700 text-white gap-2">
+              <Button className="bg-emerald-600 hover:bg-emerald-700 text-white gap-2">
                 <Plus className="w-4 h-4" />
                 New Change Order
               </Button>
@@ -224,7 +224,7 @@ const ProjectDetails = () => {
                       className="w-20 h-8 text-sm"
                     />
                     <span className="text-slate-400 text-sm">%</span>
-                    <Button size="icon" className="h-7 w-7 bg-indigo-600" onClick={saveProgress}>
+                    <Button size="icon" className="h-7 w-7 bg-emerald-600" onClick={saveProgress}>
                       <Check className="w-3 h-3" />
                     </Button>
                     <Button size="icon" variant="ghost" className="h-7 w-7" onClick={() => setEditingProgress(false)}>
@@ -304,7 +304,7 @@ const ProjectDetails = () => {
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="text-indigo-600"
+                  className="text-emerald-600"
                   onClick={() => setAddingMilestone(true)}
                 >
                   <Plus className="w-4 h-4 mr-1" /> Add
@@ -317,7 +317,7 @@ const ProjectDetails = () => {
                 {project.milestones.map((m) => (
                   <div
                     key={m.id}
-                    className="flex items-center justify-between p-4 rounded-xl border border-slate-100 hover:border-indigo-100 transition-colors"
+                    className="flex items-center justify-between p-4 rounded-xl border border-slate-100 hover:border-emerald-100 transition-colors"
                   >
                     <div className="flex items-center gap-4">
                       <div className={cn(
@@ -372,7 +372,7 @@ const ProjectDetails = () => {
                       className="flex-1 h-8 text-sm"
                       autoFocus
                     />
-                    <Button size="icon" className="h-8 w-8 bg-indigo-600" onClick={addMilestone}>
+                    <Button size="icon" className="h-8 w-8 bg-emerald-600" onClick={addMilestone}>
                       <Check className="w-4 h-4" />
                     </Button>
                     <Button size="icon" variant="ghost" className="h-8 w-8" onClick={() => setAddingMilestone(false)}>
@@ -422,17 +422,17 @@ const ProjectDetails = () => {
               </CardContent>
             </Card>
 
-            <Card className="border-none shadow-sm bg-indigo-600 text-white">
+            <Card className="border-none shadow-sm bg-emerald-600 text-white">
               <CardContent className="p-6">
                 <div className="flex items-center gap-2 mb-4">
                   <MessageSquare className="w-5 h-5" />
                   <h4 className="font-bold">Client Chat</h4>
                 </div>
-                <p className="text-indigo-100 text-sm mb-4">
+                <p className="text-emerald-100 text-sm mb-4">
                   Centralize all project communication to avoid email threads.
                 </p>
                 <Link to="/messages">
-                  <Button className="w-full bg-white text-indigo-600 hover:bg-indigo-50 border-none">
+                  <Button className="w-full bg-white text-emerald-600 hover:bg-emerald-50 border-none">
                     Open Message Thread
                   </Button>
                 </Link>

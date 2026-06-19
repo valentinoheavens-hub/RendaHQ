@@ -84,7 +84,7 @@ const Reports = () => {
           <Card className="border-none shadow-sm">
             <CardContent className="p-6">
               <div className="flex items-center justify-between mb-4">
-                <div className="p-2 rounded-lg bg-indigo-50 text-indigo-600">
+                <div className="p-2 rounded-lg bg-emerald-50 text-emerald-600">
                   <TrendingUp className="w-5 h-5" />
                 </div>
               </div>
@@ -109,7 +109,7 @@ const Reports = () => {
                     <Tooltip 
                       contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
                     />
-                    <Line type="monotone" dataKey="revenue" stroke="#4f46e5" strokeWidth={3} dot={{ r: 4, fill: '#4f46e5' }} activeDot={{ r: 6 }} />
+                    <Line type="monotone" dataKey="revenue" stroke="#059669" strokeWidth={3} dot={{ r: 4, fill: '#059669' }} activeDot={{ r: 6 }} />
                   </LineChart>
                 </ResponsiveContainer>
               </div>
@@ -141,7 +141,7 @@ const Reports = () => {
                 <p className="text-xs text-slate-500">
                   Based on your current revenue, we recommend setting aside 20% for quarterly tax payments.
                 </p>
-                <Button className="w-full bg-indigo-50 text-indigo-700 hover:bg-indigo-100 border-none">
+                <Button className="w-full bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border-none">
                   Generate Tax Report
                 </Button>
               </div>

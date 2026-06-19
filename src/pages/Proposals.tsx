@@ -33,7 +33,7 @@ const Proposals = () => {
             <p className="text-slate-500">Create and track professional quotes for your clients.</p>
           </div>
           <Link to="/proposal/new">
-            <Button className="bg-indigo-600 hover:bg-indigo-700 text-white gap-2">
+            <Button className="bg-emerald-600 hover:bg-emerald-700 text-white gap-2">
               <Plus className="w-4 h-4" />
               New Proposal
             </Button>
@@ -58,11 +58,11 @@ const Proposals = () => {
               <CardContent className="p-6">
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                   <div className="flex items-center gap-4 min-w-[250px]">
-                    <div className="w-12 h-12 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-600">
+                    <div className="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600">
                       <FileText className="w-6 h-6" />
                     </div>
                     <div>
-                      <h3 className="font-bold text-slate-900 group-hover:text-indigo-600 transition-colors">{prop.title}</h3>
+                      <h3 className="font-bold text-slate-900 group-hover:text-emerald-600 transition-colors">{prop.title}</h3>
                       <p className="text-sm text-slate-500">{prop.client}</p>
                     </div>
                   </div>

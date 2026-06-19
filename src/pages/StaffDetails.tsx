@@ -34,7 +34,7 @@ const StaffDetails = () => {
     name: "Sarah Chen",
     role: "Senior UI/UX Designer",
     avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=200&h=200",
-    email: "sarah@nexwork.io",
+    email: "sarah@rendahq.com",
     alignment: 92,
     engagement: 88,
     vitality: 75,
@@ -72,7 +72,7 @@ const StaffDetails = () => {
             <div>
               <div className="flex items-center gap-3">
                 <h1 className="text-2xl font-bold text-slate-900">{staff.name}</h1>
-                <Badge className="bg-indigo-50 text-indigo-700 border-none">Peak Performance</Badge>
+                <Badge className="bg-emerald-50 text-emerald-700 border-none">Peak Performance</Badge>
               </div>
               <p className="text-slate-500">{staff.role}</p>
             </div>
@@ -82,7 +82,7 @@ const StaffDetails = () => {
               <Mail className="w-4 h-4" />
               Email
             </Button>
-            <Button className="bg-indigo-600 hover:bg-indigo-700 text-white gap-2">
+            <Button className="bg-emerald-600 hover:bg-emerald-700 text-white gap-2">
               <MessageSquare className="w-4 h-4" />
               Message
             </Button>
@@ -102,7 +102,7 @@ const StaffDetails = () => {
                     <span>Vision Alignment</span>
                     <span className="text-slate-900">{staff.alignment}%</span>
                   </div>
-                  <Progress value={staff.alignment} className="h-1.5 bg-slate-100 [&>div]:bg-indigo-500" />
+                  <Progress value={staff.alignment} className="h-1.5 bg-slate-100 [&>div]:bg-emerald-500" />
                 </div>
                 <div className="space-y-2">
                   <div className="flex justify-between text-[10px] font-bold text-slate-400 uppercase tracking-widest">
@@ -128,10 +128,10 @@ const StaffDetails = () => {
               </CardHeader>
               <CardContent className="space-y-4">
                 {staff.clients.map((client) => (
-                  <Link key={client.id} to={`/client/${client.id}`} className="flex items-center justify-between p-3 rounded-xl border border-slate-50 hover:border-indigo-100 transition-colors group">
+                  <Link key={client.id} to={`/client/${client.id}`} className="flex items-center justify-between p-3 rounded-xl border border-slate-50 hover:border-emerald-100 transition-colors group">
                     <div className="flex items-center gap-3">
                       <img src={client.logo} alt={client.name} className="w-8 h-8 rounded-lg" />
-                      <span className="font-bold text-slate-700 group-hover:text-indigo-600">{client.name}</span>
+                      <span className="font-bold text-slate-700 group-hover:text-emerald-600">{client.name}</span>
                     </div>
                     <ChevronLeft className="w-4 h-4 text-slate-300 rotate-180" />
                   </Link>
@@ -191,7 +191,7 @@ const StaffDetails = () => {
                     <CardContent className="p-6">
                       <div className="flex items-center justify-between mb-4">
                         <div className="flex items-center gap-4">
-                          <div className="w-12 h-12 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-600">
+                          <div className="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600">
                             <Target className="w-6 h-6" />
                           </div>
                           <div>

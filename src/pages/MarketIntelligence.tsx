@@ -91,7 +91,7 @@ const MarketIntelligence = () => {
           </div>
           <div className="flex gap-3">
             <Button variant="outline" className="border-slate-200">Market Report</Button>
-            <Button className="bg-indigo-600 hover:bg-indigo-700 text-white gap-2 shadow-lg shadow-indigo-100">
+            <Button className="bg-emerald-600 hover:bg-emerald-700 text-white gap-2 shadow-lg shadow-emerald-100">
               <Plus className="w-4 h-4" />
               Add Competitor
             </Button>
@@ -141,11 +141,11 @@ const MarketIntelligence = () => {
                   <CardContent className="p-6">
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                       <div className="flex items-center gap-4 min-w-[200px]">
-                        <div className="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-indigo-50 group-hover:text-indigo-600 transition-colors">
+                        <div className="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-emerald-50 group-hover:text-emerald-600 transition-colors">
                           <Globe className="w-6 h-6" />
                         </div>
                         <div>
-                          <h4 className="font-bold text-slate-900 group-hover:text-indigo-600 transition-colors">{comp.name}</h4>
+                          <h4 className="font-bold text-slate-900 group-hover:text-emerald-600 transition-colors">{comp.name}</h4>
                           <p className="text-xs text-slate-500">{comp.focus}</p>
                         </div>
                       </div>
@@ -157,7 +157,7 @@ const MarketIntelligence = () => {
                         </div>
                         <div>
                           <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Core Strength</p>
-                          <Badge variant="secondary" className="bg-indigo-50 text-indigo-700 border-none text-[10px]">
+                          <Badge variant="secondary" className="bg-emerald-50 text-emerald-700 border-none text-[10px]">
                             {comp.strength}
                           </Badge>
                         </div>
@@ -192,7 +192,7 @@ const MarketIntelligence = () => {
             <Card className="border-none shadow-sm">
               <CardHeader>
                 <div className="flex items-center gap-2 mb-1">
-                  <TrendingUp className="w-4 h-4 text-indigo-600" />
+                  <TrendingUp className="w-4 h-4 text-emerald-600" />
                   <CardTitle className="text-lg font-bold">Industry Trends</CardTitle>
                 </div>
                 <CardDescription>Key shifts affecting your market.</CardDescription>
@@ -223,7 +223,7 @@ const MarketIntelligence = () => {
 
             <Card className="border-none shadow-sm bg-slate-900 text-white">
               <CardContent className="p-8 text-center space-y-6">
-                <div className="w-16 h-16 bg-indigo-600 rounded-2xl flex items-center justify-center mx-auto shadow-xl shadow-indigo-500/20">
+                <div className="w-16 h-16 bg-emerald-600 rounded-2xl flex items-center justify-center mx-auto shadow-xl shadow-emerald-500/20">
                   <Target className="w-8 h-8" />
                 </div>
                 <div>

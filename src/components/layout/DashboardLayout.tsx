@@ -55,7 +55,7 @@ const notifIcon = (type: string) => {
     case 'invoice_overdue': return { icon: Clock,         color: 'text-rose-500',    bg: 'bg-rose-50' };
     case 'contract_signed': return { icon: FileText,      color: 'text-emerald-500', bg: 'bg-emerald-50' };
     case 'contract_sent':   return { icon: FileText,      color: 'text-blue-500',    bg: 'bg-blue-50' };
-    case 'new_client':      return { icon: Users,         color: 'text-indigo-500',  bg: 'bg-indigo-50' };
+    case 'new_client':      return { icon: Users,         color: 'text-emerald-500',  bg: 'bg-emerald-50' };
     default:                return { icon: Bell,          color: 'text-slate-500',   bg: 'bg-slate-50' };
   }
 };
@@ -107,11 +107,8 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
       {/* Sidebar */}
       <aside className="w-64 bg-white border-r border-slate-200 flex flex-col sticky top-0 h-screen z-20">
         <div className="p-6">
-          <Link to="/dashboard" className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-xl">N</span>
-            </div>
-            <span className="font-bold text-xl tracking-tight">NexWork</span>
+          <Link to="/dashboard" className="flex items-center">
+            <img src="/rendahq-logo.png" alt="RendaHQ" className="h-9 w-auto" />
           </Link>
         </div>
 
@@ -127,7 +124,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
                   className={cn(
                     "flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium transition-all",
                     isActive 
-                      ? "bg-indigo-600 text-white shadow-lg shadow-indigo-100" 
+                      ? "bg-emerald-600 text-white shadow-lg shadow-emerald-100" 
                       : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
                   )}
                 >
@@ -149,7 +146,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
                   className={cn(
                     "flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-medium transition-all",
                     isActive 
-                      ? "bg-indigo-600 text-white shadow-lg shadow-indigo-100" 
+                      ? "bg-emerald-600 text-white shadow-lg shadow-emerald-100" 
                       : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
                   )}
                 >
@@ -170,7 +167,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
                 Upgrade to Agency
               </Button>
             </div>
-            <div className="absolute -right-4 -bottom-4 w-16 h-16 bg-indigo-600/20 rounded-full blur-2xl" />
+            <div className="absolute -right-4 -bottom-4 w-16 h-16 bg-emerald-600/20 rounded-full blur-2xl" />
           </div>
         </div>
       </aside>
@@ -184,14 +181,14 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
               <Input 
                 placeholder="Search clients, projects, invoices..." 
-                className="pl-10 bg-slate-50 border-none focus-visible:ring-1 focus-visible:ring-indigo-500 h-9"
+                className="pl-10 bg-slate-50 border-none focus-visible:ring-1 focus-visible:ring-emerald-500 h-9"
               />
             </div>
           </div>
 
           <div className="flex items-center gap-3">
             <Link to="/project/new">
-              <Button size="sm" className="hidden md:flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white">
+              <Button size="sm" className="hidden md:flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white">
                 <Plus className="w-4 h-4" />
                 New Project
               </Button>
@@ -208,10 +205,10 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-80 p-0 border-none shadow-2xl rounded-2xl overflow-hidden">
-                <div className="p-4 bg-indigo-600 text-white flex items-center justify-between">
+                <div className="p-4 bg-emerald-600 text-white flex items-center justify-between">
                   <div>
                     <h4 className="font-bold">Notifications</h4>
-                    <p className="text-xs text-indigo-100">
+                    <p className="text-xs text-emerald-100">
                       {unreadCount > 0 ? `${unreadCount} unread` : 'All caught up'}
                     </p>
                   </div>
@@ -219,7 +216,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
                     <Button
                       variant="ghost"
                       size="sm"
-                      className="text-indigo-100 hover:text-white hover:bg-white/10 text-xs h-7"
+                      className="text-emerald-100 hover:text-white hover:bg-white/10 text-xs h-7"
                       onClick={markAllRead}
                     >
                       Mark all read
@@ -241,7 +238,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
                           onClick={() => !n.read && markRead(n.id)}
                           className={cn(
                             "p-4 border-b border-slate-50 hover:bg-slate-50 transition-colors cursor-pointer flex gap-3",
-                            !n.read && "bg-indigo-50/40"
+                            !n.read && "bg-emerald-50/40"
                           )}
                         >
                           <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center shrink-0", bg, color)}>
@@ -250,7 +247,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
                           <div className="min-w-0">
                             <div className="flex items-center gap-2">
                               <p className="text-sm font-bold text-slate-900">{n.title}</p>
-                              {!n.read && <span className="w-2 h-2 bg-indigo-500 rounded-full shrink-0" />}
+                              {!n.read && <span className="w-2 h-2 bg-emerald-500 rounded-full shrink-0" />}
                             </div>
                             <p className="text-xs text-slate-500 line-clamp-2">{n.message}</p>
                             <p className="text-[10px] text-slate-400 mt-1">
@@ -269,8 +266,8 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <button className="flex items-center gap-2 p-1 pr-3 rounded-full hover:bg-slate-50 transition-colors border border-transparent hover:border-slate-200">
-                  <div className="w-8 h-8 rounded-full bg-indigo-100 border border-indigo-200 flex items-center justify-center">
-                    <span className="text-indigo-700 font-bold text-sm">
+                  <div className="w-8 h-8 rounded-full bg-emerald-100 border border-emerald-200 flex items-center justify-center">
+                    <span className="text-emerald-700 font-bold text-sm">
                       {displayName.charAt(0).toUpperCase()}
                     </span>
                   </div>

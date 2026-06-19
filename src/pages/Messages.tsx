@@ -164,7 +164,7 @@ const Messages = () => {
                 onClick={() => selectChat(chat.id)}
                 className={cn(
                   "w-full p-4 flex gap-3 hover:bg-slate-50 transition-colors text-left border-b border-slate-50",
-                  activeChat === chat.id && "bg-indigo-50/50 border-l-4 border-l-indigo-600"
+                  activeChat === chat.id && "bg-emerald-50/50 border-l-4 border-l-emerald-600"
                 )}
               >
                 <div className="relative">
@@ -182,7 +182,7 @@ const Messages = () => {
                   <p className="text-xs text-slate-500 truncate">{chat.lastMsg}</p>
                 </div>
                 {chat.unread > 0 && (
-                  <div className="w-4 h-4 bg-indigo-600 rounded-full flex items-center justify-center text-[10px] text-white font-bold shrink-0">
+                  <div className="w-4 h-4 bg-emerald-600 rounded-full flex items-center justify-center text-[10px] text-white font-bold shrink-0">
                     {chat.unread}
                   </div>
                 )}
@@ -206,10 +206,10 @@ const Messages = () => {
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <Button variant="ghost" size="icon" className="text-slate-400 hover:text-indigo-600">
+              <Button variant="ghost" size="icon" className="text-slate-400 hover:text-emerald-600">
                 <Phone className="w-4 h-4" />
               </Button>
-              <Button variant="ghost" size="icon" className="text-slate-400 hover:text-indigo-600">
+              <Button variant="ghost" size="icon" className="text-slate-400 hover:text-emerald-600">
                 <Video className="w-4 h-4" />
               </Button>
               <Button variant="ghost" size="icon" className="text-slate-400">
@@ -231,11 +231,11 @@ const Messages = () => {
                 <div className={cn(
                   "max-w-[70%] p-3.5 rounded-2xl text-sm shadow-sm",
                   msg.isMe
-                    ? "bg-indigo-600 text-white rounded-tr-sm"
+                    ? "bg-emerald-600 text-white rounded-tr-sm"
                     : "bg-white text-slate-700 rounded-tl-sm border border-slate-100"
                 )}>
                   <p className="leading-relaxed">{msg.text}</p>
-                  <p className={cn("text-[10px] mt-1.5", msg.isMe ? "text-indigo-200" : "text-slate-400")}>
+                  <p className={cn("text-[10px] mt-1.5", msg.isMe ? "text-emerald-200" : "text-slate-400")}>
                     {msg.time}
                   </p>
                 </div>
@@ -246,12 +246,12 @@ const Messages = () => {
 
           {/* AI Draft Suggestion Banner */}
           {draftSuggestion && (
-            <div className="mx-4 mb-1 p-3 bg-indigo-50 rounded-xl border border-indigo-100 flex items-start gap-2">
-              <Sparkles className="w-4 h-4 text-indigo-500 shrink-0 mt-0.5" />
-              <p className="text-xs text-indigo-700 flex-1 leading-relaxed">
+            <div className="mx-4 mb-1 p-3 bg-emerald-50 rounded-xl border border-emerald-100 flex items-start gap-2">
+              <Sparkles className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+              <p className="text-xs text-emerald-700 flex-1 leading-relaxed">
                 <span className="font-bold">AI draft loaded.</span> Edit the message below or send as-is.
               </p>
-              <button onClick={() => setDraftSuggestion(null)} className="text-indigo-400 hover:text-indigo-600">
+              <button onClick={() => setDraftSuggestion(null)} className="text-emerald-400 hover:text-emerald-600">
                 <X className="w-3.5 h-3.5" />
               </button>
             </div>
@@ -265,7 +265,7 @@ const Messages = () => {
                 size="sm"
                 onClick={handleDraftWithAI}
                 disabled={isDrafting}
-                className="gap-1.5 border-indigo-200 text-indigo-600 hover:bg-indigo-50 text-xs rounded-lg"
+                className="gap-1.5 border-emerald-200 text-emerald-600 hover:bg-emerald-50 text-xs rounded-lg"
               >
                 {isDrafting ? (
                   <Loader2 className="w-3.5 h-3.5 animate-spin" />
@@ -284,12 +284,12 @@ const Messages = () => {
                 onChange={(e) => setMessageText(e.target.value)}
                 onKeyDown={handleKeyDown}
                 placeholder="Type your message…"
-                className="flex-1 bg-slate-50 border-none focus-visible:ring-1 focus-visible:ring-indigo-500"
+                className="flex-1 bg-slate-50 border-none focus-visible:ring-1 focus-visible:ring-emerald-500"
               />
               <Button
                 onClick={sendMessage}
                 disabled={!messageText.trim()}
-                className="bg-indigo-600 hover:bg-indigo-700 text-white shrink-0 disabled:opacity-40"
+                className="bg-emerald-600 hover:bg-emerald-700 text-white shrink-0 disabled:opacity-40"
               >
                 <Send className="w-4 h-4" />
               </Button>

@@ -13,7 +13,7 @@ interface Message {
 // ─── Core caller ─────────────────────────────────────────────────────────────
 const callEdge = async (messages: Message[], maxTokens = 1024): Promise<string> => {
   if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
-    throw new Error('NexWork AI is not configured. Please check your environment setup.');
+    throw new Error('RendaHQ AI is not configured. Please check your environment setup.');
   }
 
   const res = await fetch(EDGE_FN_URL, {
@@ -28,7 +28,7 @@ const callEdge = async (messages: Message[], maxTokens = 1024): Promise<string> 
 
   const json = await res.json();
   if (!res.ok || json.error) {
-    throw new Error(json.error || 'NexWork AI request failed.');
+    throw new Error(json.error || 'RendaHQ AI request failed.');
   }
   return json.content as string;
 };
@@ -68,7 +68,7 @@ export const generateEmailDraft = async (opts: EmailDraftOptions): Promise<strin
   const sender = opts.senderName ?? 'Felix';
   const company = opts.recipientCompany ? ` at ${opts.recipientCompany}` : '';
   return chat(
-    `You are an expert business communicator for a freelance design & strategy agency called NexWork.
+    `You are an expert business communicator for a freelance design & strategy agency called RendaHQ.
 Write concise, polished ${tone} emails.
 Return ONLY the email body (no subject line, no preamble).
 Use short paragraphs and a clear call to action.`,
@@ -169,7 +169,7 @@ export const askBusinessAssistant = async (
 ): Promise<string> => {
   const system =
     systemContext ??
-    `You are NexWork AI — an expert business assistant for freelancers and agencies.
+    `You are RendaHQ AI — an expert business assistant for freelancers and agencies.
 You can help with: drafting professional emails, writing proposals, analyzing business data,
 suggesting pricing strategies, creating follow-up sequences, reviewing client briefs,
 and answering general business questions.

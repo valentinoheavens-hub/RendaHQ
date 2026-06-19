@@ -39,7 +39,7 @@ const Calendar = () => {
               <Button variant="ghost" size="sm" className="rounded-lg text-slate-400">Week</Button>
               <Button variant="ghost" size="sm" className="rounded-lg text-slate-400">Day</Button>
             </div>
-            <Button className="bg-indigo-600 hover:bg-indigo-700 text-white gap-2">
+            <Button className="bg-emerald-600 hover:bg-emerald-700 text-white gap-2">
               <Plus className="w-4 h-4" />
               Add Event
             </Button>
@@ -84,7 +84,7 @@ const Calendar = () => {
                       <div className="flex justify-between items-start mb-2">
                         <span className={cn(
                           "text-sm font-bold w-7 h-7 flex items-center justify-center rounded-full",
-                          isToday ? "bg-indigo-600 text-white" : "text-slate-600"
+                          isToday ? "bg-emerald-600 text-white" : "text-slate-600"
                         )}>
                           {d > 0 && d <= 31 ? d : d <= 0 ? 30 + d : d - 31}
                         </span>
@@ -141,7 +141,7 @@ const Calendar = () => {
             <Card className="border-none shadow-sm bg-slate-900 text-white">
               <CardContent className="p-6">
                 <div className="flex items-center gap-2 mb-4">
-                  <CalendarIcon className="w-5 h-5 text-indigo-400" />
+                  <CalendarIcon className="w-5 h-5 text-emerald-400" />
                   <h4 className="font-bold">Sync Calendar</h4>
                 </div>
                 <p className="text-slate-400 text-sm mb-4">

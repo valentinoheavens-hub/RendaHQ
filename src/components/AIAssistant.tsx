@@ -29,7 +29,7 @@ const QUICK_PROMPTS = [
 
 const WELCOME_MESSAGE: ChatMessage = {
   role: "assistant",
-  content: "Hey! I'm your **NexWork AI Assistant**. I can help you draft emails, write proposals, strategize on deals, answer pricing questions — anything to grow your business. What do you need?",
+  content: "Hey! I'm your **RendaHQ AI Assistant**. I can help you draft emails, write proposals, strategize on deals, answer pricing questions — anything to grow your business. What do you need?",
 };
 
 export const AIAssistant = () => {
@@ -103,7 +103,7 @@ export const AIAssistant = () => {
           "fixed bottom-6 right-6 z-50 w-14 h-14 rounded-2xl shadow-2xl flex items-center justify-center transition-all duration-300",
           isOpen
             ? "bg-slate-800 rotate-0 scale-95"
-            : "bg-indigo-600 hover:bg-indigo-700 hover:scale-110 shadow-indigo-300"
+            : "bg-emerald-600 hover:bg-emerald-700 hover:scale-110 shadow-emerald-300"
         )}
         aria-label="Toggle AI Assistant"
       >
@@ -128,27 +128,27 @@ export const AIAssistant = () => {
         style={{ maxHeight: "calc(100vh - 140px)" }}
       >
         {/* Header */}
-        <div className="bg-indigo-600 rounded-t-3xl p-4 flex items-center justify-between shrink-0">
+        <div className="bg-emerald-600 rounded-t-3xl p-4 flex items-center justify-between shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center">
               <Sparkles className="w-5 h-5 text-white" />
             </div>
             <div>
-              <h3 className="font-bold text-white text-sm">NexWork AI</h3>
-              <p className="text-indigo-200 text-[11px]">Your business co-pilot</p>
+              <h3 className="font-bold text-white text-sm">RendaHQ AI</h3>
+              <p className="text-emerald-200 text-[11px]">Your business co-pilot</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
             <button
               onClick={resetChat}
-              className="p-1.5 rounded-lg hover:bg-white/20 text-indigo-200 hover:text-white transition-colors"
+              className="p-1.5 rounded-lg hover:bg-white/20 text-emerald-200 hover:text-white transition-colors"
               title="Clear chat"
             >
               <RotateCcw className="w-4 h-4" />
             </button>
             <button
               onClick={() => setIsOpen(false)}
-              className="p-1.5 rounded-lg hover:bg-white/20 text-indigo-200 hover:text-white transition-colors"
+              className="p-1.5 rounded-lg hover:bg-white/20 text-emerald-200 hover:text-white transition-colors"
             >
               <ChevronDown className="w-4 h-4" />
             </button>
@@ -163,9 +163,9 @@ export const AIAssistant = () => {
                 key={qp.label}
                 onClick={() => sendMessage(qp.prompt)}
                 disabled={isLoading}
-                className="flex items-center gap-2 p-2.5 rounded-xl border border-slate-100 hover:border-indigo-200 hover:bg-indigo-50/50 text-left transition-all group text-xs font-medium text-slate-600 hover:text-indigo-700"
+                className="flex items-center gap-2 p-2.5 rounded-xl border border-slate-100 hover:border-emerald-200 hover:bg-emerald-50/50 text-left transition-all group text-xs font-medium text-slate-600 hover:text-emerald-700"
               >
-                <qp.icon className="w-3.5 h-3.5 text-indigo-400 group-hover:text-indigo-600 shrink-0" />
+                <qp.icon className="w-3.5 h-3.5 text-emerald-400 group-hover:text-emerald-600 shrink-0" />
                 {qp.label}
               </button>
             ))}
@@ -177,15 +177,15 @@ export const AIAssistant = () => {
           {messages.map((msg, i) => (
             <div key={i} className={cn("flex", msg.role === "user" ? "justify-end" : "justify-start")}>
               {msg.role === "assistant" && (
-                <div className="w-7 h-7 rounded-lg bg-indigo-100 flex items-center justify-center shrink-0 mr-2 mt-0.5">
-                  <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
+                <div className="w-7 h-7 rounded-lg bg-emerald-100 flex items-center justify-center shrink-0 mr-2 mt-0.5">
+                  <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
                 </div>
               )}
               <div
                 className={cn(
                   "max-w-[82%] rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed",
                   msg.role === "user"
-                    ? "bg-indigo-600 text-white rounded-tr-none"
+                    ? "bg-emerald-600 text-white rounded-tr-none"
                     : "bg-slate-50 text-slate-700 rounded-tl-none border border-slate-100"
                 )}
               >
@@ -202,11 +202,11 @@ export const AIAssistant = () => {
 
           {isLoading && (
             <div className="flex justify-start">
-              <div className="w-7 h-7 rounded-lg bg-indigo-100 flex items-center justify-center shrink-0 mr-2 mt-0.5">
-                <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
+              <div className="w-7 h-7 rounded-lg bg-emerald-100 flex items-center justify-center shrink-0 mr-2 mt-0.5">
+                <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
               </div>
               <div className="bg-slate-50 border border-slate-100 rounded-2xl rounded-tl-none px-4 py-3">
-                <Loader2 className="w-4 h-4 text-indigo-400 animate-spin" />
+                <Loader2 className="w-4 h-4 text-emerald-400 animate-spin" />
               </div>
             </div>
           )}
@@ -215,7 +215,7 @@ export const AIAssistant = () => {
 
         {/* Input */}
         <div className="p-3 border-t border-slate-100 shrink-0">
-          <div className="flex items-center gap-2 bg-slate-50 rounded-xl px-3 py-2 border border-slate-200 focus-within:border-indigo-300 focus-within:ring-2 focus-within:ring-indigo-100 transition-all">
+          <div className="flex items-center gap-2 bg-slate-50 rounded-xl px-3 py-2 border border-slate-200 focus-within:border-emerald-300 focus-within:ring-2 focus-within:ring-emerald-100 transition-all">
             <input
               ref={inputRef}
               value={inputValue}
@@ -231,14 +231,14 @@ export const AIAssistant = () => {
               className={cn(
                 "w-7 h-7 rounded-lg flex items-center justify-center transition-all",
                 inputValue.trim() && !isLoading
-                  ? "bg-indigo-600 text-white hover:bg-indigo-700"
+                  ? "bg-emerald-600 text-white hover:bg-emerald-700"
                   : "bg-slate-200 text-slate-400 cursor-not-allowed"
               )}
             >
               {isLoading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Send className="w-3.5 h-3.5" />}
             </button>
           </div>
-          <p className="text-center text-[10px] text-slate-300 mt-2">NexWork AI · Your Business Co-Pilot</p>
+          <p className="text-center text-[10px] text-slate-300 mt-2">RendaHQ AI · Your Business Co-Pilot</p>
         </div>
       </div>
     </>

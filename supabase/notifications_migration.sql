@@ -1,5 +1,5 @@
 -- ============================================================
--- NexWork — Notifications Migration
+-- RendaHQ — Notifications Migration
 -- Run in: Supabase Dashboard → SQL Editor → New Query
 -- ============================================================
 

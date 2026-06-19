@@ -129,7 +129,7 @@ const Workflows = () => {
           
           <Dialog open={isCreateOpen} onOpenChange={setIsCreateOpen}>
             <DialogTrigger asChild>
-              <Button className="bg-indigo-600 hover:bg-indigo-700 text-white gap-2 shadow-lg shadow-indigo-100">
+              <Button className="bg-emerald-600 hover:bg-emerald-700 text-white gap-2 shadow-lg shadow-emerald-100">
                 <Plus className="w-4 h-4" />
                 Create Workflow
               </Button>
@@ -161,9 +161,9 @@ const Workflows = () => {
                   </Select>
                 </div>
                 
-                <div className="p-4 bg-indigo-50 rounded-2xl border border-indigo-100">
+                <div className="p-4 bg-emerald-50 rounded-2xl border border-emerald-100">
                   <div className="flex items-center justify-between mb-2">
-                    <div className="flex items-center gap-2 text-indigo-600">
+                    <div className="flex items-center gap-2 text-emerald-600">
                       <Sparkles className="w-4 h-4" />
                       <span className="text-xs font-bold uppercase tracking-wider">AI Assistant</span>
                     </div>
@@ -171,20 +171,20 @@ const Workflows = () => {
                       type="button" 
                       variant="ghost" 
                       size="sm" 
-                      className="text-indigo-600 hover:bg-indigo-100 h-7 text-xs font-bold"
+                      className="text-emerald-600 hover:bg-emerald-100 h-7 text-xs font-bold"
                       onClick={simulateAIGeneration}
                       disabled={isGenerating}
                     >
                       {isGenerating ? "Generating..." : "Generate with AI"}
                     </Button>
                   </div>
-                  <p className="text-xs text-indigo-700 leading-relaxed">
+                  <p className="text-xs text-emerald-700 leading-relaxed">
                     Not sure what to automate? Let our AI suggest a workflow based on your recent business activity.
                   </p>
                 </div>
 
                 <DialogFooter>
-                  <Button type="submit" className="w-full bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl py-6 font-bold">
+                  <Button type="submit" className="w-full bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl py-6 font-bold">
                     Create Workflow
                   </Button>
                 </DialogFooter>
@@ -195,7 +195,7 @@ const Workflows = () => {
 
         {/* Automation Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <Card className="border-none shadow-sm bg-indigo-600 text-white">
+          <Card className="border-none shadow-sm bg-emerald-600 text-white">
             <CardContent className="p-6">
               <div className="flex items-center justify-between mb-4">
                 <div className="p-2 rounded-lg bg-white/10">
@@ -203,7 +203,7 @@ const Workflows = () => {
                 </div>
                 <Badge className="bg-white/20 text-white border-none">Active</Badge>
               </div>
-              <p className="text-indigo-100 text-sm font-medium">Total Automations Run</p>
+              <p className="text-emerald-100 text-sm font-medium">Total Automations Run</p>
               <h3 className="text-3xl font-bold">1,240</h3>
             </CardContent>
           </Card>
@@ -248,15 +248,15 @@ const Workflows = () => {
                     <div className="flex items-center gap-4 min-w-[300px]">
                       <div className={cn(
                         "w-12 h-12 rounded-xl flex items-center justify-center",
-                        workflow.active ? "bg-indigo-50 text-indigo-600" : "bg-slate-100 text-slate-400"
+                        workflow.active ? "bg-emerald-50 text-emerald-600" : "bg-slate-100 text-slate-400"
                       )}>
                         <Zap className="w-6 h-6" />
                       </div>
                       <div>
                         <div className="flex items-center gap-2">
-                          <h4 className="font-bold text-slate-900 group-hover:text-indigo-600 transition-colors">{workflow.name}</h4>
+                          <h4 className="font-bold text-slate-900 group-hover:text-emerald-600 transition-colors">{workflow.name}</h4>
                           {workflow.name.startsWith("AI:") && (
-                            <Badge className="bg-indigo-100 text-indigo-700 border-none text-[10px] px-1.5 py-0">AI</Badge>
+                            <Badge className="bg-emerald-100 text-emerald-700 border-none text-[10px] px-1.5 py-0">AI</Badge>
                           )}
                         </div>
                         <p className="text-xs text-slate-500 flex items-center gap-1">
@@ -301,7 +301,7 @@ const Workflows = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
               { title: "Lead to Client", desc: "Automate the entire journey from lead capture to signed contract.", icon: UserPlus, color: "bg-blue-500" },
-              { title: "Project Kickoff", desc: "Create folders, tasks, and notify team when a project starts.", icon: FileText, color: "bg-indigo-500" },
+              { title: "Project Kickoff", desc: "Create folders, tasks, and notify team when a project starts.", icon: FileText, color: "bg-emerald-500" },
               { title: "Late Payment Recovery", desc: "Escalate reminders and notify you when invoices are overdue.", icon: CreditCard, color: "bg-rose-500" },
             ].map((template) => (
               <Card key={template.title} className="border-none shadow-sm hover:shadow-md transition-all cursor-pointer group">
@@ -309,9 +309,9 @@ const Workflows = () => {
                   <div className={cn("w-10 h-10 rounded-lg flex items-center justify-center text-white mb-4 shadow-lg", template.color)}>
                     <template.icon className="w-5 h-5" />
                   </div>
-                  <h4 className="font-bold text-slate-900 mb-2 group-hover:text-indigo-600 transition-colors">{template.title}</h4>
+                  <h4 className="font-bold text-slate-900 mb-2 group-hover:text-emerald-600 transition-colors">{template.title}</h4>
                   <p className="text-sm text-slate-500 leading-relaxed mb-4">{template.desc}</p>
-                  <Button variant="ghost" size="sm" className="p-0 text-indigo-600 hover:bg-transparent font-bold gap-1">
+                  <Button variant="ghost" size="sm" className="p-0 text-emerald-600 hover:bg-transparent font-bold gap-1">
                     Use Template <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
                   </Button>
                 </CardContent>

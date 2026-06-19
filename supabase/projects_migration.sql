@@ -1,5 +1,5 @@
 -- ============================================================
--- NexWork — Projects Migration
+-- RendaHQ — Projects Migration
 -- Run in: Supabase Dashboard → SQL Editor → New Query
 -- ============================================================
 

@@ -1,5 +1,5 @@
 -- ============================================================
--- NexWork — Supabase Schema
+-- RendaHQ — Supabase Schema
 -- Run this entire file in: Supabase Dashboard → SQL Editor → New Query
 -- ============================================================
 

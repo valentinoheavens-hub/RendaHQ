@@ -50,7 +50,7 @@ const Expenses = () => {
               <Download className="w-4 h-4" />
               Export for Tax
             </Button>
-            <Button className="bg-indigo-600 hover:bg-indigo-700 text-white gap-2">
+            <Button className="bg-emerald-600 hover:bg-emerald-700 text-white gap-2">
               <Plus className="w-4 h-4" />
               Log Expense
             </Button>
@@ -74,9 +74,9 @@ const Expenses = () => {
               <p className="text-[10px] text-slate-400 mt-2">98% of total spending</p>
             </CardContent>
           </Card>
-          <Card className="border-none shadow-sm bg-indigo-600 text-white">
+          <Card className="border-none shadow-sm bg-emerald-600 text-white">
             <CardContent className="p-6">
-              <p className="text-indigo-100 text-sm font-medium mb-1">Receipts Missing</p>
+              <p className="text-emerald-100 text-sm font-medium mb-1">Receipts Missing</p>
               <h3 className="text-2xl font-bold">2 Items</h3>
               <Button variant="link" className="text-white p-0 h-auto text-xs font-bold mt-2 opacity-80 hover:opacity-100">
                 Upload Now →

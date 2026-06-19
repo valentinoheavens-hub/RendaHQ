@@ -49,7 +49,7 @@ const Contracts = () => {
   const handleGenerate = async () => {
     if (!description.trim()) return;
     if (!hasApiKey) {
-      showError("NexWork AI is not configured. Please check your environment setup.");
+      showError("RendaHQ AI is not configured. Please check your environment setup.");
       return;
     }
 
@@ -67,7 +67,7 @@ const Contracts = () => {
         value: "$0.00",
       });
 
-      showSuccess("Contract drafted by NexWork AI!");
+      showSuccess("Contract drafted by RendaHQ AI!");
       navigate(`/contract/edit/${contract.id}`);
     } catch (err: any) {
       showError(err.message || "Failed to generate contract. Please try again.");
@@ -82,9 +82,9 @@ const Contracts = () => {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold text-slate-900">Contracts</h1>
-            <p className="text-slate-500">Manage agreements and generate new ones with NexWork AI.</p>
+            <p className="text-slate-500">Manage agreements and generate new ones with RendaHQ AI.</p>
           </div>
-          <Button className="bg-indigo-600 hover:bg-indigo-700 text-white gap-2">
+          <Button className="bg-emerald-600 hover:bg-emerald-700 text-white gap-2">
             <Plus className="w-4 h-4" />
             New Contract
           </Button>
@@ -94,22 +94,22 @@ const Contracts = () => {
           <div className="p-4 bg-amber-50 border border-amber-100 rounded-2xl flex gap-3 items-center">
             <AlertCircle className="w-5 h-5 text-amber-600" />
             <p className="text-sm text-amber-800">
-              <strong>NexWork AI is not configured.</strong> Please contact support or check your environment setup to enable AI generation.
+              <strong>RendaHQ AI is not configured.</strong> Please contact support or check your environment setup to enable AI generation.
             </p>
           </div>
         )}
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* AI Builder Panel */}
-          <Card className="lg:col-span-1 border-none shadow-sm bg-indigo-50 border-indigo-100 relative overflow-hidden">
+          <Card className="lg:col-span-1 border-none shadow-sm bg-emerald-50 border-emerald-100 relative overflow-hidden">
             <CardHeader>
-              <div className="flex items-center gap-2 text-indigo-600 mb-1">
+              <div className="flex items-center gap-2 text-emerald-600 mb-1">
                 <Sparkles className="w-5 h-5" />
                 <span className="text-xs font-bold uppercase tracking-wider">AI Contract Builder</span>
               </div>
-              <CardTitle className="text-lg font-bold">Generate with NexWork AI</CardTitle>
+              <CardTitle className="text-lg font-bold">Generate with RendaHQ AI</CardTitle>
               <CardDescription>
-                Describe your project scope and NexWork AI will draft a professional contract.
+                Describe your project scope and RendaHQ AI will draft a professional contract.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4 relative z-10">
@@ -119,7 +119,7 @@ const Contracts = () => {
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   placeholder="e.g. I'm designing a 5-page website for a law firm, including logo and brand guidelines..."
-                  className="min-h-[150px] bg-white border-slate-200 focus:ring-indigo-500 rounded-xl"
+                  className="min-h-[150px] bg-white border-slate-200 focus:ring-emerald-500 rounded-xl"
                 />
               </div>
               <div className="space-y-2">
@@ -127,7 +127,7 @@ const Contracts = () => {
                 <select
                   value={serviceType}
                   onChange={(e) => setServiceType(e.target.value)}
-                  className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
                 >
                   <option>Design Services</option>
                   <option>Software Development</option>
@@ -138,14 +138,14 @@ const Contracts = () => {
                 </select>
               </div>
               <Button
-                className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-6 rounded-xl font-bold group"
+                className="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-6 rounded-xl font-bold group"
                 onClick={handleGenerate}
                 disabled={isGenerating || !description.trim() || !hasApiKey}
               >
                 {isGenerating ? (
                   <>
                     <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    NexWork AI is Drafting...
+                    RendaHQ AI is Drafting...
                   </>
                 ) : (
                   <>
@@ -173,10 +173,10 @@ const Contracts = () => {
 
             {filteredContracts.length === 0 ? (
               <div className="text-center py-16 bg-white rounded-2xl border border-dashed border-slate-200">
-                <Sparkles className="w-10 h-10 text-indigo-200 mx-auto mb-3" />
+                <Sparkles className="w-10 h-10 text-emerald-200 mx-auto mb-3" />
                 <p className="text-slate-500 font-medium">No contracts yet</p>
                 <p className="text-slate-400 text-sm mt-1">
-                  {searchQuery ? "No results for that search." : "Describe your project and let NexWork AI draft your first contract."}
+                  {searchQuery ? "No results for that search." : "Describe your project and let RendaHQ AI draft your first contract."}
                 </p>
               </div>
             ) : (

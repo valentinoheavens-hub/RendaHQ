@@ -91,14 +91,14 @@ const ContractEditor = () => {
 
   const handleAISuggestion = async () => {
     if (!hasApiKey) {
-      showError("NexWork AI is not configured. Please contact support.");
+      showError("RendaHQ AI is not configured. Please contact support.");
       return;
     }
     setIsSuggesting(true);
     try {
       const suggestion = await suggestClause(content, "Intellectual Property");
       setContent((prev) => prev + "\n\n" + suggestion);
-      showSuccess("Clause added by NexWork AI!");
+      showSuccess("Clause added by RendaHQ AI!");
     } catch {
       showError("AI suggestion failed. Please try again.");
     } finally {
@@ -110,7 +110,7 @@ const ContractEditor = () => {
     return (
       <DashboardLayout>
         <div className="flex justify-center py-20">
-          <Loader2 className="animate-spin text-indigo-600 w-8 h-8" />
+          <Loader2 className="animate-spin text-emerald-600 w-8 h-8" />
         </div>
       </DashboardLayout>
     );
@@ -135,7 +135,7 @@ const ContractEditor = () => {
               Save Draft
             </Button>
             <Button
-              className="bg-indigo-600 hover:bg-indigo-700 text-white gap-2"
+              className="bg-emerald-600 hover:bg-emerald-700 text-white gap-2"
               onClick={() => setShowSendDialog(true)}
             >
               <Send className="w-4 h-4" /> Send to Client
@@ -166,24 +166,24 @@ const ContractEditor = () => {
 
           {/* AI Sidebar */}
           <div className="space-y-6">
-            <Card className="border-none shadow-sm bg-indigo-50">
+            <Card className="border-none shadow-sm bg-emerald-50">
               <CardContent className="p-6">
-                <div className="flex items-center gap-2 text-indigo-600 mb-2">
+                <div className="flex items-center gap-2 text-emerald-600 mb-2">
                   <Sparkles className="w-4 h-4" />
-                  <h4 className="font-bold">NexWork AI Assistant</h4>
+                  <h4 className="font-bold">RendaHQ AI Assistant</h4>
                 </div>
-                <p className="text-sm text-indigo-700 mb-4">
-                  NexWork AI can help you refine this contract. Click below to add a standard "Intellectual Property" clause.
+                <p className="text-sm text-emerald-700 mb-4">
+                  RendaHQ AI can help you refine this contract. Click below to add a standard "Intellectual Property" clause.
                 </p>
                 <Button
-                  className="w-full bg-indigo-600 text-white hover:bg-indigo-700 border-none"
+                  className="w-full bg-emerald-600 text-white hover:bg-emerald-700 border-none"
                   onClick={handleAISuggestion}
                   disabled={isSuggesting || !hasApiKey}
                 >
                   {isSuggesting ? (
                     <Loader2 className="w-4 h-4 animate-spin" />
                   ) : (
-                    "Add Clause with NexWork AI"
+                    "Add Clause with RendaHQ AI"
                   )}
                 </Button>
               </CardContent>
@@ -200,7 +200,7 @@ const ContractEditor = () => {
                   "Add a late payment penalty clause",
                 ].map((tip, i) => (
                   <p key={i} className="text-xs text-slate-500 flex gap-2">
-                    <span className="text-indigo-400 font-bold shrink-0">→</span>
+                    <span className="text-emerald-400 font-bold shrink-0">→</span>
                     {tip}
                   </p>
                 ))}
@@ -215,8 +215,8 @@ const ContractEditor = () => {
         <DialogContent className="sm:max-w-[440px] rounded-3xl border-none shadow-2xl">
           <DialogHeader>
             <div className="flex items-center gap-2 mb-1">
-              <div className="w-8 h-8 rounded-xl bg-indigo-50 flex items-center justify-center">
-                <Send className="w-4 h-4 text-indigo-600" />
+              <div className="w-8 h-8 rounded-xl bg-emerald-50 flex items-center justify-center">
+                <Send className="w-4 h-4 text-emerald-600" />
               </div>
               <DialogTitle className="text-lg font-bold">Send Contract to Client</DialogTitle>
             </div>
@@ -232,7 +232,7 @@ const ContractEditor = () => {
                 placeholder="client@example.com"
                 value={sendEmail}
                 onChange={(e) => setSendEmail(e.target.value)}
-                className="h-10 border-slate-200 focus-visible:ring-indigo-500"
+                className="h-10 border-slate-200 focus-visible:ring-emerald-500"
                 onKeyDown={(e) => e.key === "Enter" && handleSendToClient()}
               />
             </div>
@@ -241,7 +241,7 @@ const ContractEditor = () => {
                 Cancel
               </Button>
               <Button
-                className="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white gap-2"
+                className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white gap-2"
                 onClick={handleSendToClient}
                 disabled={!sendEmail || isSending}
               >

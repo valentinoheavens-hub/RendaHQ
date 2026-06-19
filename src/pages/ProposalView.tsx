@@ -26,7 +26,7 @@ const ProposalView = () => {
     date: "Oct 28, 2023",
     validUntil: "Nov 11, 2023",
     client: "Acme Corp",
-    agency: "NexWork Design Studio",
+    agency: "RendaHQ Design Studio",
     scope: "A complete overhaul of the Acme Corp digital presence, including a new visual identity system and a high-performance marketing website built on React.",
     items: [
       { description: "Brand Strategy & Visual Identity", amount: 2500 },
@@ -52,7 +52,7 @@ const ProposalView = () => {
           <p className="text-slate-500 mb-8">
             Thank you for choosing {proposal.agency}. We've been notified and are preparing the next steps for your project.
           </p>
-          <Button className="w-full bg-indigo-600 hover:bg-indigo-700 text-white" onClick={() => navigate("/")}>
+          <Button className="w-full bg-emerald-600 hover:bg-emerald-700 text-white" onClick={() => navigate("/")}>
             Return to Home
           </Button>
         </Card>
@@ -65,7 +65,7 @@ const ProposalView = () => {
       <div className="max-w-4xl mx-auto space-y-8">
         <div className="flex items-center justify-between no-print">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-bold text-xl">N</div>
+            <div className="w-10 h-10 bg-emerald-600 rounded-xl flex items-center justify-center text-white font-bold text-xl">R</div>
             <div>
               <h1 className="font-bold text-slate-900">Proposal for {proposal.client}</h1>
               <p className="text-xs text-slate-500">From {proposal.agency}</p>
@@ -75,18 +75,18 @@ const ProposalView = () => {
             <Button variant="outline" className="gap-2">
               <Download className="w-4 h-4" /> PDF
             </Button>
-            <Button className="bg-indigo-600 hover:bg-indigo-700 text-white gap-2" onClick={handleAccept}>
+            <Button className="bg-emerald-600 hover:bg-emerald-700 text-white gap-2" onClick={handleAccept}>
               Accept Proposal <ArrowRight className="w-4 h-4" />
             </Button>
           </div>
         </div>
 
         <Card className="border-none shadow-2xl overflow-hidden bg-white">
-          <div className="h-2 bg-indigo-600" />
+          <div className="h-2 bg-emerald-600" />
           <CardContent className="p-12 space-y-12">
             <div className="flex justify-between items-start">
               <div className="space-y-2">
-                <Badge className="bg-indigo-50 text-indigo-700 border-none mb-2">Project Proposal</Badge>
+                <Badge className="bg-emerald-50 text-emerald-700 border-none mb-2">Project Proposal</Badge>
                 <h1 className="text-4xl font-black text-slate-900 tracking-tight">{proposal.title}</h1>
                 <div className="flex items-center gap-4 text-slate-500 text-sm">
                   <span className="flex items-center gap-1"><Clock className="w-4 h-4" /> Issued: {proposal.date}</span>
@@ -95,13 +95,13 @@ const ProposalView = () => {
               </div>
               <div className="text-right">
                 <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1">Total Investment</p>
-                <p className="text-4xl font-black text-indigo-600">${proposal.total.toLocaleString()}</p>
+                <p className="text-4xl font-black text-emerald-600">${proposal.total.toLocaleString()}</p>
               </div>
             </div>
 
             <div className="space-y-4">
               <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-                <FileText className="w-5 h-5 text-indigo-600" />
+                <FileText className="w-5 h-5 text-emerald-600" />
                 Executive Summary
               </h3>
               <p className="text-slate-600 leading-relaxed text-lg">
@@ -126,9 +126,9 @@ const ProposalView = () => {
                         <td className="p-4 text-right text-slate-900 font-bold">${item.amount.toLocaleString()}</td>
                       </tr>
                     ))}
-                    <tr className="bg-indigo-50/30">
+                    <tr className="bg-emerald-50/30">
                       <td className="p-4 text-slate-900 font-bold">Total Project Investment</td>
-                      <td className="p-4 text-right text-indigo-600 font-black text-xl">${proposal.total.toLocaleString()}</td>
+                      <td className="p-4 text-right text-emerald-600 font-black text-xl">${proposal.total.toLocaleString()}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -152,7 +152,7 @@ const ProposalView = () => {
                 <p className="text-sm text-slate-500">
                   By clicking "Accept Proposal", you agree to the terms outlined above. We will follow up with a formal contract and deposit invoice.
                 </p>
-                <Button className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-6 text-lg font-bold rounded-xl" onClick={handleAccept}>
+                <Button className="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-6 text-lg font-bold rounded-xl" onClick={handleAccept}>
                   Accept & Start Project
                 </Button>
               </div>

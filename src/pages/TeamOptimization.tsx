@@ -128,7 +128,7 @@ const TeamOptimization = () => {
           <div className="flex gap-3">
             <Button variant="outline" className="border-slate-200">Vitality Report</Button>
             <Link to="/staff-onboarding">
-              <Button className="bg-indigo-600 hover:bg-indigo-700 text-white gap-2 shadow-lg shadow-indigo-100">
+              <Button className="bg-emerald-600 hover:bg-emerald-700 text-white gap-2 shadow-lg shadow-emerald-100">
                 <UserPlus className="w-4 h-4" />
                 Onboard New Staff
               </Button>
@@ -138,7 +138,7 @@ const TeamOptimization = () => {
 
         {/* Team Health Overview */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <Card className="border-none shadow-sm bg-indigo-600 text-white">
+          <Card className="border-none shadow-sm bg-emerald-600 text-white">
             <CardContent className="p-6">
               <div className="flex items-center justify-between mb-4">
                 <div className="p-2 rounded-lg bg-white/10">
@@ -146,7 +146,7 @@ const TeamOptimization = () => {
                 </div>
                 <Badge className="bg-white/20 text-white border-none">92% Avg</Badge>
               </div>
-              <p className="text-indigo-100 text-sm font-medium">Vision Alignment</p>
+              <p className="text-emerald-100 text-sm font-medium">Vision Alignment</p>
               <h3 className="text-2xl font-bold">Strategic Synergy</h3>
             </CardContent>
           </Card>
@@ -204,7 +204,7 @@ const TeamOptimization = () => {
                           </div>
                         </div>
                         <div className="text-center md:text-left space-y-1">
-                          <Link to={`/staff/${member.id}`} className="hover:text-indigo-600 transition-colors">
+                          <Link to={`/staff/${member.id}`} className="hover:text-emerald-600 transition-colors">
                             <h4 className="font-bold text-lg text-slate-900">{member.name}</h4>
                           </Link>
                           <p className="text-xs font-medium text-slate-500">{member.role}</p>
@@ -223,7 +223,7 @@ const TeamOptimization = () => {
                               <span>Alignment</span>
                               <span className="text-slate-900">{member.alignment}%</span>
                             </div>
-                            <Progress value={member.alignment} className="h-1.5 bg-slate-100 [&>div]:bg-indigo-500" />
+                            <Progress value={member.alignment} className="h-1.5 bg-slate-100 [&>div]:bg-emerald-500" />
                           </div>
                           <div className="space-y-2">
                             <div className="flex justify-between text-[10px] font-bold text-slate-400 uppercase tracking-widest">
@@ -264,7 +264,7 @@ const TeamOptimization = () => {
                       {/* Actions */}
                       <div className="flex items-start gap-2">
                         <Link to={`/staff/${member.id}`}>
-                          <Button variant="ghost" size="icon" className="text-slate-400 hover:text-indigo-600">
+                          <Button variant="ghost" size="icon" className="text-slate-400 hover:text-emerald-600">
                             <ArrowUpRight className="w-4 h-4" />
                           </Button>
                         </Link>
@@ -301,12 +301,12 @@ const TeamOptimization = () => {
                 <CardDescription>How the team maps to the company vision.</CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
-                <div className="p-4 bg-indigo-50 rounded-2xl border border-indigo-100">
+                <div className="p-4 bg-emerald-50 rounded-2xl border border-emerald-100">
                   <div className="flex gap-3 mb-3">
-                    <Target className="w-5 h-5 text-indigo-600 shrink-0" />
-                    <p className="text-sm font-bold text-indigo-900">Vision: "Global Design Leader"</p>
+                    <Target className="w-5 h-5 text-emerald-600 shrink-0" />
+                    <p className="text-sm font-bold text-emerald-900">Vision: "Global Design Leader"</p>
                   </div>
-                  <p className="text-xs text-indigo-700 leading-relaxed">
+                  <p className="text-xs text-emerald-700 leading-relaxed">
                     85% of current team tasks are directly contributing to this vision. 15% are administrative overhead.
                   </p>
                 </div>
@@ -319,7 +319,7 @@ const TeamOptimization = () => {
                   ].map((item) => (
                     <div key={item.name} className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <div className="w-1.5 h-1.5 rounded-full bg-indigo-500" />
+                        <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
                         <span className="text-sm font-medium text-slate-700">{item.name}</span>
                       </div>
                       <Badge variant="secondary" className="bg-slate-100 text-slate-600 border-none text-[10px]">

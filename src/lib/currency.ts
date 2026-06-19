@@ -219,7 +219,7 @@ export const getPaymentCurrency = (displayCode: string): string => {
   return cur?.paymentSupported ? displayCode : 'USD';
 };
 
-const STORAGE_KEY = 'nexwork_currency';
+const STORAGE_KEY = 'rendahq_currency';
 
 // ─── Persistence ─────────────────────────────────────────────────────────────
 export const getCurrencyCode = (): string =>

@@ -17,7 +17,7 @@ serve(async (req) => {
     const groqKey = Deno.env.get("GROQ_API_KEY");
     if (!groqKey) {
       return new Response(
-        JSON.stringify({ error: "NexWork AI is not configured on the server." }),
+        JSON.stringify({ error: "RendaHQ AI is not configured on the server." }),
         { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
@@ -43,7 +43,7 @@ serve(async (req) => {
     if (!groqRes.ok) {
       const errText = await groqRes.text();
       return new Response(
-        JSON.stringify({ error: "NexWork AI request failed.", detail: errText }),
+        JSON.stringify({ error: "RendaHQ AI request failed.", detail: errText }),
         { status: groqRes.status, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }

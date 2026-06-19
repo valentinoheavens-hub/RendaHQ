@@ -60,7 +60,7 @@ const Files = () => {
               <Folder className="w-4 h-4" />
               New Folder
             </Button>
-            <Button className="bg-indigo-600 hover:bg-indigo-700 text-white gap-2">
+            <Button className="bg-emerald-600 hover:bg-emerald-700 text-white gap-2">
               <UploadCloud className="w-4 h-4" />
               Upload Files
             </Button>
@@ -68,12 +68,12 @@ const Files = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          <Card className="border-none shadow-sm bg-indigo-50 border-indigo-100">
+          <Card className="border-none shadow-sm bg-emerald-50 border-emerald-100">
             <CardContent className="p-6">
-              <p className="text-xs font-bold text-indigo-600 uppercase tracking-wider mb-1">Storage Used</p>
+              <p className="text-xs font-bold text-emerald-600 uppercase tracking-wider mb-1">Storage Used</p>
               <h3 className="text-2xl font-bold text-slate-900">1.2 GB / 5 GB</h3>
               <div className="mt-3 h-2 w-full bg-white rounded-full overflow-hidden">
-                <div className="h-full bg-indigo-600 w-[24%]" />
+                <div className="h-full bg-emerald-600 w-[24%]" />
               </div>
             </CardContent>
           </Card>
@@ -133,7 +133,7 @@ const Files = () => {
                       </div>
                     </TableCell>
                     <TableCell>
-                      <Badge variant="secondary" className="bg-indigo-50 text-indigo-700 border-none text-[10px]">
+                      <Badge variant="secondary" className="bg-emerald-50 text-emerald-700 border-none text-[10px]">
                         {file.project}
                       </Badge>
                     </TableCell>

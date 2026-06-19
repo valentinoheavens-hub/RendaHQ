@@ -137,7 +137,7 @@ const InvoiceBuilder = () => {
               Save Draft
             </Button>
             <Button
-              className="bg-indigo-600 hover:bg-indigo-700 text-white gap-2"
+              className="bg-emerald-600 hover:bg-emerald-700 text-white gap-2"
               onClick={() => save("Sent")}
               disabled={saving}
             >
@@ -155,11 +155,11 @@ const InvoiceBuilder = () => {
                 {/* Agency header */}
                 <div className="flex justify-between">
                   <div className="space-y-3">
-                    <div className="w-14 h-14 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-bold text-2xl">
+                    <div className="w-14 h-14 bg-emerald-600 rounded-xl flex items-center justify-center text-white font-bold text-2xl">
                       N
                     </div>
                     <div>
-                      <p className="font-bold text-slate-900">NexWork Design Studio</p>
+                      <p className="font-bold text-slate-900">RendaHQ Design Studio</p>
                       <p className="text-sm text-slate-500">123 Creative Way, Lagos, Nigeria</p>
                     </div>
                   </div>
@@ -179,7 +179,7 @@ const InvoiceBuilder = () => {
                       <select
                         value={clientId}
                         onChange={(e) => handleClientChange(e.target.value)}
-                        className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
                       >
                         <option value="">Select a client…</option>
                         {clients.map((c) => (
@@ -268,7 +268,7 @@ const InvoiceBuilder = () => {
                   </Table>
                   <Button
                     variant="ghost"
-                    className="mt-4 text-indigo-600 hover:text-indigo-700 hover:bg-indigo-50"
+                    className="mt-4 text-emerald-600 hover:text-emerald-700 hover:bg-emerald-50"
                     onClick={addItem}
                   >
                     <Plus className="w-4 h-4 mr-2" /> Add Line Item
@@ -288,7 +288,7 @@ const InvoiceBuilder = () => {
                     </div>
                     <div className="flex justify-between text-xl font-bold text-slate-900 pt-3 border-t border-slate-100">
                       <span>Total</span>
-                      <span className="text-indigo-600">{format(subtotal)}</span>
+                      <span className="text-emerald-600">{format(subtotal)}</span>
                     </div>
                   </div>
                 </div>
@@ -310,7 +310,7 @@ const InvoiceBuilder = () => {
                   <select
                     value={paymentMethod}
                     onChange={(e) => setPaymentMethod(e.target.value)}
-                    className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
                   >
                     <option>Paystack</option>
                     <option>Flutterwave</option>
@@ -331,11 +331,11 @@ const InvoiceBuilder = () => {
               </CardContent>
             </Card>
 
-            <Card className="border-none shadow-sm bg-indigo-50">
+            <Card className="border-none shadow-sm bg-emerald-50">
               <CardContent className="p-5 space-y-2">
-                <p className="text-sm font-bold text-indigo-900">Total Due</p>
-                <p className="text-3xl font-black text-indigo-600">{format(subtotal)}</p>
-                <p className="text-xs text-indigo-500">
+                <p className="text-sm font-bold text-emerald-900">Total Due</p>
+                <p className="text-3xl font-black text-emerald-600">{format(subtotal)}</p>
+                <p className="text-xs text-emerald-500">
                   {dueDate ? `Due ${new Date(dueDate).toLocaleDateString()}` : "No due date set"}
                 </p>
               </CardContent>

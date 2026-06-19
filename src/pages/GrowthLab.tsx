@@ -102,7 +102,7 @@ const GrowthLab = () => {
             <h1 className="text-3xl font-black text-slate-900 tracking-tight">Growth Lab</h1>
             <p className="text-slate-500">Design, execute, and measure strategic business experiments.</p>
           </div>
-          <Button className="bg-indigo-600 hover:bg-indigo-700 text-white gap-2 shadow-lg shadow-indigo-100">
+          <Button className="bg-emerald-600 hover:bg-emerald-700 text-white gap-2 shadow-lg shadow-emerald-100">
             <Plus className="w-4 h-4" />
             New Experiment
           </Button>
@@ -113,7 +113,7 @@ const GrowthLab = () => {
           <Card className="lg:col-span-1 border-none shadow-sm">
             <CardHeader>
               <div className="flex items-center gap-2 mb-1">
-                <TrendingUp className="w-4 h-4 text-indigo-600" />
+                <TrendingUp className="w-4 h-4 text-emerald-600" />
                 <CardTitle className="text-lg font-bold">Conversion Funnel</CardTitle>
               </div>
               <CardDescription>Lead-to-Client lifecycle performance.</CardDescription>
@@ -127,19 +127,19 @@ const GrowthLab = () => {
                   </div>
                   <div className="h-8 bg-slate-50 rounded-lg overflow-hidden flex items-center px-3 relative">
                     <div 
-                      className="absolute inset-0 bg-indigo-600/10" 
+                      className="absolute inset-0 bg-emerald-600/10" 
                       style={{ width: `${(item.count / funnelData[0].count) * 100}%` }}
                     />
-                    <span className="relative z-10 text-[10px] font-black text-indigo-600">
+                    <span className="relative z-10 text-[10px] font-black text-emerald-600">
                       {i > 0 ? `↓ ${item.conversion} conversion` : "Baseline"}
                     </span>
                   </div>
                 </div>
               ))}
-              <div className="mt-6 p-4 bg-indigo-50 rounded-xl border border-indigo-100 space-y-3">
+              <div className="mt-6 p-4 bg-emerald-50 rounded-xl border border-emerald-100 space-y-3">
                 <div className="flex gap-3">
-                  <Zap className="w-5 h-5 text-indigo-600 shrink-0 mt-0.5" />
-                  <p className="text-xs text-indigo-900 leading-relaxed">
+                  <Zap className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
+                  <p className="text-xs text-emerald-900 leading-relaxed">
                     {growthInsight
                       ? <span>{growthInsight}</span>
                       : <><span className="font-bold">Funnel Insight:</span> Click below to get an AI-powered analysis of your biggest growth lever.</>
@@ -147,7 +147,7 @@ const GrowthLab = () => {
                   </p>
                 </div>
                 <Button
-                  className="w-full bg-indigo-600 hover:bg-indigo-700 text-white text-xs gap-2 h-8 rounded-lg"
+                  className="w-full bg-emerald-600 hover:bg-emerald-700 text-white text-xs gap-2 h-8 rounded-lg"
                   onClick={handleGrowthIdeas}
                   disabled={isLoadingGrowth}
                 >
@@ -179,12 +179,12 @@ const GrowthLab = () => {
                       <div className="flex items-center gap-4">
                         <div className={cn(
                           "w-12 h-12 rounded-xl flex items-center justify-center",
-                          exp.status === "Active" ? "bg-indigo-50 text-indigo-600" : "bg-emerald-50 text-emerald-600"
+                          exp.status === "Active" ? "bg-emerald-50 text-emerald-600" : "bg-emerald-50 text-emerald-600"
                         )}>
                           <Beaker className="w-6 h-6" />
                         </div>
                         <div>
-                          <h4 className="font-bold text-slate-900 group-hover:text-indigo-600 transition-colors">{exp.title || exp.name}</h4>
+                          <h4 className="font-bold text-slate-900 group-hover:text-emerald-600 transition-colors">{exp.title || exp.name}</h4>
                           <p className="text-xs text-slate-500">Started {exp.startDate} • Impact: <span className="font-bold text-slate-700">{exp.impact}</span></p>
                         </div>
                       </div>
@@ -259,9 +259,9 @@ const GrowthLab = () => {
                   <div className={cn("w-10 h-10 rounded-lg flex items-center justify-center text-white mb-4 shadow-lg", playbook.color)}>
                     <playbook.icon className="w-5 h-5" />
                   </div>
-                  <h4 className="font-bold text-slate-900 mb-2 group-hover:text-indigo-600 transition-colors">{playbook.title}</h4>
+                  <h4 className="font-bold text-slate-900 mb-2 group-hover:text-emerald-600 transition-colors">{playbook.title}</h4>
                   <p className="text-sm text-slate-500 leading-relaxed mb-4">{playbook.desc}</p>
-                  <Button variant="ghost" size="sm" className="p-0 text-indigo-600 hover:bg-transparent font-bold gap-1">
+                  <Button variant="ghost" size="sm" className="p-0 text-emerald-600 hover:bg-transparent font-bold gap-1">
                     Launch Playbook <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
                   </Button>
                 </CardContent>
