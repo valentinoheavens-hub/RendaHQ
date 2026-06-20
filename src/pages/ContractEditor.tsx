@@ -41,7 +41,9 @@ const ContractEditor = () => {
   const [showSendDialog, setShowSendDialog] = useState(false);
   const [sendEmail, setSendEmail] = useState("");
   const [isSending, setIsSending] = useState(false);
-  const hasApiKey = Boolean(import.meta.env.VITE_GROQ_API_KEY);
+  // AI runs server-side via the ai-proxy edge function; gate on the (public)
+  // backend URL, never the secret Groq key.
+  const hasApiKey = Boolean(import.meta.env.VITE_SUPABASE_URL);
 
   useEffect(() => {
     if (!contractId) return;

@@ -1,24 +1,8 @@
-import { Resend } from 'resend';
-
-const apiKey = import.meta.env.VITE_RESEND_API_KEY;
-
-const resend = new Resend(apiKey);
-
-// ─── Quick test (matches the Resend quickstart exactly) ───────────────────────
-export const sendTestEmail = () =>
-  resend.emails.send({
-    from: 'onboarding@resend.dev',
-    to: 'valentinoheavens@gmail.com',
-    subject: 'Hello World',
-    html: '<p>Congrats on sending your <strong>first email</strong>!</p>',
-  });
-
-// ─── Guard ────────────────────────────────────────────────────────────────────
-const guardKey = () => {
-  if (!apiKey) {
-    throw new Error('Email service is not configured. Please check your environment setup.');
-  }
-};
+// All email is sent server-side via the `send-email` Supabase Edge Function.
+// The Resend API key never touches the browser. The function requires a valid
+// user JWT (added automatically by supabase.functions.invoke), so it can't be
+// abused as an open relay.
+import { supabase } from '@/lib/supabase';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 export interface SendEmailOptions {
@@ -37,30 +21,32 @@ export interface SendEmailResult {
 
 // ─── Send Email ───────────────────────────────────────────────────────────────
 export const sendEmail = async (opts: SendEmailOptions): Promise<SendEmailResult> => {
-  guardKey();
-
-  const from = opts.fromName && opts.fromName !== 'RendaHQ'
-    ? `${opts.fromName} <onboarding@resend.dev>`
-    : 'onboarding@resend.dev';
-
   try {
-    const { data, error } = await resend.emails.send({
-      from,
-      to: Array.isArray(opts.to) ? opts.to : [opts.to],
-      subject: opts.subject,
-      html: opts.body.includes('<') ? opts.body : `<p style="font-family:sans-serif;line-height:1.6">${opts.body.replace(/\n/g, '<br/>')}</p>`,
-      reply_to: opts.replyTo,
+    const { data, error } = await supabase.functions.invoke('send-email', {
+      body: {
+        to: opts.to,
+        subject: opts.subject,
+        body: opts.body,
+        fromName: opts.fromName,
+        replyTo: opts.replyTo,
+      },
     });
 
-    if (error) {
-      return { success: false, error: error.message };
-    }
-
+    if (error) return { success: false, error: error.message };
+    if (data?.error) return { success: false, error: data.error };
     return { success: true, id: data?.id };
   } catch (err: any) {
-    return { success: false, error: err.message ?? 'Failed to send email.' };
+    return { success: false, error: err?.message ?? 'Failed to send email.' };
   }
 };
+
+// ─── Quick test helper ────────────────────────────────────────────────────────
+export const sendTestEmail = () =>
+  sendEmail({
+    to: 'valentinoheavens@gmail.com',
+    subject: 'Hello World',
+    body: '<p>Congrats on sending your <strong>first email</strong>!</p>',
+  });
 
 // ─── Send Invoice Reminder ────────────────────────────────────────────────────
 export const sendInvoiceReminder = async (opts: {

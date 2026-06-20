@@ -31,7 +31,9 @@ const Contracts = () => {
   const [contracts, setContracts] = useState<Contract[]>([]);
   const [loadingContracts, setLoadingContracts] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
-  const hasApiKey = Boolean(import.meta.env.VITE_GROQ_API_KEY);
+  // AI runs server-side via the ai-proxy edge function; gate on the (public)
+  // backend URL, never the secret Groq key.
+  const hasApiKey = Boolean(import.meta.env.VITE_SUPABASE_URL);
 
   useEffect(() => {
     contractStore.getAll()
