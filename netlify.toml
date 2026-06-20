@@ -5,6 +5,14 @@
 
 [build.environment]
   NODE_VERSION = "22"
+  # Public/publishable client keys — safe to commit (Vite already ships these
+  # in the browser bundle by design). All SECRETS live in Supabase Edge Function
+  # secrets, never here.
+  VITE_SUPABASE_URL = "https://uhpfpecvzgmhsimegfkn.supabase.co"
+  VITE_SUPABASE_ANON_KEY = "sb_publishable_MdgLDyC09eHRa0rBo7iPAA_F96W_uIR"
+  # Fill in when ready (also public keys, safe to commit):
+  # VITE_FLUTTERWAVE_PUBLIC_KEY = "FLWPUBK-xxxxx"
+  # VITE_STRIPE_PUBLIC_KEY = "pk_live_xxxxx"
 
 # Single-page-app fallback: every path serves index.html so React Router
 # can handle client-side routes (e.g. /billing, /dashboard) on direct hits
