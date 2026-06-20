@@ -38,10 +38,16 @@ CREATE POLICY "subscriptions_select" ON subscriptions
 -- ─── Grant every new user a 14-day Agency trial (no card) ─────
 -- Extends the existing handle_new_user() from schema.sql so signup
 -- also seeds a trialing subscription.
-CREATE OR REPLACE FUNCTION handle_new_user()
-RETURNS TRIGGER AS $$
+-- SECURITY DEFINER with a pinned empty search_path (schema-qualify all refs)
+-- to prevent search_path-based privilege escalation.
+CREATE OR REPLACE FUNCTION public.handle_new_user()
+RETURNS TRIGGER
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = ''
+AS $$
 BEGIN
-  INSERT INTO profiles (id, email, full_name)
+  INSERT INTO public.profiles (id, email, full_name)
   VALUES (
     NEW.id,
     NEW.email,
@@ -49,13 +55,16 @@ BEGIN
   )
   ON CONFLICT (id) DO NOTHING;
 
-  INSERT INTO subscriptions (user_id, plan, status, trial_ends_at)
+  INSERT INTO public.subscriptions (user_id, plan, status, trial_ends_at)
   VALUES (NEW.id, 'agency', 'trialing', NOW() + INTERVAL '14 days')
   ON CONFLICT (user_id) DO NOTHING;
 
   RETURN NEW;
 END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
+$$;
+
+-- Only fire via the trigger below — never as a public RPC endpoint.
+REVOKE EXECUTE ON FUNCTION public.handle_new_user() FROM PUBLIC, anon, authenticated;
 
 -- Trigger already created in schema.sql (on_auth_user_created); re-bind to be safe.
 DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
