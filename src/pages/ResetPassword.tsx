@@ -76,8 +76,10 @@ export default function ResetPassword() {
       return;
     }
     setPhase("done");
-    showSuccess("Password updated!");
-    setTimeout(() => navigate("/dashboard", { replace: true }), 1400);
+    showSuccess("Password updated! Please sign in with your new password.");
+    // Clear the temporary recovery session so sign-in is clean and unambiguous.
+    await supabase.auth.signOut();
+    setTimeout(() => navigate("/signin", { replace: true }), 1500);
   };
 
   return (
@@ -118,7 +120,7 @@ export default function ResetPassword() {
                 <CheckCircle2 className="w-6 h-6 text-emerald-600" />
               </div>
               <h1 className="text-xl font-black text-slate-900 mb-2">Password updated</h1>
-              <p className="text-slate-500 text-sm">Taking you to your dashboard…</p>
+              <p className="text-slate-500 text-sm">Redirecting you to sign in…</p>
             </div>
           )}
 
