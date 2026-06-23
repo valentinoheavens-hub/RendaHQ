@@ -12,6 +12,7 @@ import { ProtectedRoute } from "@/components/ProtectedRoute";
 import Index from "./pages/Index";
 import SignIn from "./pages/SignIn";
 import ResetPassword from "./pages/ResetPassword";
+import AuthConfirm from "./pages/AuthConfirm";
 import Onboarding from "./pages/Onboarding";
 import Dashboard from "./pages/Dashboard";
 import BusinessDiagnostics from "./pages/BusinessDiagnostics";
@@ -75,6 +76,7 @@ const App = () => (
             <Route path="/signin" element={<SignIn />} />
             <Route path="/login" element={<SignIn />} />
             <Route path="/reset-password" element={<ResetPassword />} />
+            <Route path="/auth/confirm" element={<AuthConfirm />} />
             <Route path="/onboarding" element={<P el={<Onboarding />} />} />
             <Route path="/portal/:clientId" element={<ClientPortal />} />
             <Route path="/onboarding/:token" element={<ClientOnboarding />} />
