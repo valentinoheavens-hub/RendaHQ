@@ -18,48 +18,63 @@ export default function ResetPassword() {
   const [showPassword, setShowPassword] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [phase, setPhase] = useState<Phase>("checking");
+  const [formError, setFormError] = useState<string | null>(null);
 
-  // supabase-js auto-parses the recovery token from the URL hash on load and
-  // fires PASSWORD_RECOVERY with a temporary session. We confirm a session
-  // exists before showing the form.
+  // Establish the recovery session. Prefer the token_hash flow (the link points
+  // straight to this page, so it survives email-client link prefetch — only JS,
+  // not scanners, exchanges the token). Falls back to PKCE code, then to the
+  // implicit hash flow for older email templates.
   useEffect(() => {
-    let settled = false;
+    let active = true;
+    const url = new URL(window.location.href);
+    const tokenHash = url.searchParams.get("token_hash");
+    const type = (url.searchParams.get("type") as "recovery" | "email" | null) ?? "recovery";
+    const code = url.searchParams.get("code");
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      if ((event === "PASSWORD_RECOVERY" || event === "SIGNED_IN") && session) {
-        settled = true;
-        setPhase("ready");
-      }
-    });
-
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session) {
-        settled = true;
-        setPhase("ready");
+    const run = async () => {
+      if (tokenHash) {
+        const { error } = await supabase.auth.verifyOtp({ token_hash: tokenHash, type });
+        if (active) setPhase(error ? "invalid" : "ready");
         return;
       }
-      // Give the client a moment to process the URL hash, then decide.
-      setTimeout(() => {
-        if (settled) return;
-        supabase.auth.getSession().then(({ data: { session } }) => {
-          setPhase(session ? "ready" : "invalid");
-        });
-      }, 2000);
-    });
+      if (code) {
+        const { error } = await supabase.auth.exchangeCodeForSession(code);
+        if (active) setPhase(error ? "invalid" : "ready");
+        return;
+      }
+      // Implicit hash flow (detectSessionInUrl already ran) or existing session.
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) { if (active) setPhase("ready"); return; }
 
-    return () => subscription.unsubscribe();
+      const { data: { subscription } } = supabase.auth.onAuthStateChange((_e, s) => {
+        if (s && active) { setPhase("ready"); subscription.unsubscribe(); }
+      });
+      setTimeout(async () => {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (active) setPhase(session ? "ready" : "invalid");
+        subscription.unsubscribe();
+      }, 2500);
+    };
+
+    run();
+    return () => { active = false; };
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (password.length < 8) { showError("Password must be at least 8 characters."); return; }
-    if (password !== confirm) { showError("Passwords don't match."); return; }
+    setFormError(null);
+    if (password.length < 8) { setFormError("Password must be at least 8 characters."); return; }
+    if (password !== confirm) { setFormError("Passwords don't match."); return; }
 
     setIsSaving(true);
     const { error } = await supabase.auth.updateUser({ password });
     setIsSaving(false);
 
-    if (error) { showError(error.message); return; }
+    if (error) {
+      setFormError(error.message);
+      showError(error.message);
+      return;
+    }
     setPhase("done");
     showSuccess("Password updated!");
     setTimeout(() => navigate("/dashboard", { replace: true }), 1400);
@@ -68,7 +83,6 @@ export default function ResetPassword() {
   return (
     <div className="min-h-screen bg-slate-50 flex items-center justify-center p-6">
       <div className="w-full max-w-md">
-        {/* Logo */}
         <Link to="/" className="flex items-center justify-center gap-2 mb-10">
           <img src="/rendahq-logo.png" alt="RendaHQ" className="h-10 w-auto" />
         </Link>
@@ -86,9 +100,9 @@ export default function ResetPassword() {
               <div className="w-12 h-12 rounded-2xl bg-rose-50 flex items-center justify-center mx-auto mb-4">
                 <AlertCircle className="w-6 h-6 text-rose-500" />
               </div>
-              <h1 className="text-xl font-black text-slate-900 mb-2">Link expired or invalid</h1>
+              <h1 className="text-xl font-black text-slate-900 mb-2">Link expired or already used</h1>
               <p className="text-slate-500 text-sm mb-6">
-                This password reset link is no longer valid. Request a new one from the sign-in page.
+                This password reset link is no longer valid. Request a fresh one and open it from your phone or browser (not an email preview).
               </p>
               <Link to="/signin">
                 <Button className="w-full h-11 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl">
@@ -155,6 +169,12 @@ export default function ResetPassword() {
                     />
                   </div>
                 </div>
+
+                {formError && (
+                  <p className="text-sm text-rose-600 flex items-center gap-1.5">
+                    <AlertCircle className="w-4 h-4 shrink-0" /> {formError}
+                  </p>
+                )}
 
                 <Button
                   type="submit"
