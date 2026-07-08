@@ -102,22 +102,16 @@ export default function SignIn() {
           <p className="text-emerald-300 font-medium text-sm mt-3 ml-1">Build. Bill. Get paid.</p>
         </div>
 
-        {/* Testimonial */}
-        <div className="relative z-10 space-y-8">
-          <blockquote className="text-2xl font-semibold text-white leading-relaxed">
-            "RendaHQ replaced 4 tools I was paying for. My client relationships have never been more professional."
+        {/* Value proposition */}
+        <div className="relative z-10 space-y-6">
+          <blockquote className="text-3xl font-semibold text-white leading-relaxed">
+            Bill clients anywhere.<br />
+            <span className="text-emerald-400">Get paid at home.</span>
           </blockquote>
-          <div className="flex items-center gap-4">
-            <img
-              src="https://api.dicebear.com/7.x/avataaars/svg?seed=Amara"
-              alt="Amara Osei"
-              className="w-12 h-12 rounded-full bg-emerald-800"
-            />
-            <div>
-              <p className="font-bold text-white">Amara Osei</p>
-              <p className="text-slate-400 text-sm">Brand Strategist, Accra</p>
-            </div>
-          </div>
+          <p className="text-slate-400 text-base leading-relaxed max-w-sm">
+            Contracts, client portals, and invoices your international clients can pay by card —
+            settled through the payment rails that work where you live.
+          </p>
         </div>
 
         {/* Feature chips */}

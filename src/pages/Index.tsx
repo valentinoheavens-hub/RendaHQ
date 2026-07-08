@@ -160,26 +160,26 @@ const STEPS = [
   },
 ];
 
-const TESTIMONIALS = [
+const PERSONAS = [
   {
-    quote: "RendaHQ replaced 4 tools I was paying for. My client relationships have never been more professional.",
-    name: "Amara Osei",
-    role: "Brand Strategist, Accra",
-    initials: "AO",
-    color: "bg-amber-100 text-amber-700",
-  },
-  {
-    quote: "The AI contract builder alone saved me 6 hours this month. I just describe the project and it writes the whole thing.",
-    name: "Temi Adeyemi",
-    role: "UI/UX Designer, Lagos",
-    initials: "TA",
+    title: "The cross-border freelancer",
+    who: "Designer in Lagos, client in London",
+    desc: "Invoice in your client's currency, let them pay by card through Stripe — while you track everything, chase nothing, and keep your books in one place.",
+    initials: "CF",
     color: "bg-emerald-100 text-emerald-700",
   },
   {
-    quote: "Finally a tool that understands Paystack and Flutterwave. My Nigerian clients can pay by card, mobile money, or USSD and I don't have to do anything.",
-    name: "Kevin Mwangi",
-    role: "Web Developer, Nairobi",
-    initials: "KM",
+    title: "The growing studio",
+    who: "3-person studio, 12 active clients",
+    desc: "White-labeled client portals under your brand, contracts with client sign-off, and scope change orders that make extra work billable instead of absorbed.",
+    initials: "GS",
+    color: "bg-amber-100 text-amber-700",
+  },
+  {
+    title: "The solo consultant",
+    who: "Strategist juggling projects and admin",
+    desc: "Describe your scope in plain English and AI drafts the contract. Automated reminders chase the invoice so you don't have to send awkward follow-ups.",
+    initials: "SC",
     color: "bg-emerald-100 text-emerald-700",
   },
 ];
@@ -318,13 +318,13 @@ const Index = () => {
           </a>
 
           <h1 className="text-5xl md:text-7xl font-black text-slate-900 tracking-tight mb-6 leading-[1.05]">
-            Run your agency.<br />
-            <span className="text-emerald-600">Not your spreadsheets.</span>
+            Bill clients anywhere.<br />
+            <span className="text-emerald-600">Get paid at home.</span>
           </h1>
 
           <p className="text-xl text-slate-500 max-w-2xl mx-auto mb-10 leading-relaxed">
-            RendaHQ replaces Notion, DocuSign, Stripe, and your project tracker with a single AI-powered workspace.
-            Client portals, contracts, invoicing, and payments — built for agencies in Africa and beyond.
+            One AI-powered workspace for freelancers and agencies working with clients abroad — send contracts,
+            invoice in their currency, and get paid through Stripe, Paystack, Flutterwave, or mobile money.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-14">
@@ -345,8 +345,8 @@ const Index = () => {
           {/* Social proof bar */}
           <div className="flex flex-wrap items-center justify-center gap-8 text-sm text-slate-500">
             {[
-              { val: "500+", label: "agencies using RendaHQ" },
               { val: "55+", label: "currencies supported" },
+              { val: "6", label: "ways your clients can pay" },
               { val: "Free", label: "to get started" },
               { val: "2 min", label: "to onboard" },
             ].map((s) => (
@@ -373,11 +373,11 @@ const Index = () => {
             You're running your agency<br />on 6 different tools
           </h2>
           <p className="text-slate-400 text-lg mb-14 max-w-2xl mx-auto">
-            Notion for docs. Calendly for scheduling. DocuSign for contracts. Stripe for payments. Excel for invoices. WhatsApp for client updates.
-            It's a mess — and you're paying for all of it.
+            One doc tool. One invoice generator. Payment links here, spreadsheets there, and client updates
+            scattered across WhatsApp. It's a mess — and every piece costs you time or money.
           </p>
           <div className="grid grid-cols-2 md:grid-cols-6 gap-4 max-w-3xl mx-auto mb-14">
-            {["Notion", "DocuSign", "Stripe", "Calendly", "Excel", "WhatsApp"].map((tool) => (
+            {["Doc tools", "Invoice apps", "Payment links", "Spreadsheets", "PDF contracts", "WhatsApp threads"].map((tool) => (
               <div key={tool} className="bg-white/5 rounded-2xl px-4 py-3 text-slate-400 text-sm font-medium line-through decoration-rose-500">
                 {tool}
               </div>
@@ -387,7 +387,7 @@ const Index = () => {
             <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
               <span className="text-white font-black text-lg">R</span>
             </div>
-            <span className="text-white font-bold text-lg">RendaHQ replaces all of them</span>
+            <span className="text-white font-bold text-lg">One workspace. One login. One subscription.</span>
           </div>
         </div>
       </section>
@@ -447,36 +447,32 @@ const Index = () => {
         </div>
       </section>
 
-      {/* ── Testimonials ── */}
+      {/* ── Who it's for ── */}
       <section className="py-24 bg-slate-50 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <p className="text-emerald-600 font-bold uppercase tracking-widest text-sm mb-3">Testimonials</p>
-            <h2 className="text-3xl md:text-4xl font-black text-slate-900">Agencies love RendaHQ</h2>
+            <p className="text-emerald-600 font-bold uppercase tracking-widest text-sm mb-3">Who it's for</p>
+            <h2 className="text-3xl md:text-4xl font-black text-slate-900">Built for the way you work</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {TESTIMONIALS.map((t) => (
-              <div key={t.name} className="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm">
-                <div className="flex gap-1 mb-6">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
-                  ))}
-                </div>
-                <blockquote className="text-slate-700 leading-relaxed mb-8 text-sm">
-                  "{t.quote}"
-                </blockquote>
-                <div className="flex items-center gap-3">
-                  <div className={cn("w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm", t.color)}>
-                    {t.initials}
+            {PERSONAS.map((p) => (
+              <div key={p.title} className="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className={cn("w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm", p.color)}>
+                    {p.initials}
                   </div>
                   <div>
-                    <p className="font-bold text-slate-900 text-sm">{t.name}</p>
-                    <p className="text-slate-500 text-xs">{t.role}</p>
+                    <p className="font-bold text-slate-900 text-sm">{p.title}</p>
+                    <p className="text-slate-500 text-xs">{p.who}</p>
                   </div>
                 </div>
+                <p className="text-slate-700 leading-relaxed text-sm">{p.desc}</p>
               </div>
             ))}
           </div>
+          <p className="text-center text-sm text-slate-400 mt-12">
+            RendaHQ is in early access — join the first cohort and help shape it.
+          </p>
         </div>
       </section>
 
@@ -563,7 +559,8 @@ const Index = () => {
               Your agency deserves<br />better tools
             </h2>
             <p className="text-slate-400 text-lg mb-10 max-w-xl mx-auto">
-              Join 500+ freelancers and agencies across Africa who run their entire business on RendaHQ. Free to start, no credit card required.
+              Be one of the first freelancers and agencies to run your entire business on RendaHQ —
+              and help shape where it goes. Free to start, no credit card required.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link to="/signin">

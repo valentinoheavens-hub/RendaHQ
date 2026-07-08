@@ -50,6 +50,7 @@ import {
 import { useAuth } from "@/context/AuthContext";
 import { useNotifications } from "@/context/NotificationContext";
 import { usePlan } from "@/context/SubscriptionContext";
+import { SHOW_LABS } from "@/lib/flags";
 import { formatDistanceToNow } from "date-fns";
 
 const notifIcon = (type: string) => {
@@ -77,31 +78,33 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const closeSidebar = () => setSidebarOpen(false);
 
+  // Core flows only in the sidebar; everything tagged `labs` is hidden until
+  // it's production-deep (see src/lib/flags.ts). Routes remain reachable by URL.
   const navigation = [
     { name: "Overview", href: "/dashboard", icon: LayoutDashboard },
-    { name: "Diagnostics", href: "/diagnostics", icon: Activity },
-    { name: "Strategy", href: "/strategy", icon: Compass },
-    { name: "Team Vitality", href: "/team-optimization", icon: HeartPulse },
-    { name: "Market Intel", href: "/market", icon: Globe },
-    { name: "Growth Lab", href: "/growth", icon: Beaker },
-    { name: "Workflows", href: "/workflows", icon: Zap },
-    { name: "Leads", href: "/leads", icon: Briefcase },
     { name: "Clients", href: "/clients", icon: Users },
     { name: "Projects", href: "/projects", icon: Target },
-    { name: "Templates", href: "/project-templates", icon: Layers },
-    { name: "Calendar", href: "/calendar", icon: CalendarIcon },
-    { name: "Files", href: "/files", icon: FolderOpen },
-    { name: "Services", href: "/services", icon: Package },
     { name: "Proposals", href: "/proposals", icon: FileSignature },
     { name: "Contracts", href: "/contracts", icon: FileText },
     { name: "Invoices", href: "/invoices", icon: CreditCard },
     { name: "Payments", href: "/payments", icon: Wallet },
-    { name: "Automations", href: "/automations", icon: Bot },
-    { name: "Expenses", href: "/expenses", icon: Receipt },
-    { name: "Messages", href: "/messages", icon: MessageSquare },
-    { name: "Time Tracking", href: "/time", icon: Clock },
-    { name: "Reports", href: "/reports", icon: BarChart3 },
-  ];
+    { name: "Diagnostics", href: "/diagnostics", icon: Activity, labs: true },
+    { name: "Strategy", href: "/strategy", icon: Compass, labs: true },
+    { name: "Team Vitality", href: "/team-optimization", icon: HeartPulse, labs: true },
+    { name: "Market Intel", href: "/market", icon: Globe, labs: true },
+    { name: "Growth Lab", href: "/growth", icon: Beaker, labs: true },
+    { name: "Workflows", href: "/workflows", icon: Zap, labs: true },
+    { name: "Leads", href: "/leads", icon: Briefcase, labs: true },
+    { name: "Templates", href: "/project-templates", icon: Layers, labs: true },
+    { name: "Calendar", href: "/calendar", icon: CalendarIcon, labs: true },
+    { name: "Files", href: "/files", icon: FolderOpen, labs: true },
+    { name: "Services", href: "/services", icon: Package, labs: true },
+    { name: "Automations", href: "/automations", icon: Bot, labs: true },
+    { name: "Expenses", href: "/expenses", icon: Receipt, labs: true },
+    { name: "Messages", href: "/messages", icon: MessageSquare, labs: true },
+    { name: "Time Tracking", href: "/time", icon: Clock, labs: true },
+    { name: "Reports", href: "/reports", icon: BarChart3, labs: true },
+  ].filter((item) => SHOW_LABS || !item.labs);
 
   const secondaryNav = [
     { name: "Billing & Plan", href: "/billing", icon: Wallet },

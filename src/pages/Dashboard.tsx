@@ -66,7 +66,7 @@ const Dashboard = () => {
     { name: "Create Invoice", icon: CreditCard, href: "/invoice/new", color: "bg-emerald-50 text-emerald-600" },
     { name: "Draft Proposal", icon: FileText, href: "/proposal/new", color: "bg-blue-50 text-blue-600" },
     { name: "Track Payments", icon: Wallet, href: "/payments", color: "bg-amber-50 text-amber-600" },
-    { name: "Automations", icon: Bot, href: "/automations", color: "bg-violet-50 text-violet-600" },
+    { name: "AI Contract", icon: Bot, href: "/contracts", color: "bg-violet-50 text-violet-600" },
     { name: "Add Client", icon: Users, href: "/clients", color: "bg-rose-50 text-rose-600" },
   ];
 
