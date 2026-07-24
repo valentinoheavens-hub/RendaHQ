@@ -93,7 +93,7 @@ export const PLANS: Record<PlanId, Plan> = {
       "Everything in Agency",
       "Custom domain portal",
       "Priority support",
-      "Team member accounts",
+      "SLA guarantee",
     ],
     limits: {
       maxClients: null,
@@ -102,7 +102,7 @@ export const PLANS: Record<PlanId, Plan> = {
       advancedReports: true,
       changeOrders: true,
       realtimeNotifications: true,
-      teamMembers: true,
+      teamMembers: false, // multi-user not shipped yet; not sold on any plan
     },
   },
 };

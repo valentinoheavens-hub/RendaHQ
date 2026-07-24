@@ -408,10 +408,10 @@ const Settings = () => {
                   <Badge variant="secondary" className="bg-slate-100 text-slate-600 border-none">Owner</Badge>
                 </div>
                 <div className="mt-4 p-4 rounded-xl bg-slate-50 border border-slate-100">
-                  <p className="text-sm font-medium text-slate-700 mb-1">Team seats are coming to the Enterprise plan</p>
+                  <p className="text-sm font-medium text-slate-700 mb-1">Multi-user workspaces are on the roadmap</p>
                   <p className="text-sm text-slate-500">
-                    Multi-user workspaces with roles and permissions are in development. You'll be able to invite
-                    teammates here — for now, your workspace is single-user.
+                    Team seats with roles and permissions aren't available yet — for now, your workspace is
+                    single-user. We'll surface them here when they ship.
                   </p>
                 </div>
               </CardContent>

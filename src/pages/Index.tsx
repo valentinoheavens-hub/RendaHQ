@@ -228,8 +228,6 @@ const PLANS = [
       "Everything in Agency",
       "Custom domain portal",
       "Priority support",
-      "Team member accounts",
-      "API access",
       "SLA guarantee",
     ],
   },
