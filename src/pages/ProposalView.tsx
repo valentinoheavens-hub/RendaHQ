@@ -79,7 +79,10 @@ const ProposalView = () => {
     proposalStore.getById(proposalId)
       .then(async (p) => {
         setProposal(p);
-        if (p?.user_id) setAgency(await profileStore.get(p.user_id));
+        if (p?.user_id) {
+          const a = await profileStore.get(p.user_id) ?? await profileStore.getBranding(p.user_id);
+          setAgency(a as Profile | null);
+        }
       })
       .finally(() => setLoading(false));
   }, [proposalId]);

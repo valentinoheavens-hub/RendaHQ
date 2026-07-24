@@ -313,18 +313,18 @@ const Index = () => {
         <div className="text-center mb-16">
           <a href="#features" className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-50 text-emerald-700 text-sm font-bold mb-8 hover:bg-emerald-100 transition-colors">
             <Zap className="w-4 h-4" />
-            Now with real-time notifications + Stripe payments
+            Now with AI proposals + Flutterwave & Stripe payments
             <ArrowRight className="w-3 h-3" />
           </a>
 
           <h1 className="text-5xl md:text-7xl font-black text-slate-900 tracking-tight mb-6 leading-[1.05]">
-            Bill clients anywhere.<br />
-            <span className="text-emerald-600">Get paid at home.</span>
+            Run your business.<br />
+            <span className="text-emerald-600">Not the busywork.</span>
           </h1>
 
           <p className="text-xl text-slate-500 max-w-2xl mx-auto mb-10 leading-relaxed">
-            One AI-powered workspace for freelancers and agencies working with clients abroad — send contracts,
-            invoice in their currency, and get paid through Stripe, Flutterwave, or mobile money.
+            RendaHQ is the all-in-one workspace for freelancers and agencies — AI proposals and contracts,
+            white-labeled client portals, invoices, and payments in one place. Less admin, more getting paid.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-14">

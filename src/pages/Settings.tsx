@@ -304,10 +304,15 @@ const Settings = () => {
                       )}
                     </div>
 
-                    <Button className="bg-emerald-600 hover:bg-emerald-700 text-white gap-2" onClick={saveBranding} disabled={savingBrand}>
-                      {savingBrand ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-                      Save Branding Changes
-                    </Button>
+                    <div className="flex items-center gap-3 flex-wrap">
+                      <Button className="bg-emerald-600 hover:bg-emerald-700 text-white gap-2" onClick={saveBranding} disabled={savingBrand}>
+                        {savingBrand ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+                        Save Branding Changes
+                      </Button>
+                      <p className="text-xs text-slate-400">
+                        Your logo &amp; colour appear on client portals, invoices, and proposals.
+                      </p>
+                    </div>
                   </CardContent>
                 </Card>
               </div>

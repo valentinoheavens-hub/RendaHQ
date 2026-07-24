@@ -74,7 +74,11 @@ const InvoiceView = () => {
       if (!inv) { setLoading(false); return; }
       setInvoice(inv);
       // Load the issuing freelancer's branding — this document is client-facing.
-      if (inv.user_id) setAgency(await profileStore.get(inv.user_id));
+      // Owner sees the full profile; anyone else gets public branding via RPC.
+      if (inv.user_id) {
+        const a = await profileStore.get(inv.user_id) ?? await profileStore.getBranding(inv.user_id);
+        setAgency(a as Profile | null);
+      }
       if (inv.client_id) {
         const client = await clientStore.getById(inv.client_id);
         if (client?.email) setClientEmail(client.email);

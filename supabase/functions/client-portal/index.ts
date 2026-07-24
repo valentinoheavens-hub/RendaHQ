@@ -27,7 +27,7 @@ Deno.serve(async (req) => {
 
   const { data: client, error: clientErr } = await supabase
     .from("clients")
-    .select("id, name, company, email")
+    .select("id, name, company, email, user_id")
     .eq("id", clientId)
     .single();
 
@@ -37,6 +37,13 @@ Deno.serve(async (req) => {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   }
+
+  // The freelancer's white-label branding (name, colour, logo) for this portal.
+  const { data: agency } = await supabase
+    .from("profiles")
+    .select("agency_name, brand_color, logo_url")
+    .eq("id", client.user_id)
+    .single();
 
   const [invoicesRes, contractsRes, projectsRes] = await Promise.all([
     supabase
@@ -58,7 +65,8 @@ Deno.serve(async (req) => {
 
   return new Response(
     JSON.stringify({
-      client,
+      client: { id: client.id, name: client.name, company: client.company, email: client.email },
+      agency: agency ?? null,
       invoices: invoicesRes.data ?? [],
       contracts: contractsRes.data ?? [],
       projects: projectsRes.data ?? [],

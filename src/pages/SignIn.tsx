@@ -5,21 +5,16 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
 import {
   Eye,
   EyeOff,
   Mail,
   Lock,
-  Github,
   ArrowRight,
   Loader2,
-  Chrome,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
 import { showError, showSuccess } from "@/utils/toast";
 import { useAuth } from "@/context/AuthContext";
-import { supabase } from "@/lib/supabase";
 
 export default function SignIn() {
   const navigate = useNavigate();
@@ -30,7 +25,6 @@ export default function SignIn() {
   const [name, setName] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [oauthLoading, setOauthLoading] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -68,21 +62,6 @@ export default function SignIn() {
     showSuccess("Password reset email sent!");
   };
 
-  const handleOAuth = async (provider: "github" | "google") => {
-    setOauthLoading(provider);
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider,
-      options: {
-        redirectTo: `${window.location.origin}/dashboard`,
-      },
-    });
-    if (error) {
-      showError(error.message);
-      setOauthLoading(null);
-    }
-    // On success the browser redirects to the OAuth provider — keep loading state
-  };
-
   return (
     <div className="min-h-screen bg-slate-50 flex">
       {/* Left panel — branding */}
@@ -105,12 +84,12 @@ export default function SignIn() {
         {/* Value proposition */}
         <div className="relative z-10 space-y-6">
           <blockquote className="text-3xl font-semibold text-white leading-relaxed">
-            Bill clients anywhere.<br />
-            <span className="text-emerald-400">Get paid at home.</span>
+            Run your business.<br />
+            <span className="text-emerald-400">Not the busywork.</span>
           </blockquote>
           <p className="text-slate-400 text-base leading-relaxed max-w-sm">
-            Contracts, client portals, and invoices your international clients can pay by card —
-            settled through the payment rails that work where you live.
+            AI proposals and contracts, white-labeled client portals, invoices, and payments —
+            the whole client workflow in one workspace.
           </p>
         </div>
 
@@ -144,42 +123,6 @@ export default function SignIn() {
                 ? "Sign in to your RendaHQ workspace."
                 : "Start your 14-day free trial. No card required."}
             </p>
-          </div>
-
-          {/* OAuth buttons */}
-          <div className="grid grid-cols-2 gap-3 mb-6">
-            <Button
-              variant="outline"
-              className="border-slate-200 gap-2 h-11"
-              onClick={() => handleOAuth("github")}
-              disabled={!!oauthLoading}
-            >
-              {oauthLoading === "github" ? (
-                <Loader2 className="w-4 h-4 animate-spin" />
-              ) : (
-                <Github className="w-4 h-4" />
-              )}
-              GitHub
-            </Button>
-            <Button
-              variant="outline"
-              className="border-slate-200 gap-2 h-11"
-              onClick={() => handleOAuth("google")}
-              disabled={!!oauthLoading}
-            >
-              {oauthLoading === "google" ? (
-                <Loader2 className="w-4 h-4 animate-spin" />
-              ) : (
-                <Chrome className="w-4 h-4" />
-              )}
-              Google
-            </Button>
-          </div>
-
-          <div className="flex items-center gap-3 mb-6">
-            <Separator className="flex-1 bg-slate-200" />
-            <span className="text-xs font-medium text-slate-400 shrink-0">or continue with email</span>
-            <Separator className="flex-1 bg-slate-200" />
           </div>
 
           {/* Email form */}

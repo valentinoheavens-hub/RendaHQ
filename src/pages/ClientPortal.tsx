@@ -46,8 +46,15 @@ interface PortalProject {
   milestones: Array<{ id: string; title: string; date: string; status: string }>;
 }
 
+interface PortalAgency {
+  agency_name?: string | null;
+  brand_color?: string | null;
+  logo_url?: string | null;
+}
+
 interface PortalData {
   client: { id: string; name: string; company?: string | null; email?: string | null };
+  agency: PortalAgency | null;
   invoices: PortalInvoice[];
   contracts: PortalContract[];
   projects: PortalProject[];
@@ -133,7 +140,9 @@ const ClientPortal = () => {
     );
   }
 
-  const { client, invoices, contracts, projects } = data;
+  const { client, invoices, contracts, projects, agency } = data;
+  const brand = agency?.brand_color || "#059669";
+  const agencyName = agency?.agency_name || "Client Portal";
   const activeProject = projects[0] ?? null;
   const pendingInvoices = invoices.filter((i) => i.status === "Sent" || i.status === "Overdue");
   const totalOwed = pendingInvoices.reduce((sum, i) => sum + i.amount, 0);
@@ -144,11 +153,18 @@ const ClientPortal = () => {
       <header className="bg-white border-b border-slate-200 px-6 py-4 sticky top-0 z-10">
         <div className="max-w-6xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg bg-emerald-600 flex items-center justify-center text-white font-bold text-lg">
-              {client.name.charAt(0)}
-            </div>
+            {agency?.logo_url ? (
+              <img src={agency.logo_url} alt={agencyName} className="h-10 w-auto max-w-[160px] object-contain" />
+            ) : (
+              <div
+                className="w-10 h-10 rounded-lg flex items-center justify-center text-white font-bold text-lg"
+                style={{ background: brand }}
+              >
+                {agencyName.charAt(0).toUpperCase()}
+              </div>
+            )}
             <div>
-              <h1 className="font-bold text-lg text-slate-900">Client Portal</h1>
+              <h1 className="font-bold text-lg text-slate-900">{agencyName}</h1>
               <p className="text-xs text-slate-500">Powered by RendaHQ</p>
             </div>
           </div>
@@ -162,7 +178,7 @@ const ClientPortal = () => {
 
       <main className="max-w-6xl mx-auto p-6 md:p-8 space-y-8">
         {/* Hero banner */}
-        <div className="bg-emerald-600 rounded-2xl p-8 text-white relative overflow-hidden">
+        <div className="rounded-2xl p-8 text-white relative overflow-hidden" style={{ background: brand }}>
           <div className="relative z-10">
             <h2 className="text-3xl font-bold mb-2">
               Welcome back, {client.name.split(" ")[0]}
