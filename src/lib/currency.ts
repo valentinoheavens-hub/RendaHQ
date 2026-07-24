@@ -212,6 +212,78 @@ export const detectCurrency = (): string => {
   }
 };
 
+// ─── IP geolocation — the most accurate signal ───────────────────────────────
+// Timezone/locale reflect the OS, not the visitor's physical location (a VPN,
+// a foreign-language OS, or a laptop bought abroad all mislead them). The
+// visitor's IP is mapped to their real country by a geo-IP service. Async, so
+// it refines the currency after first paint.
+
+// Resolve a country (ISO alpha-2) to a currency we can render.
+//  • displayOnly → return the true local currency even if it isn't a
+//    Paystack/Flutterwave charge currency (fine for a display-only price).
+//  • otherwise   → collapse unsupported currencies to USD so checkout stays valid.
+const currencyForCountry = (
+  countryCode?: string,
+  apiCurrency?: string,
+  displayOnly = false,
+): string | null => {
+  const cc = (countryCode ?? '').toUpperCase();
+  let code = COUNTRY_CURRENCY[cc];
+  if (!code) {
+    const apiCur = (apiCurrency ?? '').toUpperCase();
+    if (apiCur && CURRENCIES.some((c) => c.code === apiCur)) code = apiCur;
+  }
+  if (!code) return cc ? 'USD' : null; // known country, no local currency → USD
+  const cur = CURRENCIES.find((c) => c.code === code);
+  if (!cur) return 'USD';
+  if (displayOnly) return code;
+  return cur.paymentSupported ? code : 'USD';
+};
+
+const fetchJson = async (url: string, ms = 3500): Promise<any | null> => {
+  try {
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), ms);
+    const res = await fetch(url, { signal: ctrl.signal });
+    clearTimeout(timer);
+    if (!res.ok) return null;
+    return await res.json();
+  } catch {
+    return null;
+  }
+};
+
+// Cached so multiple components trigger only one network lookup.
+let geoPromise: Promise<{ country?: string; currency?: string } | null> | null = null;
+const lookupGeo = (): Promise<{ country?: string; currency?: string } | null> => {
+  if (geoPromise) return geoPromise;
+  geoPromise = (async () => {
+    // Provider 1 — ipwho.is (country + currency, CORS, no key)
+    const a = await fetchJson('https://ipwho.is/');
+    if (a && a.success !== false && a.country_code) {
+      return { country: a.country_code as string, currency: a.currency?.code as string | undefined };
+    }
+    // Provider 2 — ipapi.co (country + currency)
+    const b = await fetchJson('https://ipapi.co/json/');
+    if (b && !b.error && b.country_code) {
+      return { country: b.country_code as string, currency: b.currency as string | undefined };
+    }
+    // Provider 3 — api.country.is (country only)
+    const c = await fetchJson('https://api.country.is/');
+    if (c && c.country) return { country: c.country as string };
+    return null;
+  })();
+  return geoPromise;
+};
+
+// Detect the visitor's currency from their IP. Returns null if every provider
+// fails (callers keep the timezone/locale guess in that case).
+export const detectCurrencyByIP = async (displayOnly = false): Promise<string | null> => {
+  const geo = await lookupGeo();
+  if (!geo) return null;
+  return currencyForCountry(geo.country, geo.currency, displayOnly);
+};
+
 // ─── Payment currency — what to actually charge in at checkout ────────────────
 // If the selected display currency isn't on Paystack/Flutterwave, charge in USD.
 export const getPaymentCurrency = (displayCode: string): string => {
@@ -220,12 +292,24 @@ export const getPaymentCurrency = (displayCode: string): string => {
 };
 
 const STORAGE_KEY = 'rendahq_currency';
+const USER_SET_KEY = 'rendahq_currency_user_set';
 
 // ─── Persistence ─────────────────────────────────────────────────────────────
 export const getCurrencyCode = (): string =>
   localStorage.getItem(STORAGE_KEY) ?? detectCurrency();
 
-export const saveCurrencyCode = (code: string): void =>
+// True once the visitor explicitly picks a currency — auto-detection (incl. IP)
+// must not override a deliberate choice after that.
+export const hasUserSetCurrency = (): boolean =>
+  localStorage.getItem(USER_SET_KEY) === '1';
+
+export const saveCurrencyCode = (code: string, userSet = false): void => {
+  localStorage.setItem(STORAGE_KEY, code);
+  if (userSet) localStorage.setItem(USER_SET_KEY, '1');
+};
+
+// Persist an auto-detected code without marking it as an explicit user choice.
+export const saveDetectedCurrencyCode = (code: string): void =>
   localStorage.setItem(STORAGE_KEY, code);
 
 export const getCurrency = (code?: string): Currency =>

@@ -1,8 +1,11 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import {
   CURRENCIES,
   getCurrencyCode,
   saveCurrencyCode,
+  saveDetectedCurrencyCode,
+  hasUserSetCurrency,
+  detectCurrencyByIP,
   getCurrency,
   formatAmount,
   reformatAmount,
@@ -22,8 +25,23 @@ export interface UseCurrencyReturn {
 export const useCurrency = (): UseCurrencyReturn => {
   const [code, setCode] = useState<string>(getCurrencyCode);
 
+  // Refine the default currency from the visitor's IP (real physical location),
+  // unless they've explicitly chosen one. The lookup is cached module-side, so
+  // all components share a single request. Kept charge-safe (unsupported
+  // currencies collapse to USD) so invoices stay valid.
+  useEffect(() => {
+    if (hasUserSetCurrency()) return;
+    let active = true;
+    detectCurrencyByIP(false).then((ipCode) => {
+      if (!active || !ipCode || hasUserSetCurrency()) return;
+      saveDetectedCurrencyCode(ipCode);
+      setCode(ipCode);
+    });
+    return () => { active = false; };
+  }, []);
+
   const setCurrency = useCallback((newCode: string) => {
-    saveCurrencyCode(newCode);
+    saveCurrencyCode(newCode, true);
     setCode(newCode);
   }, []);
 

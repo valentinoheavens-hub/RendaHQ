@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { useCurrency } from "@/hooks/useCurrency";
+import { formatAmount, detectCurrencyByIP } from "@/lib/currency";
 import {
   ArrowRight,
   Shield,
@@ -238,8 +239,9 @@ const BASE_PRICE_USD = 29;
 const Index = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [billing, setBilling] = useState<"monthly" | "yearly">("monthly");
-  const { format, currency } = useCurrency();
+  const { currency } = useCurrency();
   const [rates, setRates] = useState<Record<string, number> | null>(null);
+  const [geoCode, setGeoCode] = useState<string | null>(null);
 
   React.useEffect(() => {
     fetch('https://open.er-api.com/v6/latest/USD')
@@ -248,10 +250,19 @@ const Index = () => {
       .catch(() => {}); // silently fall back to raw USD display
   }, []);
 
+  // Show the price in the visitor's real country currency (by IP). Display-only,
+  // so we keep the true local currency even if it isn't a checkout currency —
+  // there's no charge on this page, and the note below clarifies USD billing.
+  React.useEffect(() => {
+    detectCurrencyByIP(true).then((c) => { if (c) setGeoCode(c); });
+  }, []);
+
+  const displayCode = geoCode ?? currency.code;
+
   // Convert a USD price to the visitor's currency with locally-sensible rounding.
   const priceFor = (usd: number): string => {
-    if (currency.code === 'USD' || !rates) return format(usd);
-    const rate = rates[currency.code];
+    if (displayCode === 'USD' || !rates) return formatAmount(usd, displayCode);
+    const rate = rates[displayCode];
     if (!rate) return `$${usd}`;
     const converted = usd * rate;
     const rounded = converted < 100
@@ -259,7 +270,7 @@ const Index = () => {
       : converted < 1000
       ? Math.round(converted / 5) * 5
       : Math.round(converted / 100) * 100;
-    return format(rounded);
+    return formatAmount(rounded, displayCode);
   };
 
   // Agency plan: 20% off when billed yearly.
@@ -557,7 +568,7 @@ const Index = () => {
                     <p className={cn("text-xs", plan.highlight ? "text-emerald-200" : "text-slate-400")}>
                       {billing === "yearly" ? (
                         <>Billed yearly at {agencyYearlyTotal} · save 20%</>
-                      ) : currency.code !== "USD" ? (
+                      ) : displayCode !== "USD" ? (
                         <>≈ USD ${BASE_PRICE_USD}/mo · billed in USD</>
                       ) : (
                         <>Billed monthly · cancel anytime</>
