@@ -88,6 +88,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
     { name: "Contracts", href: "/contracts", icon: FileText },
     { name: "Invoices", href: "/invoices", icon: CreditCard },
     { name: "Payments", href: "/payments", icon: Wallet },
+    { name: "Reports", href: "/reports", icon: BarChart3 },
     { name: "Diagnostics", href: "/diagnostics", icon: Activity, labs: true },
     { name: "Strategy", href: "/strategy", icon: Compass, labs: true },
     { name: "Team Vitality", href: "/team-optimization", icon: HeartPulse, labs: true },
@@ -103,7 +104,6 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
     { name: "Expenses", href: "/expenses", icon: Receipt, labs: true },
     { name: "Messages", href: "/messages", icon: MessageSquare, labs: true },
     { name: "Time Tracking", href: "/time", icon: Clock, labs: true },
-    { name: "Reports", href: "/reports", icon: BarChart3, labs: true },
   ].filter((item) => SHOW_LABS || !item.labs);
 
   const secondaryNav = [

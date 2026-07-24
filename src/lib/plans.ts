@@ -45,7 +45,7 @@ export const PLANS: Record<PlanId, Plan> = {
       "Up to 3 active clients",
       "Client portals",
       "AI contract builder (5/mo)",
-      "Paystack, Flutterwave + Stripe",
+      "Flutterwave + Stripe",
       "Basic project tracking",
     ],
     limits: {

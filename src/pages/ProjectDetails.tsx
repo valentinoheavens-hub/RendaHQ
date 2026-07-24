@@ -25,6 +25,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { projectStore, Project, Milestone } from "@/lib/projectStore";
+import { changeOrderStore, ChangeOrder } from "@/lib/changeOrderStore";
 import { useCurrency } from "@/hooks/useCurrency";
 import { toast } from "@/components/ui/use-toast";
 import {
@@ -47,6 +48,13 @@ const STATUS_COLORS: Record<string, string> = {
 
 const MILESTONE_STATUSES = ["Not Started", "In Progress", "Under Review", "Approved", "Done"] as const;
 
+const CO_STATUS_COLORS: Record<string, string> = {
+  Draft:    "bg-slate-100 text-slate-600",
+  Sent:     "bg-amber-50 text-amber-700",
+  Approved: "bg-emerald-50 text-emerald-700",
+  Declined: "bg-rose-50 text-rose-700",
+};
+
 const ProjectDetails = () => {
   const { projectId } = useParams<{ projectId: string }>();
   const navigate = useNavigate();
@@ -59,6 +67,7 @@ const ProjectDetails = () => {
   const [editingStatus, setEditingStatus] = useState(false);
   const [newMilestoneTitle, setNewMilestoneTitle] = useState("");
   const [addingMilestone, setAddingMilestone] = useState(false);
+  const [changeOrders, setChangeOrders] = useState<ChangeOrder[]>([]);
 
   useEffect(() => {
     if (!projectId) return;
@@ -66,7 +75,13 @@ const ProjectDetails = () => {
       setProject(data);
       setLoading(false);
     });
+    changeOrderStore.getByProject(projectId).then(setChangeOrders);
   }, [projectId]);
+
+  const updateChangeOrderStatus = async (id: string, status: ChangeOrder["status"]) => {
+    const updated = await changeOrderStore.update(id, { status });
+    if (updated) setChangeOrders((prev) => prev.map((c) => (c.id === id ? updated : c)));
+  };
 
   const saveProgress = async () => {
     if (!project) return;
@@ -380,6 +395,56 @@ const ProjectDetails = () => {
                     </Button>
                   </div>
                 )}
+              </CardContent>
+            </Card>
+
+            {/* Change Orders */}
+            <Card className="border-none shadow-sm">
+              <CardHeader className="flex flex-row items-center justify-between">
+                <div>
+                  <CardTitle className="text-lg font-bold">Change Orders</CardTitle>
+                  <CardDescription>Bill for scope that falls outside the original agreement.</CardDescription>
+                </div>
+                <Link to={`/project/${projectId}/change-order`}>
+                  <Button variant="ghost" size="sm" className="text-emerald-600 shrink-0">
+                    <Plus className="w-4 h-4 mr-1" /> New
+                  </Button>
+                </Link>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                {changeOrders.length === 0 && (
+                  <p className="text-sm text-slate-400 text-center py-6">
+                    No change orders yet. Create one when a client asks for work beyond the original scope.
+                  </p>
+                )}
+                {changeOrders.map((co) => (
+                  <div key={co.id} className="flex items-center justify-between gap-3 p-4 rounded-xl border border-slate-100">
+                    <div className="flex items-center gap-4 min-w-0">
+                      <div className="w-8 h-8 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center shrink-0">
+                        <FileText className="w-4 h-4" />
+                      </div>
+                      <div className="min-w-0">
+                        <h4 className="font-bold text-slate-900 truncate">{co.title}</h4>
+                        <p className="text-xs text-slate-500">
+                          {formatAmount(co.amount)}{co.timeline_impact ? ` • ${co.timeline_impact}` : ""}
+                        </p>
+                      </div>
+                    </div>
+                    <Select
+                      value={co.status}
+                      onValueChange={(val) => updateChangeOrderStatus(co.id, val as ChangeOrder["status"])}
+                    >
+                      <SelectTrigger className={cn("h-7 w-28 text-xs border-none shrink-0", CO_STATUS_COLORS[co.status])}>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {(["Draft", "Sent", "Approved", "Declined"] as const).map((s) => (
+                          <SelectItem key={s} value={s} className="text-xs">{s}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                ))}
               </CardContent>
             </Card>
           </div>
