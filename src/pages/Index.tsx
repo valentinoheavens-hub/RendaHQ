@@ -125,8 +125,8 @@ const FEATURES = [
   {
     icon: CreditCard,
     color: "bg-amber-500",
-    title: "Paystack, Flutterwave & Stripe",
-    desc: "Accept card payments via Stripe globally, or Paystack and Flutterwave for Africa — including mobile money and USSD. Clients pay directly from their portal.",
+    title: "Flutterwave & Stripe",
+    desc: "Accept card payments via Stripe globally, or Flutterwave across Africa — including mobile money and USSD. Clients pay directly from their portal.",
   },
   {
     icon: Bell,
@@ -156,7 +156,7 @@ const STEPS = [
   {
     n: "03",
     title: "Get paid automatically",
-    desc: "Send an invoice from the dashboard. The client pays via Stripe, Paystack, or Flutterwave. The invoice auto-marks as Paid. You get a notification.",
+    desc: "Send an invoice from the dashboard. The client pays via Stripe or Flutterwave. The invoice auto-marks as Paid. You get a notification.",
   },
 ];
 
@@ -196,7 +196,7 @@ const PLANS = [
       "Up to 3 active clients",
       "Client portals",
       "AI contract builder (5/mo)",
-      "Paystack, Flutterwave + Stripe",
+      "Flutterwave + Stripe",
       "Basic project tracking",
     ],
   },
@@ -324,7 +324,7 @@ const Index = () => {
 
           <p className="text-xl text-slate-500 max-w-2xl mx-auto mb-10 leading-relaxed">
             One AI-powered workspace for freelancers and agencies working with clients abroad — send contracts,
-            invoice in their currency, and get paid through Stripe, Paystack, Flutterwave, or mobile money.
+            invoice in their currency, and get paid through Stripe, Flutterwave, or mobile money.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-14">
@@ -609,8 +609,8 @@ const Index = () => {
                 <p className="font-bold text-slate-900 mb-4">Payments</p>
                 <ul className="space-y-2 text-slate-500">
                   <li><span>Stripe</span></li>
-                  <li><span>Paystack</span></li>
                   <li><span>Flutterwave</span></li>
+                  <li><span>Mobile money &amp; USSD</span></li>
                   <li><span>55+ currencies</span></li>
                 </ul>
               </div>

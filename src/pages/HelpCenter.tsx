@@ -18,7 +18,7 @@ const HelpCenter = () => {
   const categories = [
     { title: "Getting Started", desc: "Learn the basics of setting up your agency.", icon: Zap, color: "text-amber-600", bg: "bg-amber-50" },
     { title: "Client Portals", desc: "How to white-label and manage client access.", icon: BookOpen, color: "text-blue-600", bg: "bg-blue-50" },
-    { title: "Payments & Invoicing", desc: "Setting up Stripe, Paystack, Flutterwave, and M-Pesa.", icon: FileText, color: "text-emerald-600", bg: "bg-emerald-50" },
+    { title: "Payments & Invoicing", desc: "Setting up Stripe, Flutterwave, mobile money, and USSD.", icon: FileText, color: "text-emerald-600", bg: "bg-emerald-50" },
     { title: "Video Tutorials", desc: "Watch step-by-step guides for every feature.", icon: Video, color: "text-rose-600", bg: "bg-rose-50" },
   ];
 

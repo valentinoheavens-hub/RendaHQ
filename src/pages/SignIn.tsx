@@ -116,7 +116,7 @@ export default function SignIn() {
 
         {/* Feature chips */}
         <div className="relative z-10 flex flex-wrap gap-2">
-          {["White-labeled portals", "AI contracts", "Paystack + Flutterwave + Stripe", "Scope protection", "African payment rails"].map((f) => (
+          {["White-labeled portals", "AI contracts", "Flutterwave + Stripe", "Scope protection", "African payment rails"].map((f) => (
             <span key={f} className="px-3 py-1.5 bg-white/10 rounded-full text-xs font-medium text-slate-300 border border-white/10">
               {f}
             </span>

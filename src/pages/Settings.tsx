@@ -47,12 +47,6 @@ const GATEWAYS = [
     docs: "https://dashboard.stripe.com/apikeys",
   },
   {
-    name: "Paystack",
-    desc: "Cards, bank transfer, and USSD across Nigeria, Ghana, and South Africa.",
-    envKey: "VITE_PAYSTACK_PUBLIC_KEY",
-    docs: "https://dashboard.paystack.com/#/settings/developers",
-  },
-  {
     name: "Flutterwave",
     desc: "Cards, mobile money, and USSD across 30+ African countries.",
     envKey: "VITE_FLUTTERWAVE_PUBLIC_KEY",
@@ -246,7 +240,7 @@ const Settings = () => {
                           <SelectTrigger className="h-10 border-slate-200"><SelectValue /></SelectTrigger>
                           <SelectContent className="max-h-72">
                             <SelectItem value="_group_pay" disabled className="text-xs font-semibold text-emerald-600 uppercase tracking-wide py-1">
-                              — Paystack &amp; Flutterwave supported —
+                              — Flutterwave supported —
                             </SelectItem>
                             {currencies.filter(c => c.paymentSupported).map((cur) => (
                               <SelectItem key={cur.code} value={cur.code}>

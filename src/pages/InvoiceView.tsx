@@ -26,9 +26,6 @@ import { profileStore, Profile } from "@/lib/profileStore";
 
 declare global {
   interface Window {
-    PaystackPop: {
-      setup: (opts: Record<string, unknown>) => { openIframe: () => void };
-    };
     FlutterwaveCheckout: (opts: Record<string, unknown>) => void;
   }
 }
@@ -52,25 +49,16 @@ const InvoiceView = () => {
   const [agency, setAgency] = useState<Profile | null>(null);
   const [clientEmail, setClientEmail] = useState("");
   const [loading, setLoading] = useState(true);
-  const [paying, setPaying] = useState(false);
   const [flwLoading, setFlwLoading] = useState<string | null>(null);
   const [payingStripe, setPayingStripe] = useState(false);
 
-  const paystackKey = import.meta.env.VITE_PAYSTACK_PUBLIC_KEY as string | undefined;
   const flutterwaveKey = import.meta.env.VITE_FLUTTERWAVE_PUBLIC_KEY as string | undefined;
   const stripePublishableKey = import.meta.env.VITE_STRIPE_PUBLIC_KEY as string | undefined;
   const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string;
   const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string;
 
-  // Inject payment scripts once
+  // Inject the Flutterwave checkout script once
   useEffect(() => {
-    if (!document.getElementById("paystack-js")) {
-      const s = document.createElement("script");
-      s.id = "paystack-js";
-      s.src = "https://js.paystack.co/v1/inline.js";
-      s.async = true;
-      document.body.appendChild(s);
-    }
     if (!document.getElementById("flutterwave-js")) {
       const s = document.createElement("script");
       s.id = "flutterwave-js";
@@ -109,50 +97,6 @@ const InvoiceView = () => {
     // Clean the query param from the URL without re-rendering
     window.history.replaceState({}, "", window.location.pathname);
   }, [searchParams, invoiceId]);
-
-  const handlePay = () => {
-    if (!invoice) return;
-    if (!paystackKey) {
-      showError("Payment not configured. Add VITE_PAYSTACK_PUBLIC_KEY to your environment.");
-      return;
-    }
-    if (!clientEmail) {
-      showError("Please enter your email address to continue.");
-      return;
-    }
-
-    setPaying(true);
-    const ref = `NEX-${invoice.invoice_number}-${Date.now()}`;
-
-    const handler = window.PaystackPop.setup({
-      key: paystackKey,
-      email: clientEmail,
-      amount: Math.round(invoice.amount * 100), // smallest currency unit
-      currency: getPaymentCurrency(currencyCode),
-      ref,
-      metadata: {
-        invoice_id: invoice.id,
-        invoice_number: invoice.invoice_number,
-        client_name: invoice.client_name,
-      },
-      callback: async (response: { reference: string }) => {
-        const updated = await invoiceStore.update(invoice.id, {
-          status: "Paid",
-          paystack_reference: response.reference,
-          paid_at: new Date().toISOString(),
-          payment_method: "Paystack",
-        });
-        if (updated) {
-          setInvoice(updated);
-          showSuccess("Payment successful! Invoice marked as paid.");
-        }
-        setPaying(false);
-      },
-      onClose: () => setPaying(false),
-    });
-
-    handler.openIframe();
-  };
 
   const handleFlutterwavePayment = (paymentOptions: string) => {
     if (!invoice) return;
@@ -318,17 +262,6 @@ const InvoiceView = () => {
                   <CreditCard className="w-3.5 h-3.5" /> Card Payments
                 </p>
                 <div className="flex flex-wrap gap-2">
-                  {paystackKey && (
-                    <Button
-                      onClick={handlePay}
-                      disabled={paying || !clientEmail}
-                      variant="outline"
-                      className="gap-2 whitespace-nowrap border-emerald-200 text-emerald-700 hover:bg-emerald-50"
-                    >
-                      {paying ? <Loader2 className="w-4 h-4 animate-spin" /> : <CreditCard className="w-4 h-4" />}
-                      Paystack
-                    </Button>
-                  )}
                   {flutterwaveKey && (
                     <Button
                       onClick={() => handleFlutterwavePayment("card")}
@@ -337,7 +270,7 @@ const InvoiceView = () => {
                       className="gap-2 whitespace-nowrap border-orange-200 text-orange-600 hover:bg-orange-50"
                     >
                       {flwLoading === "card" ? <Loader2 className="w-4 h-4 animate-spin" /> : <CreditCard className="w-4 h-4" />}
-                      Flutterwave Card
+                      Card (Flutterwave)
                     </Button>
                   )}
                   <Button

@@ -111,14 +111,11 @@ export const PLANS: Record<PlanId, Plan> = {
 // Set these in .env.local once the plans exist provider-side.
 export const PROVIDER_PLAN_REFS = {
   stripe: import.meta.env.VITE_STRIPE_AGENCY_PRICE_ID as string | undefined, // price_xxx
-  paystack: import.meta.env.VITE_PAYSTACK_AGENCY_PLAN as string | undefined, // PLN_xxx
   flutterwave: import.meta.env.VITE_FLW_AGENCY_PLAN_ID as string | undefined, // numeric id
 };
 
 // Which providers are wired for subscription checkout right now.
-// Flutterwave flips to true once its recurring function ships.
 export const SUBSCRIPTION_PROVIDERS: { id: Provider; label: string; enabled: boolean }[] = [
   { id: "stripe", label: "Card (Stripe)", enabled: true },
-  { id: "paystack", label: "Card / Bank / Mobile Money (Paystack)", enabled: true },
   { id: "flutterwave", label: "Card / Mobile Money / USSD (Flutterwave)", enabled: true },
 ];

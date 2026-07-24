@@ -9,7 +9,6 @@ export interface CheckoutResult {
 // Maps a provider to its Supabase Edge Function name.
 const FUNCTION_FOR: Partial<Record<Provider, string>> = {
   stripe: "subscribe-stripe",
-  paystack: "subscribe-paystack",
   flutterwave: "subscribe-flutterwave",
 };
 

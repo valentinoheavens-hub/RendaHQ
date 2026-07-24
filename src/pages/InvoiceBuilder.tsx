@@ -49,7 +49,7 @@ const InvoiceBuilder = () => {
   const [clientName, setClientName] = useState("");
   const [dueDate, setDueDate] = useState("");
   const [notes, setNotes] = useState("");
-  const [paymentMethod, setPaymentMethod] = useState("Paystack");
+  const [paymentMethod, setPaymentMethod] = useState("Flutterwave");
   const [saving, setSaving] = useState(false);
   const [items, setItems] = useState<LineItem[]>([
     { id: 1, description: "", quantity: 1, rate: 0 },
@@ -322,8 +322,8 @@ const InvoiceBuilder = () => {
                     onChange={(e) => setPaymentMethod(e.target.value)}
                     className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
                   >
-                    <option>Paystack</option>
                     <option>Flutterwave</option>
+                    <option>Stripe</option>
                     <option>Bank Transfer</option>
                     <option>Cash</option>
                     <option>Other</option>

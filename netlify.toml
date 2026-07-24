@@ -10,8 +10,10 @@
   # secrets, never here.
   VITE_SUPABASE_URL = "https://uhpfpecvzgmhsimegfkn.supabase.co"
   VITE_SUPABASE_ANON_KEY = "sb_publishable_MdgLDyC09eHRa0rBo7iPAA_F96W_uIR"
-  # Fill in when ready (also public keys, safe to commit):
-  # VITE_FLUTTERWAVE_PUBLIC_KEY = "FLWPUBK-xxxxx"
+  # Flutterwave PUBLIC key — browser checkout only (safe to commit; the secret
+  # key stays in Supabase Edge Function secrets, never here).
+  VITE_FLUTTERWAVE_PUBLIC_KEY = "FLWPUBK-216905deff8dee6af5f6a7bbccb1737c-X"
+  # Fill in when ready (also a public key, safe to commit):
   # VITE_STRIPE_PUBLIC_KEY = "pk_live_xxxxx"
 
 # Single-page-app fallback: every path serves index.html so React Router

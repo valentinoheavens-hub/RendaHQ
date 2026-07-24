@@ -105,7 +105,7 @@ const Invoices = () => {
             <CardContent className="p-6 flex items-center justify-between">
               <div>
                 <p className="text-emerald-200 text-xs font-bold uppercase tracking-wider mb-1">African Rails</p>
-                <h3 className="text-xl font-bold">Paystack & Flutterwave Active</h3>
+                <h3 className="text-xl font-bold">Flutterwave & Stripe Active</h3>
               </div>
               <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
                 <CheckCircle2 className="w-5 h-5 text-emerald-400" />
