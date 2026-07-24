@@ -239,6 +239,7 @@ const BASE_PRICE_USD = 29;
 
 const Index = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [billing, setBilling] = useState<"monthly" | "yearly">("monthly");
   const { format, currency } = useCurrency();
   const [rates, setRates] = useState<Record<string, number> | null>(null);
 
@@ -249,19 +250,26 @@ const Index = () => {
       .catch(() => {}); // silently fall back to raw USD display
   }, []);
 
-  const agencyPrice = (() => {
-    if (currency.code === 'USD' || !rates) return format(BASE_PRICE_USD);
+  // Convert a USD price to the visitor's currency with locally-sensible rounding.
+  const priceFor = (usd: number): string => {
+    if (currency.code === 'USD' || !rates) return format(usd);
     const rate = rates[currency.code];
-    if (!rate) return `$${BASE_PRICE_USD}`;
-    // Round to a locally sensible number
-    const converted = BASE_PRICE_USD * rate;
+    if (!rate) return `$${usd}`;
+    const converted = usd * rate;
     const rounded = converted < 100
-      ? Math.round(converted * 10) / 10          // e.g. €27.2
+      ? Math.round(converted * 10) / 10
       : converted < 1000
-      ? Math.round(converted / 5) * 5            // e.g. ₵360
-      : Math.round(converted / 100) * 100;       // e.g. ₦49,300 → ₦49,300
+      ? Math.round(converted / 5) * 5
+      : Math.round(converted / 100) * 100;
     return format(rounded);
-  })();
+  };
+
+  // Agency plan: 20% off when billed yearly.
+  const YEARLY_MONTHLY_USD = Math.round(BASE_PRICE_USD * 0.8); // ~$23/mo effective
+  const agencyMonthly = billing === "monthly"
+    ? priceFor(BASE_PRICE_USD)
+    : priceFor(YEARLY_MONTHLY_USD);
+  const agencyYearlyTotal = priceFor(YEARLY_MONTHLY_USD * 12); // billed once a year
 
   return (
     <div className="min-h-screen bg-white selection:bg-emerald-100 overflow-x-hidden">
@@ -487,6 +495,33 @@ const Index = () => {
             </p>
           </div>
 
+          {/* Monthly / Yearly toggle */}
+          <div className="flex justify-center mb-12">
+            <div className="inline-flex items-center bg-slate-100 rounded-full p-1">
+              <button
+                onClick={() => setBilling("monthly")}
+                className={cn(
+                  "px-6 py-2 rounded-full text-sm font-semibold transition-all",
+                  billing === "monthly" ? "bg-white text-slate-900 shadow-sm" : "text-slate-500 hover:text-slate-700"
+                )}
+              >
+                Monthly
+              </button>
+              <button
+                onClick={() => setBilling("yearly")}
+                className={cn(
+                  "px-6 py-2 rounded-full text-sm font-semibold transition-all flex items-center gap-2",
+                  billing === "yearly" ? "bg-white text-slate-900 shadow-sm" : "text-slate-500 hover:text-slate-700"
+                )}
+              >
+                Yearly
+                <span className="text-[10px] font-bold bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full">
+                  Save 20%
+                </span>
+              </button>
+            </div>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
             {PLANS.map((plan) => (
               <div key={plan.name} className={cn(
@@ -500,32 +535,38 @@ const Index = () => {
                     <Star className="w-3 h-3 fill-white" /> Most Popular
                   </div>
                 )}
-                <h3 className={cn("text-lg font-bold mb-1", plan.highlight ? "text-white" : "text-slate-900")}>
+                <h3 className={cn("text-xl font-bold mb-1", plan.highlight ? "text-white" : "text-slate-900")}>
                   {plan.name}
                 </h3>
                 <p className={cn("text-sm mb-6", plan.highlight ? "text-emerald-200" : "text-slate-500")}>
                   {plan.desc}
                 </p>
-                <div className="flex items-end gap-1 mb-2">
-                  <span className={cn("text-5xl font-black", plan.highlight ? "text-white" : "text-slate-900")}>
+                <div className="flex items-end gap-1 mb-1">
+                  <span className={cn("text-5xl font-bold tracking-tight", plan.highlight ? "text-white" : "text-slate-900")}>
                     {plan.priceUSD === null
                       ? "Custom"
                       : plan.priceUSD === 0
                       ? "Free"
-                      : agencyPrice}
+                      : agencyMonthly}
                   </span>
-                  <span className={cn("text-sm mb-2", plan.highlight ? "text-emerald-200" : "text-slate-400")}>
-                    {plan.priceUSD !== null && plan.priceUSD > 0 && `/${plan.period}`}
+                  <span className={cn("text-sm font-medium mb-2", plan.highlight ? "text-emerald-200" : "text-slate-400")}>
+                    {plan.priceUSD !== null && plan.priceUSD > 0 && "/month"}
                   </span>
                 </div>
-                {plan.priceUSD !== null && plan.priceUSD > 0 && currency.code !== "USD" && (
-                  <p className={cn("text-xs mb-6", plan.highlight ? "text-emerald-300" : "text-slate-400")}>
-                    ≈ USD $29/mo · billed in USD
-                  </p>
-                )}
-                {!(plan.priceUSD !== null && plan.priceUSD > 0 && currency.code !== "USD") && (
-                  <div className="mb-6" />
-                )}
+                {/* Billing detail — fixed height keeps all three cards aligned */}
+                <div className="min-h-[20px] mb-6">
+                  {plan.priceUSD !== null && plan.priceUSD > 0 && (
+                    <p className={cn("text-xs", plan.highlight ? "text-emerald-200" : "text-slate-400")}>
+                      {billing === "yearly" ? (
+                        <>Billed yearly at {agencyYearlyTotal} · save 20%</>
+                      ) : currency.code !== "USD" ? (
+                        <>≈ USD ${BASE_PRICE_USD}/mo · billed in USD</>
+                      ) : (
+                        <>Billed monthly · cancel anytime</>
+                      )}
+                    </p>
+                  )}
+                </div>
                 <Link to="/signin">
                   <Button className={cn(
                     "w-full rounded-xl mb-8 h-11",
