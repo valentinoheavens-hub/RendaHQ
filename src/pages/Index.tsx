@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { useCurrency } from "@/hooks/useCurrency";
 import { formatAmount, detectCurrencyByIP } from "@/lib/currency";
+import { getBillingCycle, saveBillingCycle } from "@/lib/plans";
 import {
   ArrowRight,
   Shield,
@@ -238,7 +239,7 @@ const BASE_PRICE_USD = 29;
 
 const Index = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [billing, setBilling] = useState<"monthly" | "yearly">("monthly");
+  const [billing, setBilling] = useState<"monthly" | "yearly">(getBillingCycle);
   const { currency } = useCurrency();
   const [rates, setRates] = useState<Record<string, number> | null>(null);
   const [geoCode, setGeoCode] = useState<string | null>(null);
@@ -257,6 +258,9 @@ const Index = () => {
     detectCurrencyByIP(true).then((c) => { if (c) setGeoCode(c); });
   }, []);
 
+  // Remember the monthly/yearly choice so it carries through to checkout.
+  React.useEffect(() => { saveBillingCycle(billing); }, [billing]);
+
   const displayCode = geoCode ?? currency.code;
 
   // Convert a USD price to the visitor's currency with locally-sensible rounding.
@@ -274,11 +278,17 @@ const Index = () => {
   };
 
   // Agency plan: 20% off when billed yearly.
-  const YEARLY_MONTHLY_USD = Math.round(BASE_PRICE_USD * 0.8); // ~$23/mo effective
-  const agencyMonthly = billing === "monthly"
+  const YEARLY_DISCOUNT = 0.2;
+  const agencyYearlyPerMonthUSD = BASE_PRICE_USD * (1 - YEARLY_DISCOUNT);      // ~$23.2/mo effective
+  const agencyYearlyTotalUSD = BASE_PRICE_USD * 12 * (1 - YEARLY_DISCOUNT);    // ~$278 billed once a year
+
+  // Headline price + period follow the selected billing cycle. Yearly shows the
+  // full discounted annual total (not the per-month figure).
+  const agencyPrice = billing === "monthly"
     ? priceFor(BASE_PRICE_USD)
-    : priceFor(YEARLY_MONTHLY_USD);
-  const agencyYearlyTotal = priceFor(YEARLY_MONTHLY_USD * 12); // billed once a year
+    : priceFor(agencyYearlyTotalUSD);
+  const agencyPeriod = billing === "monthly" ? "/month" : "/year";
+  const agencyYearlyPerMonth = priceFor(agencyYearlyPerMonthUSD);             // effective monthly rate
 
   return (
     <div className="min-h-screen bg-white selection:bg-emerald-100 overflow-x-hidden">
@@ -556,10 +566,10 @@ const Index = () => {
                       ? "Custom"
                       : plan.priceUSD === 0
                       ? "Free"
-                      : agencyMonthly}
+                      : agencyPrice}
                   </span>
                   <span className={cn("text-sm font-medium mb-2", plan.highlight ? "text-emerald-200" : "text-slate-400")}>
-                    {plan.priceUSD !== null && plan.priceUSD > 0 && "/month"}
+                    {plan.priceUSD !== null && plan.priceUSD > 0 && agencyPeriod}
                   </span>
                 </div>
                 {/* Billing detail — fixed height keeps all three cards aligned */}
@@ -567,7 +577,7 @@ const Index = () => {
                   {plan.priceUSD !== null && plan.priceUSD > 0 && (
                     <p className={cn("text-xs", plan.highlight ? "text-emerald-200" : "text-slate-400")}>
                       {billing === "yearly" ? (
-                        <>Billed yearly at {agencyYearlyTotal} · save 20%</>
+                        <>{agencyYearlyPerMonth}/mo billed annually · save 20%</>
                       ) : displayCode !== "USD" ? (
                         <>≈ USD ${BASE_PRICE_USD}/mo · billed in USD</>
                       ) : (

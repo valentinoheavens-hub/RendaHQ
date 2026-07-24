@@ -1,5 +1,5 @@
 import { supabase } from "@/lib/supabase";
-import type { Provider } from "@/lib/plans";
+import type { Provider, BillingCycle } from "@/lib/plans";
 
 export interface CheckoutResult {
   url?: string;
@@ -15,7 +15,10 @@ const FUNCTION_FOR: Partial<Record<Provider, string>> = {
 // Kicks off a subscription checkout. The edge function identifies the user
 // from their auth JWT (added automatically by supabase.functions.invoke),
 // creates the recurring checkout provider-side, and returns a redirect URL.
-export async function startSubscription(provider: Provider): Promise<CheckoutResult> {
+export async function startSubscription(
+  provider: Provider,
+  cycle: BillingCycle = "monthly",
+): Promise<CheckoutResult> {
   const fn = FUNCTION_FOR[provider];
   if (!fn) return { error: "This payment method isn't available yet." };
 
@@ -23,6 +26,7 @@ export async function startSubscription(provider: Provider): Promise<CheckoutRes
   try {
     const { data, error } = await supabase.functions.invoke(fn, {
       body: {
+        billingCycle: cycle, // "monthly" | "yearly" — picks the provider price/plan server-side
         successUrl: `${origin}/billing?status=success`,
         cancelUrl: `${origin}/billing?status=cancelled`,
         callbackUrl: `${origin}/billing?status=success`,

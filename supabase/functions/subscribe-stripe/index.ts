@@ -24,9 +24,6 @@ Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
 
   try {
-    const priceId = Deno.env.get("STRIPE_AGENCY_PRICE_ID");
-    if (!priceId) return json({ error: "Stripe Agency price is not configured." }, 500);
-
     const authHeader = req.headers.get("Authorization") ?? "";
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
 
@@ -37,8 +34,15 @@ Deno.serve(async (req) => {
     const { data: { user }, error: userErr } = await userClient.auth.getUser();
     if (userErr || !user) return json({ error: "Not authenticated." }, 401);
 
-    const { successUrl, cancelUrl } = await req.json();
+    const { successUrl, cancelUrl, billingCycle } = await req.json();
     if (!successUrl || !cancelUrl) return json({ error: "Missing redirect URLs." }, 400);
+
+    // Pick the Stripe price for the requested cycle. Falls back to the monthly
+    // price if a yearly price hasn't been created yet, so checkout never breaks.
+    const monthlyPrice = Deno.env.get("STRIPE_AGENCY_PRICE_ID");
+    const yearlyPrice = Deno.env.get("STRIPE_AGENCY_YEARLY_PRICE_ID");
+    const priceId = billingCycle === "yearly" ? (yearlyPrice ?? monthlyPrice) : monthlyPrice;
+    if (!priceId) return json({ error: "Stripe Agency price is not configured." }, 500);
 
     // Service-role client for reading/writing the subscription row.
     const admin = createClient(supabaseUrl, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);

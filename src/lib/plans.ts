@@ -32,7 +32,28 @@ export interface Plan {
 }
 
 export const AGENCY_PRICE_USD = 29;
+export const YEARLY_DISCOUNT = 0.2; // 20% off when billed annually
+// Full annual total after the discount (what we actually charge once a year).
+export const AGENCY_YEARLY_PRICE_USD = Math.round(AGENCY_PRICE_USD * 12 * (1 - YEARLY_DISCOUNT)); // ~$278
 export const TRIAL_DAYS = 14;
+
+export type BillingCycle = "monthly" | "yearly";
+
+// The Agency total for a given cycle, in USD.
+export const agencyPriceUSD = (cycle: BillingCycle): number =>
+  cycle === "yearly" ? AGENCY_YEARLY_PRICE_USD : AGENCY_PRICE_USD;
+
+// ─── Billing-cycle preference (shared: marketing pricing → checkout) ──────────
+// Persisted so the monthly/yearly choice made on the pricing page carries
+// through signup to the Billing page and checkout.
+const CYCLE_KEY = "rendahq_billing_cycle";
+export const getBillingCycle = (): BillingCycle =>
+  (typeof localStorage !== "undefined" && localStorage.getItem(CYCLE_KEY) === "yearly")
+    ? "yearly"
+    : "monthly";
+export const saveBillingCycle = (cycle: BillingCycle): void => {
+  if (typeof localStorage !== "undefined") localStorage.setItem(CYCLE_KEY, cycle);
+};
 
 export const PLANS: Record<PlanId, Plan> = {
   free: {
@@ -110,8 +131,10 @@ export const PLANS: Record<PlanId, Plan> = {
 // Recurring-plan identifiers created in each provider's dashboard.
 // Set these in .env.local once the plans exist provider-side.
 export const PROVIDER_PLAN_REFS = {
-  stripe: import.meta.env.VITE_STRIPE_AGENCY_PRICE_ID as string | undefined, // price_xxx
-  flutterwave: import.meta.env.VITE_FLW_AGENCY_PLAN_ID as string | undefined, // numeric id
+  stripe: import.meta.env.VITE_STRIPE_AGENCY_PRICE_ID as string | undefined, // monthly price_xxx
+  stripeYearly: import.meta.env.VITE_STRIPE_AGENCY_YEARLY_PRICE_ID as string | undefined, // yearly price_xxx
+  flutterwave: import.meta.env.VITE_FLW_AGENCY_PLAN_ID as string | undefined, // monthly plan id
+  flutterwaveYearly: import.meta.env.VITE_FLW_AGENCY_YEARLY_PLAN_ID as string | undefined, // yearly plan id
 };
 
 // Which providers are wired for subscription checkout right now.

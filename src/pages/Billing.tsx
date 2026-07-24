@@ -15,7 +15,16 @@ import { cn } from "@/lib/utils";
 import { showError, showSuccess } from "@/utils/toast";
 import { useSubscription } from "@/context/SubscriptionContext";
 import { useCurrency } from "@/hooks/useCurrency";
-import { PLANS, SUBSCRIPTION_PROVIDERS, type PlanId, type Provider } from "@/lib/plans";
+import {
+  PLANS,
+  SUBSCRIPTION_PROVIDERS,
+  agencyPriceUSD,
+  getBillingCycle,
+  saveBillingCycle,
+  type PlanId,
+  type Provider,
+  type BillingCycle,
+} from "@/lib/plans";
 import { startSubscription, openBillingPortal } from "@/lib/billing";
 
 const STATUS_LABEL: Record<string, { label: string; cls: string }> = {
@@ -39,6 +48,17 @@ const Billing = () => {
   const [params, setParams] = useSearchParams();
   const [dialogOpen, setDialogOpen] = useState(false);
   const [working, setWorking] = useState<string | null>(null);
+  const [cycle, setCycle] = useState<BillingCycle>(getBillingCycle);
+
+  // Keep the choice sticky across the app (mirrors the marketing pricing page).
+  const chooseCycle = (c: BillingCycle) => {
+    setCycle(c);
+    saveBillingCycle(c);
+  };
+
+  // Agency total for the selected cycle, formatted in the visitor's currency.
+  const agencyAmount = format(agencyPriceUSD(cycle));
+  const agencyCycleLabel = cycle === "yearly" ? "/year" : "/month";
 
   // Handle return from a checkout redirect (Stripe/Paystack use success|cancelled;
   // Flutterwave appends successful|cancelled|failed).
@@ -61,7 +81,7 @@ const Billing = () => {
 
   const handleUpgrade = async (provider: Provider) => {
     setWorking(provider);
-    const { url, error } = await startSubscription(provider);
+    const { url, error } = await startSubscription(provider, cycle);
     if (error) {
       showError(error);
       setWorking(null);
@@ -153,6 +173,33 @@ const Billing = () => {
           </CardContent>
         </Card>
 
+        {/* Billing-cycle toggle */}
+        <div className="flex justify-center">
+          <div className="inline-flex items-center gap-1 bg-slate-100 rounded-full p-1">
+            <button
+              onClick={() => chooseCycle("monthly")}
+              className={cn(
+                "px-5 py-1.5 rounded-full text-sm font-semibold transition-all",
+                cycle === "monthly" ? "bg-white text-slate-900 shadow-sm" : "text-slate-500 hover:text-slate-700"
+              )}
+            >
+              Monthly
+            </button>
+            <button
+              onClick={() => chooseCycle("yearly")}
+              className={cn(
+                "px-5 py-1.5 rounded-full text-sm font-semibold transition-all flex items-center gap-2",
+                cycle === "yearly" ? "bg-white text-slate-900 shadow-sm" : "text-slate-500 hover:text-slate-700"
+              )}
+            >
+              Yearly
+              <span className="text-[10px] font-bold bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full">
+                Save 20%
+              </span>
+            </button>
+          </div>
+        </div>
+
         {/* Plan grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {planOrder.map((id) => {
@@ -189,10 +236,26 @@ const Billing = () => {
 
                   <div>
                     <span className="text-3xl font-black text-slate-900">
-                      {plan.priceUSD === null ? "Custom" : plan.priceUSD === 0 ? "Free" : format(plan.priceUSD)}
+                      {plan.priceUSD === null
+                        ? "Custom"
+                        : plan.priceUSD === 0
+                        ? "Free"
+                        : isAgency
+                        ? agencyAmount
+                        : format(plan.priceUSD)}
                     </span>
-                    {plan.priceUSD ? <span className="text-slate-500 text-sm"> /{plan.period}</span> : null}
+                    {plan.priceUSD ? (
+                      <span className="text-slate-500 text-sm">
+                        {" "}
+                        {isAgency ? agencyCycleLabel : `/${plan.period}`}
+                      </span>
+                    ) : null}
                   </div>
+                  {isAgency && cycle === "yearly" && (
+                    <p className="text-xs text-emerald-600 font-medium -mt-2">
+                      {format(agencyPriceUSD("yearly") / 12)}/mo billed annually · save 20%
+                    </p>
+                  )}
                   <p className="text-sm text-slate-500">{plan.tagline}</p>
 
                   <ul className="space-y-2 pt-2">
@@ -244,7 +307,8 @@ const Billing = () => {
           <DialogHeader>
             <DialogTitle>Choose how to pay</DialogTitle>
             <DialogDescription>
-              Agency plan — {format(PLANS.agency.priceUSD ?? 29)}/month. Cancel anytime.
+              Agency plan — {agencyAmount}{agencyCycleLabel}
+              {cycle === "yearly" ? " (20% off)" : ""}. Cancel anytime.
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-3 pt-2">
