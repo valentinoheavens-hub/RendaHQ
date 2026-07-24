@@ -22,6 +22,7 @@ import { showSuccess, showError } from "@/utils/toast";
 import { invoiceStore, Invoice } from "@/lib/invoiceStore";
 import { clientStore } from "@/lib/clientStore";
 import { getPaymentCurrency } from "@/lib/currency";
+import { profileStore, Profile } from "@/lib/profileStore";
 
 declare global {
   interface Window {
@@ -48,6 +49,7 @@ const InvoiceView = () => {
 
   const [searchParams] = useSearchParams();
   const [invoice, setInvoice] = useState<Invoice | null>(null);
+  const [agency, setAgency] = useState<Profile | null>(null);
   const [clientEmail, setClientEmail] = useState("");
   const [loading, setLoading] = useState(true);
   const [paying, setPaying] = useState(false);
@@ -83,6 +85,8 @@ const InvoiceView = () => {
     invoiceStore.getById(invoiceId).then(async (inv) => {
       if (!inv) { setLoading(false); return; }
       setInvoice(inv);
+      // Load the issuing freelancer's branding — this document is client-facing.
+      if (inv.user_id) setAgency(await profileStore.get(inv.user_id));
       if (inv.client_id) {
         const client = await clientStore.getById(inv.client_id);
         if (client?.email) setClientEmail(client.email);
@@ -413,13 +417,19 @@ const InvoiceView = () => {
             {/* Agency + invoice number */}
             <div className="flex justify-between items-start">
               <div className="space-y-4">
-                <div className="w-16 h-16 bg-emerald-600 rounded-2xl flex items-center justify-center text-white font-bold text-3xl">
-                  N
-                </div>
+                {agency?.logo_url ? (
+                  <img src={agency.logo_url} alt={agency.agency_name ?? "Agency"} className="h-16 w-auto max-w-[200px] object-contain" />
+                ) : (
+                  <div
+                    className="w-16 h-16 rounded-2xl flex items-center justify-center text-white font-bold text-3xl"
+                    style={{ background: agency?.brand_color || "#059669" }}
+                  >
+                    {(agency?.agency_name ?? "A").charAt(0).toUpperCase()}
+                  </div>
+                )}
                 <div>
-                  <h2 className="text-xl font-bold text-slate-900">RendaHQ Design Studio</h2>
-                  <p className="text-slate-500">123 Creative Way, Lagos, Nigeria</p>
-                  <p className="text-slate-500">hello@rendahq.com</p>
+                  <h2 className="text-xl font-bold text-slate-900">{agency?.agency_name || "Your Agency"}</h2>
+                  {agency?.email && <p className="text-slate-500">{agency.email}</p>}
                 </div>
               </div>
               <div className="text-right space-y-2">
@@ -513,7 +523,7 @@ const InvoiceView = () => {
               <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">Notes</p>
               <p className="text-sm text-slate-500 leading-relaxed">
                 {invoice.notes ||
-                  "Thank you for your business! Please make payment within 14 days. For any questions regarding this invoice, please contact hello@rendahq.com."}
+                  `Thank you for your business! Please make payment within 14 days.${agency?.email ? ` For any questions regarding this invoice, please contact ${agency.email}.` : ""}`}
               </p>
             </div>
           </CardContent>

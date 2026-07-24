@@ -28,6 +28,7 @@ import { showSuccess, showError } from "@/utils/toast";
 import { invoiceStore } from "@/lib/invoiceStore";
 import { clientStore, Client } from "@/lib/clientStore";
 import { useCurrency } from "@/hooks/useCurrency";
+import { useAuth } from "@/context/AuthContext";
 
 interface LineItem {
   id: number;
@@ -39,6 +40,8 @@ interface LineItem {
 const InvoiceBuilder = () => {
   const navigate = useNavigate();
   const { format, symbol } = useCurrency();
+  const { user, profile } = useAuth();
+  const agencyName = profile?.agency_name || "Your Agency";
 
   const [clients, setClients] = useState<Client[]>([]);
   const [invoiceNumber, setInvoiceNumber] = useState("INV-001");
@@ -155,12 +158,19 @@ const InvoiceBuilder = () => {
                 {/* Agency header */}
                 <div className="flex justify-between">
                   <div className="space-y-3">
-                    <div className="w-14 h-14 bg-emerald-600 rounded-xl flex items-center justify-center text-white font-bold text-2xl">
-                      N
-                    </div>
+                    {profile?.logo_url ? (
+                      <img src={profile.logo_url} alt={agencyName} className="h-14 w-auto max-w-[180px] object-contain" />
+                    ) : (
+                      <div
+                        className="w-14 h-14 rounded-xl flex items-center justify-center text-white font-bold text-2xl"
+                        style={{ background: profile?.brand_color || "#059669" }}
+                      >
+                        {agencyName.charAt(0).toUpperCase()}
+                      </div>
+                    )}
                     <div>
-                      <p className="font-bold text-slate-900">RendaHQ Design Studio</p>
-                      <p className="text-sm text-slate-500">123 Creative Way, Lagos, Nigeria</p>
+                      <p className="font-bold text-slate-900">{agencyName}</p>
+                      <p className="text-sm text-slate-500">{user?.email}</p>
                     </div>
                   </div>
                   <div className="text-right space-y-1">

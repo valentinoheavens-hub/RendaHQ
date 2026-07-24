@@ -85,20 +85,79 @@ export interface ProposalOptions {
   clientName: string;
   scopeSummary: string;
   budget?: string;
+  projectType?: string;
+  // The AI-interview answers — what turns a generic draft into a tailored one.
+  answers?: { question: string; answer: string }[];
+  agencyName?: string;
 }
 
-export const generateProposalContent = async (opts: ProposalOptions): Promise<string> =>
-  chat(
-    `You are a senior business consultant writing winning project proposals for a design & strategy agency.
-Use Markdown formatting with clear headings (##). Include: Executive Summary, Our Approach, Deliverables, Timeline, Why Choose Us.
-Be specific and compelling. Match the client's industry language.`,
-    `Generate a proposal for:
+// Step 1 of the interview flow: from the initial brief, generate the clarifying
+// questions whose answers the proposal writer needs. Returns 5-7 questions.
+export const generateProposalQuestions = async (opts: {
+  projectTitle: string;
+  clientName: string;
+  scopeSummary: string;
+  projectType?: string;
+}): Promise<string[]> => {
+  const raw = await chat(
+    `You are a senior consultant preparing to write a high-stakes client proposal.
+Before writing, you interview the freelancer to extract the details that separate a generic proposal from a winning one:
+the client's underlying business goal, success metrics, decision makers, timeline and deadline pressure, budget expectations,
+what has been tried before, deliverable specifics, and any competition for the work.
+Return ONLY a JSON array of 5 to 7 short interview questions (strings). No preamble, no markdown fences, no numbering — just the JSON array.`,
+    `The freelancer wants a proposal for:
 Project: ${opts.projectTitle}
+${opts.projectType ? `Type of work: ${opts.projectType}` : ''}
 Client: ${opts.clientName}
-Scope: ${opts.scopeSummary}
-${opts.budget ? `Budget: ${opts.budget}` : ''}`,
-    1500
+Initial scope notes: ${opts.scopeSummary}
+
+Generate the interview questions most likely to improve THIS proposal.`,
+    700
   );
+
+  // Parse defensively — the model may wrap the array in fences or prose.
+  try {
+    const match = raw.match(/\[[\s\S]*\]/);
+    const parsed = JSON.parse(match ? match[0] : raw);
+    if (Array.isArray(parsed)) {
+      const qs = parsed.map((q) => String(q)).filter((q) => q.trim().length > 5);
+      if (qs.length >= 3) return qs.slice(0, 7);
+    }
+  } catch {
+    /* fall through to fallback */
+  }
+  // Fallback: solid generic interview if parsing fails.
+  return [
+    'What business outcome does the client want this project to achieve?',
+    'How will the client measure success (metrics, KPIs, or milestones)?',
+    'What is the deadline or key dates driving the timeline?',
+    'What budget range has the client indicated, if any?',
+    'Who makes the final decision, and what do they care about most?',
+    'What has the client already tried, and why did it fall short?',
+  ];
+};
+
+// Step 2: write the proposal, grounded in the interview answers.
+export const generateProposalContent = async (opts: ProposalOptions): Promise<string> => {
+  const qa = (opts.answers ?? [])
+    .filter((a) => a.answer.trim())
+    .map((a) => `Q: ${a.question}\nA: ${a.answer}`)
+    .join('\n');
+  return chat(
+    `You are a senior business consultant writing a winning client proposal${opts.agencyName ? ` on behalf of ${opts.agencyName}` : ''}.
+Use Markdown with clear ## headings: Executive Summary, Understanding Your Goals, Our Approach, Deliverables, Timeline, Investment, Why Choose Us, Next Steps.
+Ground every section in the discovery answers provided — reference the client's actual goals, metrics, and constraints rather than generic filler.
+Write in confident, client-facing language. Do not invent prices; describe the investment qualitatively unless a budget was given.`,
+    `Write the proposal.
+Project: ${opts.projectTitle}
+${opts.projectType ? `Type of work: ${opts.projectType}` : ''}
+Client: ${opts.clientName}
+Scope notes: ${opts.scopeSummary}
+${opts.budget ? `Budget context: ${opts.budget}` : ''}
+${qa ? `\nDiscovery interview:\n${qa}` : ''}`,
+    2000
+  );
+};
 
 // ─── Lead Analysis ──────────────────────────────────────────────────────────
 export interface LeadAnalysisInput {

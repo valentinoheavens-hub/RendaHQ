@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -35,47 +35,44 @@ import { sendInvoiceReminder } from "@/lib/email";
 import { showSuccess, showError } from "@/utils/toast";
 import { Input } from "@/components/ui/input";
 import { useCurrency } from "@/hooks/useCurrency";
+import { invoiceStore, Invoice } from "@/lib/invoiceStore";
+import { clientStore } from "@/lib/clientStore";
+import { useAuth } from "@/context/AuthContext";
 
 interface Payment {
   id: string;
   invoiceId: string;
   client: string;
-  amount: string;
   amountNum: number;
   status: "paid" | "pending" | "overdue";
   dueDate: string;
   daysOverdue?: number;
   method: string;
-  avatar: string;
+  clientId: string | null;
 }
 
-const payments: Payment[] = [
-  {
-    id: "p1", invoiceId: "INV-002", client: "Global Tech", amount: "$3,200.00", amountNum: 3200,
-    status: "overdue", dueDate: "Oct 28, 2023", daysOverdue: 28, method: "Paystack",
-    avatar: "https://api.dicebear.com/7.x/initials/svg?seed=GT"
-  },
-  {
-    id: "p2", invoiceId: "INV-003", client: "Zest Foods", amount: "$850.00", amountNum: 850,
-    status: "pending", dueDate: "Nov 10, 2023", method: "Flutterwave",
-    avatar: "https://api.dicebear.com/7.x/initials/svg?seed=ZF"
-  },
-  {
-    id: "p3", invoiceId: "INV-005", client: "NovaBuild", amount: "$5,400.00", amountNum: 5400,
-    status: "pending", dueDate: "Nov 15, 2023", method: "Stripe",
-    avatar: "https://api.dicebear.com/7.x/initials/svg?seed=NB"
-  },
-  {
-    id: "p4", invoiceId: "INV-001", client: "Acme Corp", amount: "$1,500.00", amountNum: 1500,
-    status: "paid", dueDate: "Oct 12, 2023", method: "Stripe",
-    avatar: "https://api.dicebear.com/7.x/initials/svg?seed=AC"
-  },
-  {
-    id: "p5", invoiceId: "INV-006", client: "Swift Logistics", amount: "$7,800.00", amountNum: 7800,
-    status: "paid", dueDate: "Oct 5, 2023", method: "M-Pesa",
-    avatar: "https://api.dicebear.com/7.x/initials/svg?seed=SL"
-  },
-];
+// Derives the payments view from real invoices.
+const toPayment = (inv: Invoice): Payment => {
+  const due = inv.due_date ? new Date(inv.due_date) : null;
+  const overdueDays = due
+    ? Math.floor((Date.now() - due.getTime()) / (1000 * 60 * 60 * 24))
+    : 0;
+  const status: Payment["status"] =
+    inv.status === "Paid" ? "paid"
+      : inv.status === "Overdue" || (due && overdueDays > 0 && inv.status !== "Draft") ? "overdue"
+      : "pending";
+  return {
+    id: inv.id,
+    invoiceId: inv.invoice_number,
+    client: inv.client_name,
+    amountNum: Number(inv.amount) || 0,
+    status,
+    dueDate: due ? due.toLocaleDateString() : "No due date",
+    daysOverdue: status === "overdue" && overdueDays > 0 ? overdueDays : undefined,
+    method: inv.payment_method || "Not set",
+    clientId: inv.client_id ?? null,
+  };
+};
 
 const statusConfig = {
   paid: { label: "Paid", color: "bg-emerald-50 text-emerald-700", icon: CheckCircle2, iconColor: "text-emerald-500" },
@@ -85,6 +82,9 @@ const statusConfig = {
 
 export default function Payments() {
   const { format } = useCurrency();
+  const { profile } = useAuth();
+  const [payments, setPayments] = useState<Payment[]>([]);
+  const [loading, setLoading] = useState(true);
   const [activeFilter, setActiveFilter] = useState<"all" | "overdue" | "pending" | "paid">("all");
   const [reminderPayment, setReminderPayment] = useState<Payment | null>(null);
   const [reminderText, setReminderText] = useState("");
@@ -92,6 +92,21 @@ export default function Payments() {
   const [copied, setCopied] = useState(false);
   const [clientEmail, setClientEmail] = useState("");
   const [isSending, setIsSending] = useState(false);
+
+  useEffect(() => {
+    invoiceStore.getAll()
+      .then((invs) => setPayments(invs.map(toPayment)))
+      .catch(() => setPayments([]))
+      .finally(() => setLoading(false));
+  }, []);
+
+  // Prefill the client's email when opening the reminder dialog.
+  useEffect(() => {
+    if (!reminderPayment?.clientId) { setClientEmail(""); return; }
+    clientStore.getById(reminderPayment.clientId)
+      .then((c) => setClientEmail(c?.email ?? ""))
+      .catch(() => setClientEmail(""));
+  }, [reminderPayment]);
 
   const filtered = payments.filter(p => activeFilter === "all" || p.status === activeFilter);
 
@@ -112,9 +127,9 @@ export default function Payments() {
       const text = await generatePaymentReminder({
         clientName: reminderPayment.client,
         invoiceId: reminderPayment.invoiceId,
-        amount: reminderPayment.amount,
+        amount: format(reminderPayment.amountNum),
         daysOverdue: reminderPayment.daysOverdue ?? 0,
-        senderName: "Felix",
+        senderName: profile?.full_name ?? profile?.agency_name ?? "Your agency",
       });
       setReminderText(text);
     } catch (err: any) {
@@ -222,11 +237,9 @@ export default function Payments() {
                     key={payment.id}
                     className="flex items-center gap-4 px-6 py-4 hover:bg-slate-50/50 transition-colors"
                   >
-                    <img
-                      src={payment.avatar}
-                      alt={payment.client}
-                      className="w-10 h-10 rounded-xl border border-slate-100 shrink-0"
-                    />
+                    <div className="w-10 h-10 rounded-xl border border-slate-100 shrink-0 bg-emerald-50 flex items-center justify-center font-bold text-emerald-700">
+                      {(payment.client || "?").charAt(0).toUpperCase()}
+                    </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-0.5">
                         <h4 className="font-bold text-slate-900 text-sm">{payment.client}</h4>
@@ -331,7 +344,7 @@ export default function Payments() {
               </DialogTitle>
             </div>
             <DialogDescription>
-              Draft a personalised message to <strong>{reminderPayment?.client}</strong> for <strong>{reminderPayment?.invoiceId}</strong> ({reminderPayment?.amount}).
+              Draft a personalised message to <strong>{reminderPayment?.client}</strong> for <strong>{reminderPayment?.invoiceId}</strong> ({format(reminderPayment?.amountNum ?? 0)}).
             </DialogDescription>
           </DialogHeader>
 
@@ -406,7 +419,7 @@ export default function Payments() {
                     clientEmail,
                     clientName: reminderPayment.client,
                     invoiceId: reminderPayment.invoiceId,
-                    amount: reminderPayment.amount,
+                    amount: format(reminderPayment.amountNum),
                     dueDate: reminderPayment.dueDate,
                     body: reminderText,
                   });
