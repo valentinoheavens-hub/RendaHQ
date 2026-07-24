@@ -25,33 +25,47 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const loadProfile = async (u: User | null) => {
     if (!u) { setProfile(null); return; }
-    const p = await profileStore.get(u.id);
-    setProfile(p);
+    try {
+      setProfile(await profileStore.get(u.id));
+    } catch {
+      // A failed profile fetch must never block the app from rendering.
+      setProfile(null);
+    }
   };
 
   useEffect(() => {
-    supabase.auth.getSession().then(async ({ data: { session } }) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      await loadProfile(session?.user ?? null);
+    let active = true;
+
+    const applySession = (s: Session | null) => {
+      if (!active) return;
+      setSession(s);
+      setUser(s?.user ?? null);
+      // Gate rendering on the session only — the profile loads separately so a
+      // slow or failed profile fetch can't leave the app stuck on a spinner.
       setLoading(false);
+      if (s?.user) {
+        // Deferred: awaiting a Supabase call inside onAuthStateChange deadlocks
+        // the client (the callback holds the auth lock the query also needs),
+        // which previously left `loading` true forever after sign-in.
+        setTimeout(() => { if (active) void loadProfile(s.user); }, 0);
+      } else {
+        setProfile(null);
+      }
+    };
+
+    supabase.auth.getSession()
+      .then(({ data: { session } }) => applySession(session))
+      .catch(() => { if (active) setLoading(false); });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      applySession(session);
     });
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      await loadProfile(session?.user ?? null);
-      setLoading(false);
-    });
-
-    return () => subscription.unsubscribe();
+    return () => { active = false; subscription.unsubscribe(); };
   }, []);
 
   const refreshProfile = async () => {
-    if (user) {
-      const p = await profileStore.get(user.id);
-      setProfile(p);
-    }
+    if (user) await loadProfile(user);
   };
 
   const signIn = async (email: string, password: string) => {
