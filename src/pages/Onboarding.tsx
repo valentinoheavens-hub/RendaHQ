@@ -87,7 +87,7 @@ const Onboarding = () => {
       {/* Logo */}
       <div className="flex flex-col items-center gap-2 mb-12">
         <img src="/rendahq-logo.png" alt="RendaHQ" className="h-11 w-auto" />
-        <p className="text-slate-400 font-medium text-sm">Build. Bill. Get paid.</p>
+        <p className="text-slate-400 font-medium text-sm">Build. Bill. Scale.</p>
       </div>
 
       {/* Step indicator */}

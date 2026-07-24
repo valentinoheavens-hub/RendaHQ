@@ -624,7 +624,7 @@ const Index = () => {
           <div className="flex flex-col md:flex-row items-start justify-between gap-12 mb-12">
             <div className="max-w-xs">
               <img src="/rendahq-logo.png" alt="RendaHQ" className="h-9 w-auto mb-4" />
-              <p className="text-slate-900 font-bold text-sm mb-2">Build. Bill. Get paid.</p>
+              <p className="text-slate-900 font-bold text-sm mb-2">Build. Bill. Scale.</p>
               <p className="text-slate-500 text-sm leading-relaxed">
                 The Business OS for freelancers and agencies in Africa and beyond. AI-powered, payment-ready, client-friendly.
               </p>

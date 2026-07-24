@@ -23,7 +23,7 @@ below is backed by **real Supabase data** — no mockups, no dead links.
 ## The script
 
 **1. The hook (landing page) — 45s**
-Open the marketing site. "RendaHQ — *Build. Bill. Get paid.* The business OS for
+Open the marketing site. "RendaHQ — *Build. Bill. Scale.* The business OS for
 freelancers and agencies in emerging markets." Scroll to pricing: Free /
 Agency $29 / Enterprise, shown in the visitor's local currency.
 

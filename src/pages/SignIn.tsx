@@ -78,7 +78,7 @@ export default function SignIn() {
             </div>
             <span className="font-bold text-2xl tracking-tight text-white">RendaHQ</span>
           </Link>
-          <p className="text-emerald-300 font-medium text-sm mt-3 ml-1">Build. Bill. Get paid.</p>
+          <p className="text-emerald-300 font-medium text-sm mt-3 ml-1">Build. Bill. Scale.</p>
         </div>
 
         {/* Value proposition */}

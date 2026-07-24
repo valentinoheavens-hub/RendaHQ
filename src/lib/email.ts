@@ -71,7 +71,7 @@ export const renderEmail = (opts: {
         </td></tr>
         <!-- Footer -->
         <tr><td align="center" style="padding:22px 8px 4px;">
-          <p style="margin:0 0 4px;font-size:13px;font-weight:600;color:#059669;">Build. Bill. Get paid.</p>
+          <p style="margin:0 0 4px;font-size:13px;font-weight:600;color:#059669;">Build. Bill. Scale.</p>
           <p style="margin:0;font-size:12px;color:#94a3b8;">${
             opts.footerNote ??
             'Sent via RendaHQ — the business OS for freelancers &amp; agencies.'
